@@ -1,202 +1,217 @@
-
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>THE DEVIL | OSINT</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#070507;color:#eee;font-family:Consolas,Arial,sans-serif}
-header{padding:20px;text-align:center;border-bottom:1px solid #ff1744;background:#10080c}
-.logo{font-size:35px;font-weight:900;color:#ff1744;text-shadow:0 0 20px red}
-.logo span{color:white}
-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:18px}
-button{background:#190b11;color:#ff4566;border:1px solid #ff1744;padding:12px;cursor:pointer;border-radius:5px}
-button:hover{background:#ff1744;color:white}
-main{width:min(1000px,92%);margin:auto}
-.hero{text-align:center;padding:45px 0}
-h1{font-size:clamp(30px,6vw,55px)}
-h1 span{color:#ff1744}
-p{color:#bbaab0;line-height:1.8}
-input{background:#100b0e;color:white;border:1px solid #6d1b30;padding:13px;border-radius:5px;width:100%;margin:7px 0;direction:ltr}
-.panel{border:1px solid #572033;background:#100b0e;padding:20px;margin:18px 0;border-radius:8px}
-.panel h2{color:#ff3158}
-.row{display:flex;gap:8px}
-.row button{white-space:nowrap}
-.result{white-space:pre-wrap;overflow-wrap:anywhere;color:#49ff91;line-height:1.8;margin-top:15px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.card{padding:17px;background:#100b0e;border:1px solid #572033;border-radius:8px}
-.card h3{color:#ff4566}
-.card a{color:#49ff91}
-footer{text-align:center;padding:30px;color:#8d7880;border-top:1px solid #572033;margin-top:40px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.row{flex-direction:column}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT // INTELLIGENCE PORTAL</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --main-red: #ff0033;
+            --dark-red: #8b0000;
+            --text-color: #e0e0e0;
+            --font-stack: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Scanline Background Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        header {
+            border-bottom: 2px solid var(--main-red);
+            padding: 20px;
+            text-align: center;
+            background: rgba(10, 0, 0, 0.8);
+            box-shadow: 0 0 15px var(--dark-red);
+        }
+
+        .logo-container {
+            margin: 20px auto;
+            max-width: 200px;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0px 0px 10px var(--main-red));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0px 0px 20px var(--main-red));
+        }
+
+        h1 {
+            color: var(--main-red);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 8px var(--main-red);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .terminal-box {
+            background: #0d0d0d;
+            border: 1px solid var(--main-red);
+            box-shadow: 0 0 10px rgba(255, 0, 51, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .terminal-header {
+            color: var(--main-red);
+            border-bottom: 1px solid var(--dark-red);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--main-red);
+            box-shadow: 0 0 10px var(--dark-red);
+        }
+
+        .card h3 {
+            color: var(--main-red);
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: var(--main-red);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 5px var(--main-red);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #222;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 50px;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div class="logo">😈 THE <span>DEVIL</span></div>
-  <p>OSINT INTELLIGENCE SYSTEM</p>
-</header>
 
-<main>
-<section class="hero">
-  <h1>WELCOME TO <span>THE DEVIL</span></h1>
-  <p>מערכת OSINT לחיפוש מידע ממקורות גלויים | Open Source Intelligence</p>
-</section>
+    <header>
+        <div class="logo-container">
+            <!-- Ensure your uploaded image file is saved in the same directory as image.jpg -->
+            <img src="image.jpg" alt="OSINT Logo">
+        </div>
+        <h1>OSINT FRAMEWORK // HUB</h1>
+        <p class="subtitle">Open Source Intelligence & Security Research <span class="blink">_</span></p>
+    </header>
 
-<section class="panel">
-  <h2>01 // IP INTELLIGENCE</h2>
-  <p>הזן כתובת IP לקבלת מידע ציבורי משירות IPinfo.</p>
-  <form id="ipForm">
-    <div class="row">
-      <input id="ip" placeholder="8.8.8.8" required>
-      <button>בדוק IP</button>
+    <div class="container">
+        
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span>[SYSTEM STATUS]</span>
+                <span>STATUS: ONLINE</span>
+            </div>
+            <p>> Initializing OSINT module network...</p>
+            <p>> Target acquisition and digital footprint tracking ready.</p>
+            <p>> Welcome to the intelligence repository. Choose a category below.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>[01] USERNAME SEARCH</h3>
+                <p>Track usernames across social networks and online platforms.</p>
+                <br>
+                <a href="#">RUN TOOL &rarr;</a>
+            </div>
+
+            <div class="card">
+                <h3>[02] DOMAIN & IP RECON</h3>
+                <p>Analyze DNS records, subdomains, WHOIS data, and server locations.</p>
+                <br>
+                <a href="#">RUN TOOL &rarr;</a>
+            </div>
+
+            <div class="card">
+                <h3>[03] METADATA ANALYSIS</h3>
+                <p>Extract EXIF data, hidden metadata from images and document files.</p>
+                <br>
+                <a href="#">RUN TOOL &rarr;</a>
+            </div>
+
+            <div class="card">
+                <h3>[04] PUBLIC RECORDS</h3>
+                <p>Search public databases, breach records, and open repositories.</p>
+                <br>
+                <a href="#">RUN TOOL &rarr;</a>
+            </div>
+        </div>
+
     </div>
-  </form>
-  <div class="result" id="ipResult"></div>
-</section>
 
-<section class="panel">
-  <h2>02 // DOMAIN & DNS</h2>
-  <p>בדיקת רשומות DNS ציבוריות דרך Google DNS.</p>
-  <form id="dnsForm">
-    <div class="row">
-      <input id="domain" placeholder="example.com" required>
-      <button>בדוק דומיין</button>
-    </div>
-  </form>
-  <div class="result" id="dnsResult"></div>
-</section>
+    <footer>
+        <p>&copy; 2026 OSINT INTELLIGENCE PORTAL | FOR EDUCATIONAL PURPOSES ONLY</p>
+    </footer>
 
-<section class="panel">
-  <h2>03 // USERNAME SEARCH</h2>
-  <p>חיפוש שם משתמש במנועי חיפוש ובאתרים ציבוריים.</p>
-  <form id="userForm">
-    <div class="row">
-      <input id="username" placeholder="username" required>
-      <button>חפש</button>
-    </div>
-  </form>
-  <div class="result" id="userResult"></div>
-</section>
-
-<section class="panel">
-  <h2>04 // EMAIL INTELLIGENCE</h2>
-  <p>בדיקת חשיפה אפשרית של אימייל במאגרי פריצות.</p>
-  <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned ↗</a>
-  <br><br>
-  <a href="https://emailrep.io/" target="_blank" rel="noopener noreferrer">EmailRep ↗</a>
-</section>
-
-<section class="panel">
-  <h2>05 // OSINT TOOLKIT</h2>
-  <div class="grid">
-    <article class="card">
-      <h3>⌕ Username</h3>
-      <p>חיפוש שמות משתמש.</p>
-      <a href="https://whatsmyname.app/" target="_blank" rel="noopener noreferrer">WhatsMyName ↗</a>
-    </article>
-    <article class="card">
-      <h3>⌘ DNS</h3>
-      <p>מידע על דומיינים ותשתיות.</p>
-      <a href="https://dnsdumpster.com/" target="_blank" rel="noopener noreferrer">DNSDumpster ↗</a>
-    </article>
-    <article class="card">
-      <h3>⌬ Certificates</h3>
-      <p>חיפוש תעודות דיגיטליות.</p>
-      <a href="https://crt.sh/" target="_blank" rel="noopener noreferrer">crt.sh ↗</a>
-    </article>
-    <article class="card">
-      <h3>◉ Reddit</h3>
-      <p>חיפוש תוכן ציבורי.</p>
-      <a href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer">Reddit ↗</a>
-    </article>
-    <article class="card">
-      <h3>⌘ GitHub</h3>
-      <p>חיפוש פרופילים ומאגרי קוד.</p>
-      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-    </article>
-    <article class="card">
-      <h3>⌖ WHOIS</h3>
-      <p>מידע ציבורי על רישום דומיינים.</p>
-      <a href="https://who.is/" target="_blank" rel="noopener noreferrer">Who.is ↗</a>
-    </article>
-  </div>
-</section>
-</main>
-
-<footer>THE DEVIL © OSINT TOOLKIT — השתמש במידע באופן חוקי ואחראי.</footer>
-
-<script>
-const $ = id => document.getElementById(id);
-
-$("ipForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const ip = $("ip").value.trim();
-  if (!/^[0-9a-fA-F:.]+$/.test(ip)) {
-    $("ipResult").textContent = "כתובת לא תקינה.";
-    return;
-  }
-  $("ipResult").textContent = "מבצע בדיקה...";
-  try {
-    const r = await fetch("https://ipinfo.io/" + encodeURIComponent(ip) + "/json");
-    if (!r.ok) throw Error("שירות IPinfo לא זמין או דורש הרשאה.");
-    const d = await r.json();
-    if (d.error) throw Error(d.error.message || "הבדיקה נכשלה.");
-    $("ipResult").textContent =
-      "IP: " + (d.ip || "לא זמין") +
-      "\nHostname: " + (d.hostname || "לא זמין") +
-      "\nעיר: " + (d.city || "לא זמין") +
-      "\nאזור: " + (d.region || "לא זמין") +
-      "\nמדינה: " + (d.country || "לא זמין") +
-      "\nמיקום משוער: " + (d.loc || "לא זמין") +
-      "\nספק/ארגון: " + (d.org || "לא זמין") +
-      "\nמקור: IPinfo";
-  } catch (err) {
-    $("ipResult").textContent = "הבדיקה נכשלה: " + err.message;
-  }
-});
-
-$("dnsForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const domain = $("domain").value.trim().toLowerCase();
-  if (!/^(?=.{1,253}$)([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(domain)) {
-    $("dnsResult").textContent = "הזן דומיין תקין, למשל example.com";
-    return;
-  }
-  $("dnsResult").textContent = "בודק רשומות DNS...";
-  try {
-    const types = [["A",1],["AAAA",28],["MX",15],["NS",2]];
-    const results = await Promise.all(types.map(async ([name,type]) => {
-      const url = "https://dns.google/resolve?name=" +
-        encodeURIComponent(domain) + "&type=" + type;
-      const r = await fetch(url);
-      if (!r.ok) throw Error("שירות DNS לא זמין");
-      const d = await r.json();
-      const answers = (d.Answer || []).map(x => x.data);
-      return name + ":\n" + (answers.length ? answers.join("\n") : "לא נמצאו רשומות בתשובה");
-    }));
-    $("dnsResult").textContent = "תוצאות עבור " + domain + "\n\n" +
-      results.join("\n\n") + "\n\nמקור: Google Public DNS";
-  } catch (err) {
-    $("dnsResult").textContent = "בדיקת DNS נכשלה: " + err.message;
-  }
-});
-
-$("userForm").addEventListener("submit", e => {
-  e.preventDefault();
-  const username = $("username").value.trim();
-  if (!/^[a-zA-Z0-9._-]{1,100}$/.test(username)) {
-    $("userResult").textContent = "הזן שם משתמש תקין באנגלית.";
-    return;
-  }
-  const q = encodeURIComponent('"' + username + '"');
-  $("userResult").innerHTML =
-    '<a target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=' + q + '">Google Search ↗</a><br><br>' +
-    '<a target="_blank" rel="noopener noreferrer" href="https://github.com/search?q=' + encodeURIComponent(username) + '&type=users">GitHub Users ↗</a><br><br>' +
-    '<a target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/search/?q=' + encodeURIComponent(username) + '">Reddit Search ↗</a><p>אלה קישורי חיפוש חיצוניים; יש לבדוק ולאמת את התוצאות.</p>';
-});
-</script>
 </body>
 </html>
