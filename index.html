@@ -1,12 +1,384 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OSINT Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSINT NEXUS</title>
+<style>
+:root {
+  --bg: #050807;
+  --panel: #0c1510;
+  --green: #39ff88;
+  --text: #e5ffed;
+  --muted: #91aa99;
+  --border: #20452e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #103522, var(--bg) 60%);
+  color: var(--text);
+  font-family: Consolas, Arial, sans-serif;
+  min-height: 100vh;
+}
+header {
+  padding: 20px 5%;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { color: var(--green); font-size: 22px; font-weight: bold; }
+button, input { font: inherit; }
+button {
+  cursor: pointer;
+  background: #102719;
+  color: var(--green);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+button:hover, .tool:hover { border-color: var(--green); }
+main { width: min(1100px, 92%); margin: auto; }
+.hero { text-align: center; padding: 65px 0 35px; }
+.eyebrow { color: var(--green); letter-spacing: 3px; }
+h1 { font-size: clamp(30px, 6vw, 52px); }
+h1 span { color: var(--green); }
+.subtitle { color: var(--muted); line-height: 1.8; }
+.search {
+  display: flex;
+  max-width: 650px;
+  margin: 25px auto;
+  gap: 8px;
+}
+.search input {
+  flex: 1;
+  min-width: 0;
+  background: var(--panel);
+  color: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+}
+.search button {
+  background: var(--green);
+  color: #031008;
+  font-weight: bold;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 25px 0;
+}
+.filters button.active {
+  background: var(--green);
+  color: #031008;
+}
+h2 { font-size: 20px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding-bottom: 55px;
+}
+.tool {
+  background: linear-gradient(145deg, #102017, #09100c);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px;
+  transition: .2s;
+  display: flex;
+  flex-direction: column;
+}
+.tool[hidden] { display: none; }
+.tool:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px #39ff8810;
+}
+.icon { font-size: 27px; color: var(--green); }
+.tag { color: var(--green); font-size: 11px; }
+.tool h3 { margin-bottom: 5px; }
+.tool p {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+  flex: 1;
+}
+.tool a {
+  color: var(--green);
+  text-decoration: none;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.tool a:hover { color: white; }
+#empty { display: none; color: var(--muted); padding: 25px; }
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 25px 5%;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+@media(max-width: 760px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media(max-width: 500px) {
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 40px; }
+  header { padding: 16px 4%; }
+  .logo { font-size: 18px; }
+  .search button { padding: 10px; }
+}
+</style>
 </head>
 <body>
-  <h1>ברוכים הבאים לאתר OSINT שלי</h1>
-  <p>האתר החדש שלי פועל!</p>
+<header>
+  <div class="logo">⬡ OSINT NEXUS</div>
+  <button id="language">EN / עב</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">// OPEN SOURCE INTELLIGENCE</div>
+    <h1 id="title">המידע נמצא שם.<br><span>צריך לדעת איפה לחפש.</span></h1>
+    <p class="subtitle" id="subtitle">
+      מרכז כלים למחקר ממקורות גלויים. בחר כלי כדי להמשיך לשירות החיצוני.
+    </p>
+    <form class="search" id="searchForm">
+      <input id="search" placeholder="חפש כלי, IP, דומיין או משתמש...">
+      <button id="searchButton" type="submit">חיפוש</button>
+    </form>
+    <p class="subtitle" id="notice">
+      זהו מדריך קישורים. הבדיקות מתבצעות בשירותים החיצוניים.
+    </p>
+  </section>
+
+  <h2 id="toolsTitle">▰ ארגז הכלים</h2>
+  <nav class="filters" id="filters">
+    <button class="active" data-category="all">הכול</button>
+    <button data-category="username">שמות משתמש</button>
+    <button data-category="ip">כתובות IP</button>
+    <button data-category="domain">דומיינים</button>
+    <button data-category="email">אימייל</button>
+    <button data-category="social">רשתות חברתיות</button>
+  </nav>
+
+  <section class="grid" id="grid">
+    <article class="tool" data-category="username">
+      <div class="icon">⌕</div><span class="tag">USERNAME</span>
+      <h3>WhatsMyName</h3>
+      <p data-he="כלי קהילתי לחיפוש שמות משתמש באתרים שונים."
+         data-en="Community username search across multiple websites.">
+         כלי קהילתי לחיפוש שמות משתמש באתרים שונים.</p>
+      <a href="https://whatsmyname.app/" target="_blank" rel="noopener noreferrer">פתח כלי ↗</a>
+    </article>
+
+    <article class="tool" data-category="username">
+      <div class="icon">◎</div><span class="tag">USERNAME</span>
+      <h3>Namechk</h3>
+      <p data-he="בדיקת זמינות שמות משתמש ודומיינים בשירותים שונים."
+         data-en="Check username and domain availability across services.">
+         בדיקת זמינות שמות משתמש ודומיינים בשירותים שונים.</p>
+      <a href="https://namechk.com/" target="_blank" rel="noopener noreferrer">פתח כלי ↗</a>
+    </article>
+
+    <article class="tool" data-category="ip">
+      <div class="icon">⌁</div><span class="tag">IP ADDRESS</span>
+      <h3>IPinfo</h3>
+      <p data-he="מידע על כתובת IP, ספק רשת ואזור גאוגרפי משוער."
+         data-en="IP address, network provider, and approximate region information.">
+         מידע על כתובת IP, ספק רשת ואזור גאוגרפי משוער.</p>
+      <a href="https://ipinfo.io/" target="_blank" rel="noopener noreferrer">בדוק IP ↗</a>
+    </article>
+
+    <article class="tool" data-category="ip">
+      <div class="icon">⌘</div><span class="tag">NETWORK</span>
+      <h3>BGP.Tools</h3>
+      <p data-he="מידע ציבורי על ניתוב אינטרנט ורשתות."
+         data-en="Public internet routing and network information.">
+         מידע ציבורי על ניתוב אינטרנט ורשתות.</p>
+      <a href="https://bgp.tools/" target="_blank" rel="noopener noreferrer">פתח כלי ↗</a>
+    </article>
+
+    <article class="tool" data-category="domain">
+      <div class="icon">⌬</div><span class="tag">DOMAIN</span>
+      <h3>crt.sh</h3>
+      <p data-he="חיפוש תעודות דיגיטליות המשויכות לדומיין."
+         data-en="Search digital certificates associated with a domain.">
+         חיפוש תעודות דיגיטליות המשויכות לדומיין.</p>
+      <a href="https://crt.sh/" target="_blank" rel="noopener noreferrer">בדוק דומיין ↗</a>
+    </article>
+
+    <article class="tool" data-category="domain">
+      <div class="icon">⌘</div><span class="tag">DNS</span>
+      <h3>DNSDumpster</h3>
+      <p data-he="מיפוי רשומות DNS ותשתיות הקשורות לדומיין."
+         data-en="Explore DNS records and domain-related infrastructure.">
+         מיפוי רשומות DNS ותשתיות הקשורות לדומיין.</p>
+      <a href="https://dnsdumpster.com/" target="_blank" rel="noopener noreferrer">בדוק DNS ↗</a>
+    </article>
+
+    <article class="tool" data-category="domain">
+      <div class="icon">⌖</div><span class="tag">WHOIS</span>
+      <h3>Who.is</h3>
+      <p data-he="בדיקת פרטי רישום דומיין הזמינים לציבור."
+         data-en="Look up publicly available domain registration details.">
+         בדיקת פרטי רישום דומיין הזמינים לציבור.</p>
+      <a href="https://who.is/" target="_blank" rel="noopener noreferrer">בדוק WHOIS ↗</a>
+    </article>
+
+    <article class="tool" data-category="domain">
+      <div class="icon">▤</div><span class="tag">URL SCAN</span>
+      <h3>urlscan.io</h3>
+      <p data-he="ניתוח כתובות אתרים. שים לב שסריקות עשויות להיות ציבוריות."
+         data-en="Analyze URLs. Submitted scans may be publicly visible.">
+         ניתוח כתובות אתרים. שים לב שסריקות עשויות להיות ציבוריות.</p>
+      <a href="https://urlscan.io/" target="_blank" rel="noopener noreferrer">נתח אתר ↗</a>
+    </article>
+
+    <article class="tool" data-category="email">
+      <div class="icon">✉</div><span class="tag">EMAIL</span>
+      <h3>Have I Been Pwned</h3>
+      <p data-he="בדיקה אם כתובת אימייל מופיעה במאגרי פריצות ידועים."
+         data-en="Check whether an email appears in known breach datasets.">
+         בדיקה אם כתובת אימייל מופיעה במאגרי פריצות ידועים.</p>
+      <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">בדוק אימייל ↗</a>
+    </article>
+
+    <article class="tool" data-category="email">
+      <div class="icon">◎</div><span class="tag">EMAIL</span>
+      <h3>EmailRep</h3>
+      <p data-he="כלי למידע על מוניטין של כתובות אימייל."
+         data-en="A service for email address reputation information.">
+         כלי למידע על מוניטין של כתובות אימייל.</p>
+      <a href="https://emailrep.io/" target="_blank" rel="noopener noreferrer">פתח כלי ↗</a>
+    </article>
+
+    <article class="tool" data-category="social">
+      <div class="icon">⌘</div><span class="tag">SOCIAL</span>
+      <h3>GitHub</h3>
+      <p data-he="חיפוש פרופילים ציבוריים, מאגרי קוד ופעילות שפורסמה."
+         data-en="Search public profiles, code repositories, and published activity.">
+         חיפוש פרופילים ציבוריים, מאגרי קוד ופעילות שפורסמה.</p>
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">פתח GitHub ↗</a>
+    </article>
+
+    <article class="tool" data-category="social">
+      <div class="icon">◉</div><span class="tag">SOCIAL</span>
+      <h3>Reddit</h3>
+      <p data-he="חיפוש פוסטים, תגובות וקהילות ציבוריות."
+         data-en="Search public posts, comments, and communities.">
+         חיפוש פוסטים, תגובות וקהילות ציבוריות.</p>
+      <a href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer">פתח Reddit ↗</a>
+    </article>
+
+    <article class="tool" data-category="social">
+      <div class="icon">in</div><span class="tag">SOCIAL</span>
+      <h3>LinkedIn</h3>
+      <p data-he="איתור פרופילים ומידע מקצועי שפורסם לציבור."
+         data-en="Find public profiles and professional information.">
+         איתור פרופילים ומידע מקצועי שפורסם לציבור.</p>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">פתח LinkedIn ↗</a>
+    </article>
+  </section>
+
+  <p id="empty">לא נמצאו תוצאות.</p>
+</main>
+
+<footer>
+  <strong style="color:#39ff88">OSINT NEXUS</strong><br>
+  <span id="footer">השתמש במידע באופן חוקי ואחראי וכבד את פרטיותם של אחרים.</span>
+</footer>
+
+<script>
+const search = document.getElementById("search");
+const cards = [...document.querySelectorAll(".tool")];
+const filters = [...document.querySelectorAll("[data-category]")];
+const empty = document.getElementById("empty");
+let category = "all";
+let lang = "he";
+
+function filterTools() {
+  let count = 0;
+  const q = search.value.trim().toLowerCase();
+
+  cards.forEach(card => {
+    const matchText = card.innerText.toLowerCase().includes(q);
+    const matchCategory = category === "all" ||
+      card.dataset.category === category;
+    card.hidden = !(matchText && matchCategory);
+    if (!card.hidden) count++;
+  });
+
+  empty.style.display = count ? "none" : "block";
+}
+
+filters.forEach(button => {
+  button.addEventListener("click", () => {
+    category = button.dataset.category;
+    filters.forEach(b => {
+      if (b.tagName === "BUTTON") {
+        b.classList.toggle("active", b === button);
+      }
+    });
+    filterTools();
+  });
+});
+
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  filterTools();
+});
+search.addEventListener("input", filterTools);
+
+document.getElementById("language").addEventListener("click", () => {
+  lang = lang === "he" ? "en" : "he";
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+
+  document.getElementById("title").innerHTML = lang === "he"
+    ? 'המידע נמצא שם.<br><span>צריך לדעת איפה לחפש.</span>'
+    : 'THE INFORMATION IS OUT THERE.<br><span>KNOW WHERE TO LOOK.</span>';
+
+  const text = {
+    subtitle: ["מרכז כלים למחקר ממקורות גלויים. בחר כלי כדי להמשיך לשירות החיצוני.",
+      "A directory of open-source research tools. Choose a tool to visit an external service."],
+    notice: ["זהו מדריך קישורים. הבדיקות מתבצעות בשירותים החיצוניים.",
+      "This is a link directory. Checks happen on external services."],
+    toolsTitle: ["▰ ארגז הכלים", "▰ TOOLKIT"],
+    searchButton: ["חיפוש", "Search"],
+    footer: ["השתמש במידע באופן חוקי ואחראי וכבד את פרטיותם של אחרים.",
+      "Use information lawfully and responsibly, and respect others' privacy."],
+    empty: ["לא נמצאו תוצאות.", "No results found."]
+  };
+
+  Object.entries(text).forEach(([id, values]) => {
+    document.getElementById(id).textContent = values[lang === "he" ? 0 : 1];
+  });
+
+  document.querySelectorAll(".tool p[data-he]").forEach(p => {
+    p.textContent = p.dataset[lang];
+  });
+
+  const names = lang === "he"
+    ? ["הכול","שמות משתמש","כתובות IP","דומיינים","אימייל","רשתות חברתיות"]
+    : ["All","Usernames","IP addresses","Domains","Email","Social networks"];
+
+  filters.forEach((b, i) => {
+    if (b.tagName === "BUTTON") b.textContent = names[i];
+  });
+
+  search.placeholder = lang === "he"
+    ? "חפש כלי, IP, דומיין או משתמש..."
+    : "Search tools, IPs, domains, or usernames...";
+
+  document.getElementById("language").textContent =
+    lang === "he" ? "EN" : "עברית";
+});
+filterTools();
+</script>
 </body>
 </html>
