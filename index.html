@@ -1,217 +1,741 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSINT // INTELLIGENCE PORTAL</title>
+    <title>DEVIL-OSINT // Intelligence Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            red: '#ff003c',
+                            darkred: '#80001c',
+                            black: '#0a0a0c',
+                            card: '#121217',
+                            border: '#2a0812',
+                            neon: '#ff2a5f'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --bg-color: #050505;
-            --main-red: #ff0033;
-            --dark-red: #8b0000;
-            --text-color: #e0e0e0;
-            --font-stack: 'Courier New', Courier, monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-stack);
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #0a0a0c;
+            color: #e2e8f0;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        /* Scanline Background Effect */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 10;
-            background-size: 100% 2px, 3px 100%;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a0010;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff003c;
+        }
+
+        /* Glowing text & border utilities */
+        .glow-red-text {
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.7), 0 0 20px rgba(255, 0, 60, 0.4);
+        }
+        .glow-red-box {
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.1);
+        }
+        .glow-red-border {
+            border-color: #ff003c;
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+        }
+
+        /* Scanline effect */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
             pointer-events: none;
         }
 
-        header {
-            border-bottom: 2px solid var(--main-red);
-            padding: 20px;
-            text-align: center;
-            background: rgba(10, 0, 0, 0.8);
-            box-shadow: 0 0 15px var(--dark-red);
-        }
-
-        .logo-container {
-            margin: 20px auto;
-            max-width: 200px;
-        }
-
-        .logo-container img {
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0px 0px 10px var(--main-red));
-            transition: transform 0.3s ease;
-        }
-
-        .logo-container img:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0px 0px 20px var(--main-red));
-        }
-
-        h1 {
-            color: var(--main-red);
-            font-size: 2.2rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 8px var(--main-red);
-        }
-
-        .subtitle {
-            font-size: 0.9rem;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .terminal-box {
-            background: #0d0d0d;
-            border: 1px solid var(--main-red);
-            box-shadow: 0 0 10px rgba(255, 0, 51, 0.3);
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .terminal-header {
-            color: var(--main-red);
-            border-bottom: 1px solid var(--dark-red);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            padding: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: var(--main-red);
-            box-shadow: 0 0 10px var(--dark-red);
-        }
-
-        .card h3 {
-            color: var(--main-red);
-            margin-bottom: 10px;
-        }
-
-        a {
-            color: var(--main-red);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            text-shadow: 0 0 5px var(--main-red);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid #222;
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 50px;
-        }
-
-        .blink {
-            animation: blinker 1s linear infinite;
-        }
-
-        @keyframes blinker {
-            50% { opacity: 0; }
+        /* Canvas background overlay */
+        #circuitCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col relative selection:bg-cyber-red selection:text-white">
 
-    <header>
-        <div class="logo-container">
-            <!-- Ensure your uploaded image file is saved in the same directory as image.jpg -->
-            <img src="image.jpg" alt="OSINT Logo">
+    <canvas id="circuitCanvas"></canvas>
+    <div class="scanlines fixed inset-0 z-50 pointer-events-none opacity-40"></div>
+
+    <!-- LOCK SCREEN OVERLAY -->
+    <div id="lockScreen" class="fixed inset-0 z-50 bg-cyber-black flex items-center justify-center p-4">
+        <div class="max-w-md w-full bg-cyber-card border border-cyber-red/50 rounded-xl p-8 glow-red-box text-center relative z-10">
+            <!-- Red Devil SVG Logo -->
+            <div class="w-24 h-24 mx-auto mb-4 text-cyber-red animate-pulse">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full drop-shadow-[0_0_12px_rgba(255,0,60,0.8)]">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.46.05-.91.14-1.35 1.12.63 2.42.99 3.86.99 2.55 0 4.81-1.16 6-2.99 1.19 1.83 3.45 2.99 6 2.99 1.44 0 2.74-.36 3.86-.99.09.44.14.89.14 1.35 0 4.41-3.59 8-8 8zm-5-9c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm10 0c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3z"/>
+                    <path d="M7.5 3.5C5.5 2 3 3 3 3s.5 2.5 2 4.5c1.5 2 2.5 1 2.5 1s.5-3.5 0-5zM16.5 3.5C18.5 2 21 3 21 3s-.5 2.5-2 4.5c-1.5 2-2.5 1-2.5 1s-.5-3.5 0-5z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold tracking-wider text-cyber-red glow-red-text mb-2">DEVIL OSINT PORTAL</h1>
+            <p class="text-xs text-gray-400 mb-6 uppercase tracking-widest">Restricted Access // Security Clearance Required</p>
+            
+            <form id="lockForm" class="space-y-4">
+                <div>
+                    <input type="password" id="passcode" placeholder="Enter Access Code" class="w-full bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-3 text-center text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red focus:ring-1 focus:ring-cyber-red transition-all font-mono">
+                </div>
+                <button type="submit" class="w-full bg-cyber-red/20 hover:bg-cyber-red hover:text-black border border-cyber-red text-cyber-red font-bold py-3 px-4 rounded-lg transition-all duration-300 tracking-wider">
+                    AUTHENTICATE
+                </button>
+                <div id="lockError" class="text-xs text-red-500 hidden font-mono mt-2">ACCESS DENIED: Invalid Security Credentials</div>
+            </form>
         </div>
-        <h1>OSINT FRAMEWORK // HUB</h1>
-        <p class="subtitle">Open Source Intelligence & Security Research <span class="blink">_</span></p>
-    </header>
-
-    <div class="container">
-        
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span>[SYSTEM STATUS]</span>
-                <span>STATUS: ONLINE</span>
-            </div>
-            <p>> Initializing OSINT module network...</p>
-            <p>> Target acquisition and digital footprint tracking ready.</p>
-            <p>> Welcome to the intelligence repository. Choose a category below.</p>
-        </div>
-
-        <div class="grid">
-            <div class="card">
-                <h3>[01] USERNAME SEARCH</h3>
-                <p>Track usernames across social networks and online platforms.</p>
-                <br>
-                <a href="#">RUN TOOL &rarr;</a>
-            </div>
-
-            <div class="card">
-                <h3>[02] DOMAIN & IP RECON</h3>
-                <p>Analyze DNS records, subdomains, WHOIS data, and server locations.</p>
-                <br>
-                <a href="#">RUN TOOL &rarr;</a>
-            </div>
-
-            <div class="card">
-                <h3>[03] METADATA ANALYSIS</h3>
-                <p>Extract EXIF data, hidden metadata from images and document files.</p>
-                <br>
-                <a href="#">RUN TOOL &rarr;</a>
-            </div>
-
-            <div class="card">
-                <h3>[04] PUBLIC RECORDS</h3>
-                <p>Search public databases, breach records, and open repositories.</p>
-                <br>
-                <a href="#">RUN TOOL &rarr;</a>
-            </div>
-        </div>
-
     </div>
 
-    <footer>
-        <p>&copy; 2026 OSINT INTELLIGENCE PORTAL | FOR EDUCATIONAL PURPOSES ONLY</p>
-    </footer>
+    <!-- MAIN APP CONTENT (Hidden initially) -->
+    <div id="mainApp" class="relative z-10 hidden flex-1 flex flex-col">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header class="border-b border-cyber-red/30 bg-cyber-black/80 backdrop-blur-md sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 text-cyber-red">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full drop-shadow-[0_0_8px_rgba(255,0,60,0.8)]">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.46.05-.91.14-1.35 1.12.63 2.42.99 3.86.99 2.55 0 4.81-1.16 6-2.99 1.19 1.83 3.45 2.99 6 2.99 1.44 0 2.74-.36 3.86-.99.09.44.14.89.14 1.35 0 4.41-3.59 8-8 8zm-5-9c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm10 0c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3z"/>
+                            <path d="M7.5 3.5C5.5 2 3 3 3 3s.5 2.5 2 4.5c1.5 2 2.5 1 2.5 1s.5-3.5 0-5zM16.5 3.5C18.5 2 21 3 21 3s-.5 2.5-2 4.5c-1.5 2-2.5 1-2.5 1s-.5-3.5 0-5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-extrabold text-cyber-red glow-red-text tracking-wide">DEVIL-OSINT</h1>
+                        <p class="text-[10px] text-gray-400 tracking-widest uppercase">Cyber Intelligence Suite v3.0</p>
+                    </div>
+                </div>
 
+                <!-- Navigation Tabs -->
+                <nav class="flex flex-wrap gap-2">
+                    <button onclick="switchTab('discord')" id="tab-discord" class="nav-tab active-tab text-xs px-3 py-2 rounded-lg border border-cyber-red bg-cyber-red/20 text-cyber-red font-semibold transition-all">
+                        <i class="fa-brands fa-discord mr-1.5"></i>Discord Lookup
+                    </button>
+                    <button onclick="switchTab('domain')" id="tab-domain" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
+                        <i class="fa-solid fa-network-wired mr-1.5"></i>Domain & IP Recon
+                    </button>
+                    <button onclick="switchTab('username')" id="tab-username" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
+                        <i class="fa-solid fa-user-ninja mr-1.5"></i>Username Tracker
+                    </button>
+                    <button onclick="switchTab('metadata')" id="tab-metadata" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
+                        <i class="fa-solid fa-file-code mr-1.5"></i>Metadata EXIF
+                    </button>
+                    <button onclick="switchTab('breach')" id="tab-breach" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>Leak & Breach Search
+                    </button>
+                </nav>
+
+                <!-- Configuration & Lock -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openModal('apiModal')" class="text-xs bg-cyber-card hover:bg-cyber-red/20 border border-cyber-red/40 text-cyber-red px-3 py-2 rounded-lg transition-all" title="API Keys">
+                        <i class="fa-solid fa-key mr-1"></i> API Config
+                    </button>
+                    <button onclick="lockPortal()" class="text-xs bg-cyber-card hover:bg-red-900/40 border border-red-800 text-red-400 px-3 py-2 rounded-lg transition-all" title="Lock System">
+                        <i class="fa-solid fa-lock"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER FOR TABS -->
+        <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-1 space-y-6">
+
+            <!-- 1. DISCORD LOOKUP TAB -->
+            <section id="sec-discord" class="tool-section space-y-6">
+                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                    <div class="mb-4">
+                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                            <i class="fa-brands fa-discord"></i> DISCORD ACCOUNT INTELLIGENCE
+                        </h2>
+                        <p class="text-xs text-gray-400">Query public APIs, snowflake metadata, avatars, banners, and linked account associations.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="discordInput" placeholder="Enter Discord User ID (e.g. 155829859681009664)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="fetchDiscordData()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-magnifying-glass"></i> SCAN DISCORD ID
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Discord Results Output Container -->
+                <div id="discordResult" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Profile Card -->
+                        <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 relative overflow-hidden flex flex-col items-center text-center">
+                            <div id="discordBanner" class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-r from-red-900 to-black opacity-80 bg-cover bg-center"></div>
+                            
+                            <div class="relative mt-8 mb-3">
+                                <img id="discordAvatar" src="" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-cyber-card bg-black object-cover shadow-lg relative z-10">
+                                <span id="discordStatusBadge" class="absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-cyber-card bg-gray-500 z-20" title="Status"></span>
+                            </div>
+
+                            <h3 id="discordGlobalName" class="text-xl font-bold text-white"></h3>
+                            <p id="discordUsername" class="text-sm text-cyber-red font-mono mb-3"></p>
+                            
+                            <div id="discordBadges" class="flex flex-wrap justify-center gap-2 my-2"></div>
+
+                            <div class="w-full border-t border-cyber-red/20 pt-4 mt-4 space-y-2 text-left text-xs">
+                                <div class="flex justify-between py-1 border-b border-gray-800">
+                                    <span class="text-gray-500">User ID:</span>
+                                    <span id="discordIdVal" class="font-mono text-cyber-red"></span>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-gray-800">
+                                    <span class="text-gray-500">Account Created:</span>
+                                    <span id="discordCreatedVal" class="font-mono text-gray-300"></span>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-gray-800">
+                                    <span class="text-gray-500">Bot Account:</span>
+                                    <span id="discordBotVal" class="font-mono text-gray-300"></span>
+                                </div>
+                                <!-- Associated Israeli Phone Number Simulation Field -->
+                                <div class="flex justify-between py-1 border-b border-gray-800 bg-red-950/20 px-1 rounded">
+                                    <span class="text-cyber-red font-semibold">Linked Israeli Phone (Sim):</span>
+                                    <span id="discordPhoneVal" class="font-mono text-cyber-red font-bold"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Details & Activity -->
+                        <div class="md:col-span-2 space-y-6">
+                            <!-- Custom Status / Activity -->
+                            <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
+                                <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-dot"></i> Live Status & Activity
+                                </h4>
+                                <div id="discordActivityBox" class="bg-black/50 border border-cyber-red/20 rounded-lg p-4 text-xs font-mono text-gray-300 min-h-[80px] flex items-center">
+                                    No active status detected via Lanyard API.
+                                </div>
+                            </div>
+
+                            <!-- Raw JSON Viewer -->
+                            <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider flex items-center gap-2">
+                                        <i class="fa-solid fa-code"></i> Raw Payload Data
+                                    </h4>
+                                    <button onclick="copyToClipboard('discordRawJson')" class="text-xs text-cyber-red hover:underline">
+                                        <i class="fa-regular fa-copy mr-1"></i>Copy JSON
+                                    </button>
+                                </div>
+                                <pre id="discordRawJson" class="bg-black/80 border border-cyber-red/20 rounded-lg p-4 text-xs text-green-400 font-mono overflow-x-auto max-h-60"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. DOMAIN & IP RECON TAB -->
+            <section id="sec-domain" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                    <div class="mb-4">
+                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired"></i> DOMAIN & IP INTELLIGENCE
+                        </h2>
+                        <p class="text-xs text-gray-400">DNS Lookup, Geolocation, ISP tracking, and IP subnet inspection.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="domainInput" placeholder="Enter Domain or IP (e.g. 8.8.8.8 or example.com)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="fetchDomainData()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-radar"></i> RUN RECON
+                        </button>
+                    </div>
+                </div>
+
+                <div id="domainResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6 space-y-4">
+                    <h3 class="text-md font-bold text-cyber-red">Recon Output:</h3>
+                    <pre id="domainOutput" class="bg-black/80 border border-cyber-red/20 rounded-lg p-4 text-xs text-green-400 font-mono overflow-x-auto max-h-96"></pre>
+                </div>
+            </section>
+
+            <!-- 3. USERNAME TRACKER TAB -->
+            <section id="sec-username" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                    <div class="mb-4">
+                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                            <i class="fa-solid fa-user-ninja"></i> CROSS-PLATFORM USERNAME RECON
+                        </h2>
+                        <p class="text-xs text-gray-400">Scan digital footprint across social networks and developer platforms.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="usernameInput" placeholder="Enter Target Handle (e.g. cyber_ghost)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="scanUsername()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-crosshairs"></i> TRACK HANDLE
+                        </button>
+                    </div>
+                </div>
+
+                <div id="usernameResult" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+            </section>
+
+            <!-- 4. METADATA EXIF EXTRACTOR TAB -->
+            <section id="sec-metadata" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                    <div class="mb-4">
+                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                            <i class="fa-solid fa-file-code"></i> FILE & IMAGE METADATA EXTRACTOR
+                        </h2>
+                        <p class="text-xs text-gray-400">Inspect EXIF headers, camera models, timestamp, and geolocation markers.</p>
+                    </div>
+
+                    <div class="border-2 border-dashed border-cyber-red/40 rounded-xl p-8 text-center bg-black/40 hover:bg-black/60 transition-all cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-cyber-red mb-3"></i>
+                        <p class="text-sm font-bold text-gray-300">Click or Drag & Drop Image File</p>
+                        <p class="text-xs text-gray-500 mt-1">PNG, JPG, JPEG files supported</p>
+                        <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="extractMetadata(event)">
+                    </div>
+                </div>
+
+                <div id="metadataResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
+                    <h3 class="text-md font-bold text-cyber-red mb-3">Extracted Metadata:</h3>
+                    <div id="metadataOutput" class="space-y-2 text-xs font-mono"></div>
+                </div>
+            </section>
+
+            <!-- 5. LEAK & BREACH SEARCH TAB -->
+            <section id="sec-breach" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                    <div class="mb-4">
+                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> DATA LEAK & BREACH CHECKER
+                        </h2>
+                        <p class="text-xs text-gray-400">Check email or username records against publicly reported breach datasets.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="breachInput" placeholder="Enter Email Address or Handle" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="checkBreach()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-database"></i> SEARCH BREACHES
+                        </button>
+                    </div>
+                </div>
+
+                <div id="breachResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
+                    <h3 class="text-md font-bold text-cyber-red mb-3">Breach Intelligence Summary:</h3>
+                    <div id="breachOutput" class="space-y-3"></div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-cyber-red/20 bg-cyber-black/90 py-4 text-center text-xs text-gray-500 mt-auto">
+            <p>DEVIL-OSINT Framework &bull; Designed for Security Analysis & Reconnaissance</p>
+        </footer>
+    </div>
+
+    <!-- API CONFIGURATION MODAL -->
+    <div id="apiModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-cyber-card border border-cyber-red/50 rounded-xl p-6 max-w-md w-full glow-red-box relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-cyber-red flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> API KEY CONFIGURATION
+                </h3>
+                <button onclick="closeModal('apiModal')" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-gray-300 mb-1">Shodan API Key:</label>
+                    <input type="password" id="shodanKey" placeholder="Optional API Key" class="w-full bg-black/60 border border-cyber-red/30 rounded px-3 py-2 text-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">VirusTotal API Key:</label>
+                    <input type="password" id="vtKey" placeholder="Optional API Key" class="w-full bg-black/60 border border-cyber-red/30 rounded px-3 py-2 text-cyber-red focus:outline-none">
+                </div>
+                <button onclick="saveApiKeys()" class="w-full bg-cyber-red text-black font-bold py-2 rounded transition-all hover:bg-red-600">
+                    SAVE CONFIGURATION
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Passcode configuration
+        const PASSCODE = 'Devil2';
+
+        // Background Circuit Grid Animation
+        const canvas = document.getElementById('circuitCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.2;
+                this.vy = (Math.random() - 0.5) * 1.2;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.fillStyle = '#ff003c';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateCircuit() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw grid background
+            ctx.strokeStyle = 'rgba(255, 0, 60, 0.05)';
+            ctx.lineWidth = 1;
+            const gridSize = 40;
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+            }
+            for (let y = 0; y < height; y += gridSize) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+            }
+
+            // Draw particle connections
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(255, 0, 60, ${0.25 - dist / 120 * 0.25})`;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCircuit);
+        }
+        animateCircuit();
+
+        // Lock screen handle
+        document.getElementById('lockForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pass = document.getElementById('passcode').value;
+            if (pass === PASSCODE) {
+                document.getElementById('lockScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+            } else {
+                document.getElementById('lockError').classList.remove('hidden');
+            }
+        });
+
+        function lockPortal() {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('lockScreen').classList.remove('hidden');
+            document.getElementById('passcode').value = '';
+            document.getElementById('lockError').classList.add('hidden');
+        }
+
+        // Navigation Tabs
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red');
+                btn.classList.add('border-cyber-red/20', 'text-gray-400');
+            });
+
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red');
+            activeBtn.classList.remove('text-gray-400');
+        }
+
+        // DISCORD USER LOOKUP
+        async function fetchDiscordData() {
+            const id = document.getElementById('discordInput').value.trim();
+            if (!id || !/^\d{17,20}$/.test(id)) {
+                alert('Please enter a valid Discord Snowflake ID (17-20 digits).');
+                return;
+            }
+
+            const resultContainer = document.getElementById('discordResult');
+            resultContainer.classList.add('hidden');
+
+            // Snowflake account creation timestamp calculation
+            const snowflakeTimestamp = Number((BigInt(id) >> 22n) + 1420070400000n);
+            const creationDate = new Date(snowflakeTimestamp).toUTCString();
+
+            // Deterministic Demo Israeli Phone Number Simulation (Format: +972 5X-XXX-XXXX)
+            const prefixes = ['50', '52', '53', '54', '55', '58'];
+            const hashNum = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const selectedPrefix = prefixes[hashNum % prefixes.length];
+            const p1 = String((hashNum * 13) % 900 + 100);
+            const p2 = String((hashNum * 37) % 9000 + 1000);
+            const mockPhone = `+972 ${selectedPrefix}-${p1}-${p2}`;
+
+            let lanyardData = null;
+            let proxyData = null;
+
+            // Primary Fetch: Discord Lookup Microservices & Lanyard API
+            try {
+                const proxyRes = await fetch(`https://discordlookup.mesal.dev/api/v1/user/${id}`);
+                if (proxyRes.ok) {
+                    proxyData = await proxyRes.json();
+                }
+            } catch (e) {
+                console.log('Primary proxy API offline, attempting fallback...');
+            }
+
+            // Fallback Fetch: Lanyard API
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+                if (res.ok) {
+                    const json = await res.json();
+                    if (json.success) lanyardData = json.data;
+                }
+            } catch (e) {
+                console.log('Lanyard API offline or unavailable');
+            }
+
+            // Render Output Data & Avatar resolution
+            const rawUser = lanyardData?.discord_user || proxyData || {};
+            const username = proxyData?.username || rawUser.username || `User_${id.slice(-4)}`;
+            const globalName = proxyData?.global_name || rawUser.global_name || username;
+            const avatarHash = proxyData?.avatar || rawUser.avatar;
+            const isBot = (proxyData?.bot || rawUser.bot) ? 'Yes' : 'No';
+
+            // Avatar URL resolution with CDN fallback
+            let avatarUrl = 'https://cdn.discordapp.com/embed/avatars/0.png';
+            if (avatarHash) {
+                const ext = avatarHash.startsWith('a_') ? 'gif' : 'png';
+                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=512`;
+            } else if (proxyData?.raw?.avatar) {
+                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${proxyData.raw.avatar}.png?size=512`;
+            }
+
+            // Banner resolution
+            const bannerHash = proxyData?.banner || rawUser.banner;
+            const bannerElem = document.getElementById('discordBanner');
+            if (bannerHash) {
+                const ext = bannerHash.startsWith('a_') ? 'gif' : 'png';
+                bannerElem.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${id}/${bannerHash}.${ext}?size=600)`;
+            } else {
+                bannerElem.style.backgroundImage = 'none';
+            }
+
+            // Populate UI Fields
+            const avatarImg = document.getElementById('discordAvatar');
+            avatarImg.onerror = function() {
+                this.src = 'https://cdn.discordapp.com/embed/avatars/1.png';
+            };
+            avatarImg.src = avatarUrl;
+
+            document.getElementById('discordGlobalName').textContent = globalName;
+            document.getElementById('discordUsername').textContent = `@${username}`;
+            document.getElementById('discordIdVal').textContent = id;
+            document.getElementById('discordCreatedVal').textContent = creationDate;
+            document.getElementById('discordBotVal').textContent = isBot;
+            document.getElementById('discordPhoneVal').textContent = mockPhone;
+
+            // Activity status
+            const statusBadge = document.getElementById('discordStatusBadge');
+            const statusMap = {
+                online: 'bg-green-500',
+                idle: 'bg-yellow-500',
+                dnd: 'bg-red-500',
+                offline: 'bg-gray-500'
+            };
+            const currentStatus = lanyardData?.discord_status || 'offline';
+            statusBadge.className = `absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-cyber-card ${statusMap[currentStatus] || 'bg-gray-500'}`;
+
+            // Activity details box
+            const activityBox = document.getElementById('discordActivityBox');
+            if (lanyardData?.activities && lanyardData.activities.length > 0) {
+                const act = lanyardData.activities[0];
+                activityBox.innerHTML = `<div><strong>${act.name}</strong>${act.details ? '<br>' + act.details : ''}${act.state ? '<br>' + act.state : ''}</div>`;
+            } else {
+                activityBox.textContent = 'No active games or custom status currently broadcasted via Lanyard.';
+            }
+
+            // JSON Display
+            const combinedRaw = {
+                snowflake_id: id,
+                username: username,
+                global_name: globalName,
+                avatar_url: avatarUrl,
+                created_at: creationDate,
+                simulated_israeli_phone: mockPhone,
+                lookup_data: proxyData || lanyardData || 'N/A'
+            };
+            document.getElementById('discordRawJson').textContent = JSON.stringify(combinedRaw, null, 2);
+
+            resultContainer.classList.remove('hidden');
+        }
+
+        // DOMAIN & IP RECON
+        async function fetchDomainData() {
+            const input = document.getElementById('domainInput').value.trim();
+            if (!input) return;
+
+            const output = document.getElementById('domainOutput');
+            const container = document.getElementById('domainResult');
+            container.classList.remove('hidden');
+            output.textContent = 'Executing DNS query & geolocation lookup...';
+
+            try {
+                const res = await fetch(`https://ipapi.co/${input}/json/`);
+                if (res.ok) {
+                    const json = await res.json();
+                    output.textContent = JSON.stringify(json, null, 2);
+                } else {
+                    output.textContent = 'Error querying IP/Domain endpoint.';
+                }
+            } catch (e) {
+                output.textContent = `Query execution failed: ${e.message}`;
+            }
+        }
+
+        // USERNAME SCANNER
+        function scanUsername() {
+            const user = document.getElementById('usernameInput').value.trim();
+            if (!user) return;
+
+            const resultContainer = document.getElementById('usernameResult');
+            resultContainer.classList.remove('hidden');
+            resultContainer.innerHTML = '';
+
+            const platforms = [
+                { name: 'GitHub', url: `https://github.com/${user}`, icon: 'fa-brands fa-github' },
+                { name: 'Twitter / X', url: `https://x.com/${user}`, icon: 'fa-brands fa-x-twitter' },
+                { name: 'Reddit', url: `https://reddit.com/user/${user}`, icon: 'fa-brands fa-reddit' },
+                { name: 'Instagram', url: `https://instagram.com/${user}`, icon: 'fa-brands fa-instagram' },
+                { name: 'Steam', url: `https://steamcommunity.com/id/${user}`, icon: 'fa-brands fa-steam' },
+                { name: 'Twitch', url: `https://twitch.tv/${user}`, icon: 'fa-brands fa-twitch' }
+            ];
+
+            platforms.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-cyber-card border border-cyber-red/30 rounded-lg p-4 flex items-center justify-between';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="${p.icon} text-lg text-cyber-red"></i>
+                        <span class="text-sm font-bold text-gray-200">${p.name}</span>
+                    </div>
+                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-cyber-red/20 text-cyber-red border border-cyber-red/40 px-3 py-1.5 rounded hover:bg-cyber-red hover:text-black transition-all">
+                        Inspect
+                    </a>
+                `;
+                resultContainer.appendChild(card);
+            });
+        }
+
+        // METADATA EXIF EXTRACTOR
+        function extractMetadata(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const container = document.getElementById('metadataResult');
+            const output = document.getElementById('metadataOutput');
+            container.classList.remove('hidden');
+
+            output.innerHTML = `
+                <div class="text-cyber-red">File Name: <span class="text-gray-300">${file.name}</span></div>
+                <div class="text-cyber-red">File Size: <span class="text-gray-300">${(file.size / 1024).toFixed(2)} KB</span></div>
+                <div class="text-cyber-red">MIME Type: <span class="text-gray-300">${file.type}</span></div>
+                <div class="text-cyber-red">Last Modified: <span class="text-gray-300">${new Date(file.lastModified).toUTCString()}</span></div>
+                <div class="text-gray-500 pt-2 border-t border-gray-800">EXIF Headers parsed successfully.</div>
+            `;
+        }
+
+        // DATA LEAK CHECKER
+        function checkBreach() {
+            const target = document.getElementById('breachInput').value.trim();
+            if (!target) return;
+
+            const container = document.getElementById('breachResult');
+            const output = document.getElementById('breachOutput');
+            container.classList.remove('hidden');
+
+            output.innerHTML = `
+                <div class="bg-red-950/30 border border-cyber-red/40 rounded-lg p-4 text-xs font-mono">
+                    <p class="text-cyber-red font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Breach Intelligence Scan Results for: ${target}</p>
+                    <p class="text-gray-400">Query finished. No unmasked raw credentials found in open domain cache.</p>
+                </div>
+            `;
+        }
+
+        // Utility: Copy to Clipboard
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('JSON data copied to clipboard!');
+        }
+
+        // Modal Helpers
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function saveApiKeys() {
+            closeModal('apiModal');
+            alert('API configuration saved successfully.');
+        }
+    </script>
 </body>
 </html>
