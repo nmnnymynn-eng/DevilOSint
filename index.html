@@ -140,7 +140,7 @@
 </head>
 <body class="bg-black text-slate-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white relative">
 
-    <!-- Sleek Glassmorphic Sign In Overlay Screen -->
+    <!-- Simple Passcode Gate Overlay Screen -->
     <div id="auth-gate" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-3xl flex flex-col items-center justify-center p-4">
         <div class="relative max-w-sm w-full bg-neutral-900/70 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-2xl text-center space-y-6 overflow-hidden">
             <!-- Light beam shine effect -->
@@ -156,51 +156,21 @@
             </div>
 
             <div>
-                <h2 id="auth-title" class="text-2xl font-bold text-white tracking-tight">Sign In</h2>
-                <p id="auth-subtitle" class="text-xs text-neutral-400 mt-1">Please enter your details to sign in.</p>
+                <h2 class="text-2xl font-bold text-white tracking-tight">כניסה למערכת</h2>
+                <p class="text-xs text-neutral-400 mt-1">אנה הזן את קוד הגישה שברשותך</p>
             </div>
 
             <form id="auth-form" class="space-y-3.5">
                 <div>
-                    <input type="email" id="email-input" placeholder="Enter your email address" class="w-full bg-neutral-800/80 border border-neutral-700/60 focus:border-white/40 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-neutral-500 focus:outline-none transition font-sans">
-                </div>
-                <div>
-                    <input type="password" id="passcode-input" placeholder="Password" class="w-full bg-neutral-800/80 border border-neutral-700/60 focus:border-white/40 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-neutral-500 focus:outline-none transition font-sans">
+                    <input type="password" id="passcode-input" placeholder="הכנס קוד כניסה" class="w-full bg-neutral-800/80 border border-neutral-700/60 focus:border-white/40 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-neutral-500 focus:outline-none transition font-sans text-center text-sm tracking-widest">
                 </div>
 
-                <div class="flex justify-end text-[11px]">
-                    <a href="#" id="forgot-password-link" class="text-neutral-400 hover:text-white transition">Forgot Password?</a>
-                </div>
-
-                <p id="auth-error" class="text-xs text-red-400 hidden font-medium text-center">Authentication error</p>
+                <p id="auth-error" class="text-xs text-red-400 hidden font-medium text-center">קוד כניסה שגוי, נסה שוב</p>
 
                 <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-white hover:bg-neutral-200 text-black rounded-xl text-xs font-semibold tracking-wide transition shadow-lg">
-                    Sign in
+                    התחבר
                 </button>
             </form>
-
-            <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-neutral-800"></div>
-                <span class="flex-shrink mx-3 text-[10px] text-neutral-500 uppercase tracking-widest font-mono">OR</span>
-                <div class="flex-grow border-t border-neutral-800"></div>
-            </div>
-
-            <!-- Google Sign In Button -->
-            <button id="google-auth-btn" type="button" class="w-full py-3 bg-neutral-800/90 hover:bg-neutral-800 border border-neutral-700/80 text-neutral-200 rounded-xl text-xs font-medium transition flex items-center justify-center gap-2.5 shadow-sm">
-                <svg class="w-4 h-4" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span>Continue with Google</span>
-            </button>
-
-            <!-- Toggle Register / Sign In -->
-            <div class="text-xs text-neutral-400">
-                <span id="auth-toggle-text">Don't have an account?</span>
-                <button type="button" id="auth-toggle-btn" class="text-white font-semibold hover:underline ml-1">Sign up</button>
-            </div>
         </div>
     </div>
 
@@ -256,12 +226,6 @@
 
             <!-- API Key & Settings Footer -->
             <div class="p-3 border-t border-neutral-700/80 bg-black/80 space-y-2">
-                <div class="flex items-center justify-between text-xs px-2 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-                    <span id="user-display-email" class="text-slate-300 font-mono text-[11px] truncate max-w-[130px]">User Account</span>
-                    <button id="logout-btn" class="text-slate-400 hover:text-red-400 text-xs transition" title="Sign Out">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </button>
-                </div>
                 <button id="api-key-modal-trigger" class="w-full text-left py-2 px-2.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800/80 border border-neutral-700/80 text-xs text-slate-300 flex items-center justify-between transition">
                     <div class="flex items-center gap-2 truncate">
                         <i class="fa-solid fa-key text-brand-400 text-xs"></i>
@@ -533,7 +497,6 @@
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
 
-            // Geometric Wireframe Vortex Animation Loop (Matches requested optical design, static to touch)
             function animateVortex() {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
                 ctx.fillRect(0, 0, width, height);
@@ -554,7 +517,6 @@
                     const vertices = 4 + Math.floor(i / 10);
                     for (let j = 0; j <= vertices; j++) {
                         const angle = (j / vertices) * Math.PI * 2 + twist;
-                        // Add organic distortion to mimic spiral optical geometry
                         const waveR = r + Math.sin(angle * 3 + time * 1.2) * (i * 0.8);
                         const x = Math.cos(angle) * waveR;
                         const y = Math.sin(angle) * waveR;
@@ -566,7 +528,6 @@
                     ctx.stroke();
                 }
 
-                // Connecting radial spiral lines
                 const spokeCount = 28;
                 for (let s = 0; s < spokeCount; s++) {
                     ctx.beginPath();
@@ -588,8 +549,6 @@
                 requestAnimationFrame(animateVortex);
             }
             animateVortex();
-
-            const DEFAULT_GEMINI_KEY = ''; // Leave blank for user key or standard fallback
 
             const state = {
                 apiKey: localStorage.getItem('torex_gemini_api_key') || '',
@@ -636,7 +595,6 @@
             const canvasContent = document.getElementById('canvas-content');
             const copyCanvasBtn = document.getElementById('copy-canvas-btn');
 
-            // Access Passcode Gate Logic (Required code: x1)
             const authGate = document.getElementById('auth-gate');
             const authForm = document.getElementById('auth-form');
             const passcodeInput = document.getElementById('passcode-input');
@@ -658,7 +616,6 @@
                 }
             });
 
-            // Voice Speech Recognition Setup
             const voiceBtn = document.getElementById('voice-input-btn');
             const micIcon = document.getElementById('mic-icon');
             let recognition = null;
@@ -697,13 +654,8 @@
                         recognition.start();
                     }
                 });
-            } else {
-                voiceBtn.addEventListener('click', () => {
-                    alert('Voice input is not supported in this browser.');
-                });
             }
 
-            // Image Generation Modal / Prompt helper
             const genImageBtn = document.getElementById('gen-image-btn');
             genImageBtn.addEventListener('click', () => {
                 chatInput.value = '/image ' + (chatInput.value || '');
@@ -933,7 +885,6 @@
                 sendBtn.disabled = true;
 
                 try {
-                    // Check if query is an Image Generation request
                     if (text.startsWith('/image ')) {
                         const imagePrompt = text.replace('/image ', '').trim();
                         const encodedPrompt = encodeURIComponent(imagePrompt);
@@ -956,7 +907,6 @@
                         parts: [{ text: m.content }]
                     }));
 
-                    // If user attached a file or image, encode or attach context
                     if (state.attachedFile) {
                         const reader = new FileReader();
                         const fileDataUrl = await new Promise((resolve) => {
@@ -967,12 +917,10 @@
                         const mimeType = state.attachedFile.type || 'image/png';
 
                         if (mimeType.startsWith('image/')) {
-                            // Inline image data part
                             contentsPayload[contentsPayload.length - 1].parts.push({
                                 inlineData: { mimeType: mimeType, data: base64Data }
                             });
                         } else {
-                            // Text / code attachment
                             const textContent = await state.attachedFile.text();
                             contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n[קובץ מצורף: ${state.attachedFile.name}]\n\`\`\`\n${textContent}\n\`\`\``;
                         }
@@ -1008,785 +956,6 @@
                     currentSession.messages.push({ role: 'assistant', content: aiResponseText });
 
                     saveSessionsToStorage();
-                    renderHistoryList();
-
-                } catch (err) {
-                    contentDiv.innerHTML = `<div class="p-3 bg-red-950/40 border border-red-500/50 rounded-xl text-red-300 text-xs">
-                        <div class="font-semibold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> שגיאת תקשורת TorexAI</div>
-                        <p>${escapeHtml(err.message)}</p>
-                    </div>`;
-                } finally {
-                    state.isGenerating = false;
-                    sendBtn.disabled = false;
-                    if (state.attachedFile) {
-                        state.attachedFile = null;
-                        filePreviewContainer.classList.add('hidden');
-                    }
-                }
-            }
-
-            chatInput.addEventListener('input', () => {
-                chatInput.style.height = 'auto';
-                chatInput.style.height = Math.min(chatInput.scrollHeight, 180) + 'px';
-            });
-
-            chatInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            });
-
-            sendBtn.addEventListener('click', handleSendMessage);
-
-            document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const title = btn.querySelector('span').innerText;
-                    chatInput.value = `Help me with: ${title}`;
-                    handleSendMessage();
-                });
-            });
-
-            attachFileBtn.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    state.attachedFile = file;
-                    filePreviewName.innerText = file.name;
-                    filePreviewContainer.classList.remove('hidden');
-                }
-            });
-
-            removeFileBtn.addEventListener('click', () => {
-                state.attachedFile = null;
-                fileInput.value = '';
-                filePreviewContainer.classList.add('hidden');
-            });
-
-            modelSelect.addEventListener('change', (e) => {
-                state.selectedModel = e.target.value;
-            });
-
-            clearChatBtn.addEventListener('click', () => {
-                if (state.currentSessionId) {
-                    deleteSession(state.currentSessionId);
-                }
-            });
-
-            apiModalTrigger.addEventListener('click', () => apiModal.classList.remove('hidden'));
-            closeApiModal.addEventListener('click', () => apiModal.classList.add('hidden'));
-            
-            saveApiKeyBtn.addEventListener('click', () => {
-                const gemKey = apiKeyInput.value.trim();
-                const openKey = openaiKeyInput ? openaiKeyInput.value.trim() : '';
-                const antKey = anthropicKeyInput ? anthropicKeyInput.value.trim() : '';
-
-                state.apiKey = gemKey;
-                state.openaiKey = openKey;
-                state.anthropicKey = antKey;
-
-                localStorage.setItem('torex_gemini_api_key', gemKey);
-                localStorage.setItem('torex_openai_api_key', openKey);
-                localStorage.setItem('torex_anthropic_api_key', antKey);
-
-                updateApiStatusUI();
-                apiModal.classList.add('hidden');
-            });
-
-            toggleSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-
-            closeSidebarMobile.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-            });
-
-            newChatBtn.addEventListener('click', createNewSession);
-
-            window.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
-                    e.preventDefault();
-                    createNewSession();
-                }
-            });
-
-            updateApiStatusUI();
-            renderHistoryList();
-        });
-    </script>
-</body>
-</html>
-    <!-- Application JavaScript Engine with Multi-AI API support and Firebase Auth/Database -->
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const canvas = document.getElementById('particle-wave-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let time = 0;
-
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            function animateVortex() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-                ctx.fillRect(0, 0, width, height);
-
-                ctx.save();
-                ctx.translate(width / 2, height / 2);
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
-                ctx.lineWidth = 1;
-
-                const maxR = Math.hypot(width, height) / 1.1;
-                const ringCount = 42;
-
-                for (let i = 1; i <= ringCount; i++) {
-                    const r = Math.pow(i / ringCount, 1.8) * maxR;
-                    const twist = time * 0.3 + i * 0.12;
-
-                    ctx.beginPath();
-                    const vertices = 4 + Math.floor(i / 10);
-                    for (let j = 0; j <= vertices; j++) {
-                        const angle = (j / vertices) * Math.PI * 2 + twist;
-                        const waveR = r + Math.sin(angle * 3 + time * 1.2) * (i * 0.8);
-                        const x = Math.cos(angle) * waveR;
-                        const y = Math.sin(angle) * waveR;
-
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.closePath();
-                    ctx.stroke();
-                }
-
-                const spokeCount = 28;
-                for (let s = 0; s < spokeCount; s++) {
-                    ctx.beginPath();
-                    for (let i = 1; i <= ringCount; i += 2) {
-                        const r = Math.pow(i / ringCount, 1.8) * maxR;
-                        const twist = time * 0.3 + i * 0.12;
-                        const angle = (s / spokeCount) * Math.PI * 2 + twist;
-                        const x = Math.cos(angle) * r;
-                        const y = Math.sin(angle) * r;
-
-                        if (i === 1) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-
-                ctx.restore();
-                time += 0.008;
-                requestAnimationFrame(animateVortex);
-            }
-            animateVortex();
-
-            // Firebase App & Database Setup
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'torexai-platform';
-            const defaultFirebaseConfig = {
-                apiKey: "AIzaSyDemoKeyForTorexAIPlatformFirebase",
-                authDomain: `${appId}.firebaseapp.com`,
-                projectId: appId,
-                storageBucket: `${appId}.appspot.com`,
-                messagingSenderId: "1234567890",
-                appId: "1:1234567890:web:abcdef123456"
-            };
-
-            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
-            
-            const { 
-                initializeApp, 
-                getAuth, 
-                signInWithCustomToken, 
-                signInAnonymously, 
-                signInWithEmailAndPassword,
-                createUserWithEmailAndPassword,
-                GoogleAuthProvider,
-                signInWithPopup,
-                signOut,
-                onAuthStateChanged,
-                getFirestore, 
-                doc, 
-                setDoc, 
-                getDoc, 
-                collection, 
-                onSnapshot, 
-                deleteDoc 
-            } = window.FirebaseSDK;
-
-            let app, auth, db;
-            try {
-                app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-            } catch (err) {
-                console.warn('Firebase init fallback:', err);
-            }
-
-            const state = {
-                user: null,
-                userId: null,
-                apiKey: localStorage.getItem('torex_gemini_api_key') || '',
-                openaiKey: localStorage.getItem('torex_openai_api_key') || '',
-                anthropicKey: localStorage.getItem('torex_anthropic_api_key') || '',
-                currentSessionId: null,
-                sessions: [],
-                selectedModel: 'gemini-2.5-flash',
-                attachedFile: null,
-                isGenerating: false,
-                isSignUpMode: false
-            };
-
-            const sidebar = document.getElementById('sidebar');
-            const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
-            const closeSidebarMobile = document.getElementById('close-sidebar-mobile');
-            const newChatBtn = document.getElementById('new-chat-btn');
-            const historyContainer = document.getElementById('history-container');
-            const emptyState = document.getElementById('empty-state');
-            const messagesList = document.getElementById('messages-list');
-            const chatInput = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('send-btn');
-            const modelSelect = document.getElementById('model-select');
-            const clearChatBtn = document.getElementById('clear-chat-btn');
-            
-            const attachFileBtn = document.getElementById('attach-file-btn');
-            const fileInput = document.getElementById('file-input');
-            const filePreviewContainer = document.getElementById('file-preview-container');
-            const filePreviewName = document.getElementById('file-preview-name');
-            const removeFileBtn = document.getElementById('remove-file-btn');
-
-            const apiModalTrigger = document.getElementById('api-key-modal-trigger');
-            const apiModal = document.getElementById('api-modal');
-            const closeApiModal = document.getElementById('close-api-modal');
-            const apiKeyInput = document.getElementById('api-key-input');
-            const openaiKeyInput = document.getElementById('openai-key-input');
-            const anthropicKeyInput = document.getElementById('anthropic-key-input');
-            const saveApiKeyBtn = document.getElementById('save-api-key-btn');
-            const apiStatusBadge = document.getElementById('api-status-badge');
-            const apiStatusText = document.getElementById('api-status-text');
-
-            const canvasWorkspace = document.getElementById('canvas-workspace');
-            const toggleCanvasBtn = document.getElementById('toggle-canvas-btn');
-            const closeCanvasBtn = document.getElementById('close-canvas-btn');
-            const canvasContent = document.getElementById('canvas-content');
-            const copyCanvasBtn = document.getElementById('copy-canvas-btn');
-
-            // Authentication Screen Elements
-            const authGate = document.getElementById('auth-gate');
-            const authForm = document.getElementById('auth-form');
-            const emailInput = document.getElementById('email-input');
-            const passcodeInput = document.getElementById('passcode-input');
-            const authError = document.getElementById('auth-error');
-            const authTitle = document.getElementById('auth-title');
-            const authSubtitle = document.getElementById('auth-subtitle');
-            const authSubmitBtn = document.getElementById('auth-submit-btn');
-            const googleAuthBtn = document.getElementById('google-auth-btn');
-            const authToggleBtn = document.getElementById('auth-toggle-btn');
-            const authToggleText = document.getElementById('auth-toggle-text');
-            const userDisplayEmail = document.getElementById('user-display-email');
-            const logoutBtn = document.getElementById('logout-btn');
-
-            // Toggle between Sign In & Sign Up
-            authToggleBtn.addEventListener('click', () => {
-                state.isSignUpMode = !state.isSignUpMode;
-                if (state.isSignUpMode) {
-                    authTitle.innerText = "Create Account";
-                    authSubtitle.innerText = "Please enter your details to sign up.";
-                    authSubmitBtn.innerText = "Sign up";
-                    authToggleText.innerText = "Already have an account?";
-                    authToggleBtn.innerText = "Sign in";
-                } else {
-                    authTitle.innerText = "Sign In";
-                    authSubtitle.innerText = "Please enter your details to sign in.";
-                    authSubmitBtn.innerText = "Sign in";
-                    authToggleText.innerText = "Don't have an account?";
-                    authToggleBtn.innerText = "Sign up";
-                }
-                authError.classList.add('hidden');
-            });
-
-            // Sign in / Sign up form handler
-            authForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = emailInput.value.trim();
-                const password = passcodeInput.value.trim();
-
-                authError.classList.add('hidden');
-
-                if (!email || !password) {
-                    authError.innerText = "Please fill in all fields.";
-                    authError.classList.remove('hidden');
-                    return;
-                }
-
-                try {
-                    if (state.isSignUpMode) {
-                        await createUserWithEmailAndPassword(auth, email, password);
-                    } else {
-                        await signInWithEmailAndPassword(auth, email, password);
-                    }
-                } catch (err) {
-                    authError.innerText = err.message.replace('Firebase: ', '');
-                    authError.classList.remove('hidden');
-                }
-            });
-
-            // Google Authentication handler
-            googleAuthBtn.addEventListener('click', async () => {
-                try {
-                    const provider = new GoogleAuthProvider();
-                    await signInWithPopup(auth, provider);
-                } catch (err) {
-                    // Fallback to anonymous sign-in if popup is blocked
-                    try {
-                        await signInAnonymously(auth);
-                    } catch (e) {
-                        authError.innerText = "Google Sign-In failed: " + err.message;
-                        authError.classList.remove('hidden');
-                    }
-                }
-            });
-
-            logoutBtn.addEventListener('click', async () => {
-                if (auth) await signOut(auth);
-            });
-
-            // Listen for Authentication state changes
-            let unsubscribeSessions = null;
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    state.user = user;
-                    state.userId = user.uid;
-                    authGate.classList.add('hidden');
-                    userDisplayEmail.innerText = user.email || `User: ${user.uid.slice(0, 6)}...`;
-
-                    // Listen to Firestore real-time database chats for user
-                    subscribeToFirestoreDatabase();
-                } else {
-                    state.user = null;
-                    state.userId = null;
-                    authGate.classList.remove('hidden');
-                    state.sessions = [];
-                    renderHistoryList();
-                    if (unsubscribeSessions) unsubscribeSessions();
-                }
-            });
-
-            // Automatic initial authentication check (supports custom tokens)
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                try {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } catch (e) {
-                    console.log("Custom token login skipped");
-                }
-            }
-
-            // Realtime Firestore Database Listener
-            function subscribeToFirestoreDatabase() {
-                if (!state.userId) return;
-                
-                const userSessionsRef = collection(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions');
-
-                if (unsubscribeSessions) unsubscribeSessions();
-
-                unsubscribeSessions = onSnapshot(userSessionsRef, (snapshot) => {
-                    const fetchedSessions = [];
-                    snapshot.forEach((docSnap) => {
-                        fetchedSessions.push({
-                            id: docSnap.id,
-                            ...docSnap.data()
-                        });
-                    });
-
-                    // Sort by timestamp in JS memory
-                    fetchedSessions.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-                    state.sessions = fetchedSessions;
-
-                    renderHistoryList();
-
-                    if (state.currentSessionId) {
-                        const current = state.sessions.find(s => s.id === state.currentSessionId);
-                        if (current) {
-                            loadSession(current.id, false);
-                        }
-                    }
-                }, (error) => {
-                    console.error("Firestore sync error:", error);
-                });
-            }
-
-            async function saveSessionToFirestore(session) {
-                if (!state.userId) return;
-                try {
-                    const sessionDocRef = doc(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions', session.id);
-                    await setDoc(sessionDocRef, {
-                        ...session,
-                        updatedAt: Date.now()
-                    });
-                } catch (err) {
-                    console.error("Error saving chat to database:", err);
-                }
-            }
-
-            async function deleteSessionFromFirestore(id) {
-                if (!state.userId) return;
-                try {
-                    const sessionDocRef = doc(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions', id);
-                    await deleteDoc(sessionDocRef);
-                } catch (err) {
-                    console.error("Error deleting session:", err);
-                }
-            }
-
-            function renderHistoryList() {
-                historyContainer.innerHTML = '';
-                if (state.sessions.length === 0) {
-                    historyContainer.innerHTML = '<div class="px-3 py-2 text-xs text-slate-500 font-mono">No previous sessions</div>';
-                    return;
-                }
-
-                state.sessions.forEach(session => {
-                    const isActive = session.id === state.currentSessionId;
-                    const btn = document.createElement('div');
-                    btn.className = `group flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer border border-transparent transition ${isActive ? 'bg-neutral-800/90 text-white font-medium border-neutral-700/80 shadow-md' : 'text-slate-400 hover:bg-neutral-900 hover:text-slate-200'}`;
-                    btn.innerHTML = `
-                        <div class="flex items-center gap-2 truncate flex-1 pr-2">
-                            <i class="fa-regular fa-message text-[11px] ${isActive ? 'text-brand-400' : 'text-slate-500'}"></i>
-                            <span class="truncate">${session.title || 'Untitled Session'}</span>
-                        </div>
-                        <button class="delete-session-btn opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 p-1 transition" data-id="${session.id}">
-                            <i class="fa-solid fa-xmark text-xs"></i>
-                        </button>
-                    `;
-
-                    btn.addEventListener('click', (e) => {
-                        if (!e.target.closest('.delete-session-btn')) {
-                            loadSession(session.id);
-                        }
-                    });
-
-                    const deleteBtn = btn.querySelector('.delete-session-btn');
-                    deleteBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        deleteSession(session.id);
-                    });
-
-                    historyContainer.appendChild(btn);
-                });
-            }
-
-            async function deleteSession(id) {
-                state.sessions = state.sessions.filter(s => s.id !== id);
-                await deleteSessionFromFirestore(id);
-                if (state.currentSessionId === id) {
-                    createNewSession();
-                } else {
-                    renderHistoryList();
-                }
-            }
-
-            function createNewSession() {
-                state.currentSessionId = 'session_' + Date.now();
-                messagesList.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                messagesList.classList.add('hidden');
-                renderHistoryList();
-            }
-
-            function loadSession(id, reRender = true) {
-                const session = state.sessions.find(s => s.id === id);
-                if (!session) return;
-
-                state.currentSessionId = session.id;
-                
-                if (reRender) {
-                    emptyState.classList.add('hidden');
-                    messagesList.classList.remove('hidden');
-                    messagesList.innerHTML = '';
-
-                    session.messages.forEach(msg => {
-                        appendMessageUI(msg.role, msg.content);
-                    });
-                }
-
-                renderHistoryList();
-            }
-
-            // Voice Speech Recognition Setup
-            const voiceBtn = document.getElementById('voice-input-btn');
-            const micIcon = document.getElementById('mic-icon');
-            let recognition = null;
-            let isRecording = false;
-
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    isRecording = true;
-                    micIcon.className = 'fa-solid fa-microphone text-sm text-red-500 animate-pulse';
-                };
-
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    chatInput.value += (chatInput.value ? ' ' : '') + transcript;
-                };
-
-                recognition.onerror = () => {
-                    isRecording = false;
-                    micIcon.className = 'fa-solid fa-microphone text-sm';
-                };
-
-                recognition.onend = () => {
-                    isRecording = false;
-                    micIcon.className = 'fa-solid fa-microphone text-sm';
-                };
-
-                voiceBtn.addEventListener('click', () => {
-                    if (isRecording) {
-                        recognition.stop();
-                    } else {
-                        recognition.start();
-                    }
-                });
-            }
-
-            // Image Generation Trigger
-            const genImageBtn = document.getElementById('gen-image-btn');
-            genImageBtn.addEventListener('click', () => {
-                chatInput.value = '/image ' + (chatInput.value || '');
-                chatInput.focus();
-            });
-
-            marked.setOptions({
-                highlight: function(code, lang) {
-                    if (lang && hljs.getLanguage(lang)) {
-                        return hljs.highlight(code, { language: lang }).value;
-                    }
-                    return hljs.highlightAuto(code).value;
-                },
-                breaks: true
-            });
-
-            function updateApiStatusUI() {
-                apiKeyInput.value = state.apiKey;
-                if (openaiKeyInput) openaiKeyInput.value = state.openaiKey;
-                if (anthropicKeyInput) anthropicKeyInput.value = state.anthropicKey;
-                
-                if (state.apiKey || state.openaiKey || state.anthropicKey) {
-                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-emerald-500 shrink-0';
-                    apiStatusText.innerText = 'API Key Configured';
-                } else {
-                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
-                    apiStatusText.innerText = 'Set Gemini / OpenAI Key';
-                }
-            }
-
-            function appendMessageUI(role, content) {
-                emptyState.classList.add('hidden');
-                messagesList.classList.remove('hidden');
-
-                const isUser = role === 'user';
-                const msgNode = document.createElement('div');
-                msgNode.className = `flex gap-3 sm:gap-4 ${isUser ? 'justify-end' : 'justify-start'}`;
-
-                const catLogoAvatarHTML = `
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1px] shadow-md flex items-center justify-center shrink-0 border border-neutral-700">
-                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                            <svg class="w-4 h-4 text-white" viewBox="0 0 100 100" fill="currentColor">
-                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
-                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
-                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
-                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                    </div>
-                `;
-
-                const innerHTML = `
-                    <div class="flex gap-3 sm:gap-4 max-w-full sm:max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}">
-                        ${isUser ? `
-                            <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs shadow-md bg-brand-600 border border-brand-400/40 text-white">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                        ` : catLogoAvatarHTML}
-                        <div class="flex flex-col min-w-0">
-                            <div class="text-[11px] font-medium text-slate-400 mb-1 ${isUser ? 'text-right' : 'text-left'}">
-                                ${isUser ? 'You' : 'TorexAI (' + state.selectedModel.toUpperCase() + ')'}
-                            </div>
-                            <div class="message-content text-sm rounded-2xl px-4 py-3 ${isUser ? 'bg-brand-600 border border-brand-500 text-white rounded-tr-none' : 'bg-neutral-900/90 border border-neutral-700/80 text-slate-100 rounded-tl-none shadow-2xl backdrop-blur-xl'} markdown-body">
-                                ${isUser ? escapeHtml(content) : marked.parse(content)}
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                msgNode.innerHTML = innerHTML;
-                messagesList.appendChild(msgNode);
-
-                if (!isUser) {
-                    msgNode.querySelectorAll('pre code').forEach((codeBlock) => {
-                        const pre = codeBlock.parentElement;
-                        const copyBtn = document.createElement('button');
-                        copyBtn.className = 'text-[10px] bg-neutral-800 border border-neutral-700 text-slate-300 hover:bg-neutral-700 px-2.5 py-1 rounded ml-auto block mb-1 transition shadow-sm';
-                        copyBtn.innerHTML = '<i class="fa-solid fa-code"></i> Open in Workspace Canvas';
-                        copyBtn.addEventListener('click', () => {
-                            openInCanvas(codeBlock.innerText);
-                        });
-                        pre.parentNode.insertBefore(copyBtn, pre);
-                    });
-                }
-
-                const wrapper = document.getElementById('messages-wrapper');
-                wrapper.scrollTop = wrapper.scrollHeight;
-
-                return msgNode;
-            }
-
-            function escapeHtml(text) {
-                const div = document.createElement('div');
-                div.innerText = text;
-                return div.innerHTML;
-            }
-
-            function openInCanvas(codeText) {
-                canvasContent.innerText = codeText;
-                hljs.highlightElement(canvasContent);
-                canvasWorkspace.classList.remove('hidden');
-                canvasWorkspace.classList.add('flex');
-                toggleCanvasBtn.classList.remove('hidden');
-            }
-
-            toggleCanvasBtn.addEventListener('click', () => {
-                canvasWorkspace.classList.toggle('hidden');
-            });
-
-            closeCanvasBtn.addEventListener('click', () => {
-                canvasWorkspace.classList.add('hidden');
-            });
-
-            copyCanvasBtn.addEventListener('click', () => {
-                document.execCommand('copy');
-                copyCanvasBtn.innerText = 'Copied!';
-                setTimeout(() => copyCanvasBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 2000);
-            });
-
-            async function handleSendMessage() {
-                const text = chatInput.value.trim();
-                if ((!text && !state.attachedFile) || state.isGenerating) return;
-
-                if (!state.currentSessionId) {
-                    state.currentSessionId = 'session_' + Date.now();
-                }
-
-                let currentSession = state.sessions.find(s => s.id === state.currentSessionId);
-                if (!currentSession) {
-                    currentSession = {
-                        id: state.currentSessionId,
-                        title: text.slice(0, 30) || 'New Conversation',
-                        messages: [],
-                        createdAt: Date.now()
-                    };
-                    state.sessions.unshift(currentSession);
-                }
-
-                currentSession.messages.push({ role: 'user', content: text });
-                appendMessageUI('user', text);
-
-                chatInput.value = '';
-                chatInput.style.height = 'auto';
-
-                const botNode = appendMessageUI('assistant', '<i class="fa-solid fa-spinner fa-spin text-brand-400"></i> חושב ומייצר תשובה בזמן אמת...');
-                const contentDiv = botNode.querySelector('.message-content');
-
-                state.isGenerating = true;
-                sendBtn.disabled = true;
-
-                try {
-                    // AI Image Generation path
-                    if (text.startsWith('/image ')) {
-                        const imagePrompt = text.replace('/image ', '').trim();
-                        const encodedPrompt = encodeURIComponent(imagePrompt);
-                        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=600&nologo=true`;
-
-                        const imageMarkdown = `### AI Generated Image\n\n![${imagePrompt}](${imageUrl})\n\n*Prompt:* "${escapeHtml(imagePrompt)}"`;
-                        contentDiv.innerHTML = marked.parse(imageMarkdown);
-                        currentSession.messages.push({ role: 'assistant', content: imageMarkdown });
-
-                        await saveSessionToFirestore(currentSession);
-                        renderHistoryList();
-                        return;
-                    }
-
-                    let activeApiKey = state.apiKey || "";
-                    let modelName = "gemini-2.5-flash";
-
-                    const contentsPayload = currentSession.messages.map(m => ({
-                        role: m.role === 'user' ? 'user' : 'model',
-                        parts: [{ text: m.content }]
-                    }));
-
-                    if (state.attachedFile) {
-                        const reader = new FileReader();
-                        const fileDataUrl = await new Promise((resolve) => {
-                            reader.onload = (e) => resolve(e.target.result);
-                            reader.readAsDataURL(state.attachedFile);
-                        });
-                        const base64Data = fileDataUrl.split(',')[1];
-                        const mimeType = state.attachedFile.type || 'image/png';
-
-                        if (mimeType.startsWith('image/')) {
-                            contentsPayload[contentsPayload.length - 1].parts.push({
-                                inlineData: { mimeType: mimeType, data: base64Data }
-                            });
-                        } else {
-                            const textContent = await state.attachedFile.text();
-                            contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n[קובץ מצורף: ${state.attachedFile.name}]\n\`\`\`\n${textContent}\n\`\`\``;
-                        }
-                    }
-
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`;
-
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: contentsPayload,
-                            systemInstruction: {
-                                parts: [{ text: "You are TorexAI, an advanced, highly capable AI assistant. Answer the user comprehensively, directly, and accurately in the exact same language they spoke to you (if Hebrew, answer in natural, fluent Hebrew)." }]
-                            }
-                        })
-                    });
-
-                    const data = await response.json();
-                    
-                    if (data.error) {
-                        throw new Error(data.error.message || 'Gemini API Error');
-                    }
-
-                    let aiResponseText = "";
-                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                        aiResponseText = data.candidates[0].content.parts[0].text;
-                    } else {
-                        throw new Error('לא התקבלה תשובה תקינה מהמנוע.');
-                    }
-
-                    contentDiv.innerHTML = marked.parse(aiResponseText);
-                    currentSession.messages.push({ role: 'assistant', content: aiResponseText });
-
-                    await saveSessionToFirestore(currentSession);
                     renderHistoryList();
 
                 } catch (err) {
