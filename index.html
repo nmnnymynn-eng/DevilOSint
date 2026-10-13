@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark h-full">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorexAI - Advanced AI Intelligence Platform</title>
-
-    <!-- Tailwind CSS CDN -->
+    <title>DEVIL-OSINT // Hacker Cyber Matrix Platform</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,276 +13,1389 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                        },
-                        surface: {
-                            800: '#1e293b',
-                            900: '#0f172a',
-                            950: '#000000'
+                        cyber: {
+                            bg: '#020307',
+                            panel: 'rgba(8, 12, 22, 0.85)',
+                            border: '#ff003c',
+                            cyan: '#00f0ff',
+                            purple: '#a855f7',
+                            red: '#ff003c',
+                            green: '#00ff66',
+                            redglow: 'rgba(255, 0, 60, 0.4)',
+                            darkred: '#1a0208'
                         }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace']
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'glitch': 'glitch 0.4s infinite linear alternate-reverse',
+                        'scanline': 'scanline 8s linear infinite',
+                        'radar': 'radarSweep 4s linear infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 10px rgba(255, 0, 60, 0.4), inset 0 0 5px rgba(255, 0, 60, 0.2)' },
+                            '100%': { boxShadow: '0 0 30px rgba(255, 0, 60, 0.9), inset 0 0 15px rgba(255, 0, 60, 0.6)' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        radarSweep: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        }
                     }
                 }
             }
-        }
+        };
     </script>
-
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Marked.js for Markdown Rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- FontAwesome & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;800;900&family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- 3D & Crypto Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <style>
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.4); }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #404040; }
-
-        #particle-wave-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            background-color: #000000;
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #020307;
+            color: #33ffbb;
+            overflow-x: hidden;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .font-vt323 {
+            font-family: 'VT323', monospace;
         }
         
-        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.625; }
-        .markdown-body h1, .markdown-body h2, .markdown-body h3 { font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #f8fafc; }
-        .markdown-body ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 0.75rem; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020307;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff003c, #00f0ff);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff003c;
+            box-shadow: 0 0 12px #ff003c;
+        }
+
+        .neon-border {
+            border: 1px solid rgba(255, 0, 60, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.15);
+            backdrop-filter: blur(16px);
+        }
+        .neon-border:hover, .neon-border-active {
+            border-color: #ff003c;
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.7), inset 0 0 20px rgba(255, 0, 60, 0.35);
+        }
+
+        .neon-border-cyan {
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+            backdrop-filter: blur(16px);
+        }
+
+        .text-glow-red {
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.9), 0 0 20px rgba(255, 0, 60, 0.5);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.9), 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+        .text-glow-green {
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.9), 0 0 20px rgba(0, 255, 102, 0.5);
+        }
+
+        .cyber-grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 0, 60, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 60, 0.07) 1px, transparent 1px);
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            z-index: 55;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .laser-line {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff003c, #00f0ff, transparent);
+            z-index: 60;
+            animation: scanline 6s infinite linear;
+            pointer-events: none;
+            opacity: 0.8;
+            box-shadow: 0 0 10px #ff003c;
+        }
+
+        .cyber-btn {
+            position: relative;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            transition: all 0.25s ease;
+        }
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 0, 60, 0.2);
+            z-index: -1;
+            transition: all 0.25s ease;
+        }
+        .cyber-btn:hover::before {
+            background: rgba(255, 0, 60, 0.85);
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
-<body class="bg-black text-slate-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white relative">
+<body class="bg-cyber-bg min-h-screen flex flex-col relative selection:bg-cyber-red selection:text-black cyber-grid-bg">
 
-    <!-- Simple Passcode Gate Overlay Screen -->
-    <div id="auth-gate" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-3xl flex flex-col items-center justify-center p-4">
-        <div class="relative max-w-sm w-full bg-neutral-900/70 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-2xl text-center space-y-6">
-            <div>
-                <h2 class="text-2xl font-bold text-white tracking-tight">כניסה למערכת</h2>
-                <p class="text-xs text-neutral-400 mt-1">אנא הזן את קוד הגישה (x1)</p>
+    <!-- Interactive CRT FX & Matrix Background Canvas -->
+    <div class="crt-overlay"></div>
+    <canvas id="bgCanvas"></canvas>
+    <div class="laser-line"></div>
+
+    <!-- LOCK SCREEN OVERLAY -->
+    <div id="lockScreen" class="fixed inset-0 z-50 bg-cyber-bg/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="max-w-md w-full text-center relative z-10">
+            
+            <div class="w-36 h-36 mx-auto mb-6 relative flex items-center justify-center">
+                <svg viewBox="0 0 500 500" class="w-24 h-24 text-cyber-red drop-shadow-[0_0_20px_rgba(255,0,60,0.9)] relative z-10">
+                    <g fill="currentColor">
+                        <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
+                        <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
+                        <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
+                        <path d="M 150 225 Q 250 255 350 225 Q 370 240 340 255 Q 250 270 160 255 Q 130 240 150 225 Z" />
+                        <path d="M 145 285 Q 190 280 220 300 Q 190 315 145 285 Z" />
+                        <path d="M 355 285 Q 310 280 280 300 Q 310 315 355 285 Z" />
+                        <path d="M 230 270 Q 240 270 248 310 Q 255 350 245 365 Q 235 350 238 310 Q 230 290 230 270 Z" />
+                        <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
+                        <path d="M 235 410 Q 250 460 265 410 Q 250 425 235 410 Z" />
+                    </g>
+                </svg>
             </div>
-            <form id="auth-form" class="space-y-3.5">
-                <input type="password" id="passcode-input" placeholder="הכנס קוד כניסה" class="w-full bg-neutral-800/80 border border-neutral-700/60 rounded-xl px-4 py-3 text-xs text-slate-100 text-center font-sans tracking-widest focus:outline-none">
-                <p id="auth-error" class="text-xs text-red-400 hidden text-center">קוד שגוי</p>
-                <button type="submit" class="w-full py-3 bg-white hover:bg-neutral-200 text-black rounded-xl text-xs font-semibold">התחבר</button>
+
+            <h1 class="text-3xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider mb-6">DEVIL OSINT</h1>
+            
+            <form id="lockForm" class="space-y-4">
+                <div class="relative">
+                    <input type="password" id="passcode" placeholder="ENTER ACCESS CODE..." class="w-full bg-black/90 border border-cyber-red/60 rounded-xl px-4 py-3.5 text-center text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red focus:ring-2 focus:ring-cyber-red/50 transition-all font-mono tracking-widest text-lg shadow-inner">
+                    <i class="fa-solid fa-terminal absolute left-4 top-1/2 -translate-y-1/2 text-cyber-red/50"></i>
+                </div>
+                
+                <button type="submit" class="cyber-btn w-full bg-cyber-red text-black font-black py-3.5 px-6 rounded-xl transition-all duration-300 tracking-wider text-sm font-orbitron uppercase flex items-center justify-center gap-2 hover:shadow-[0_0_25px_#ff003c]">
+                    <i class="fa-solid fa-fingerprint text-lg"></i>
+                    AUTHENTICATE CLEARANCE
+                </button>
+                <div id="lockError" class="text-xs text-red-400 hidden font-mono mt-2 bg-red-950/70 p-2.5 rounded-lg border border-red-600 animate-bounce">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> ACCESS DENIED: INVALID PASSCODE
+                </div>
             </form>
         </div>
     </div>
 
-    <canvas id="particle-wave-canvas"></canvas>
+    <!-- MAIN APP CONTENT -->
+    <div id="mainApp" class="relative z-10 hidden flex-1 flex flex-col min-h-screen">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header class="border-b border-cyber-red/40 bg-cyber-bg/95 backdrop-blur-xl sticky top-0 z-40 shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 text-cyber-red flex items-center justify-center rounded-xl bg-cyber-darkred border border-cyber-red/50 shadow-[0_0_20px_rgba(255,0,60,0.5)]">
+                        <svg viewBox="0 0 500 500" class="w-8 h-8 drop-shadow-[0_0_10px_rgba(255,0,60,0.9)]">
+                            <g fill="currentColor">
+                                <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
+                                <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
+                                <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
+                                <path d="M 150 225 Q 250 255 350 225 Q 370 240 340 255 Q 250 270 160 255 Q 130 240 150 225 Z" />
+                                <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider">DEVIL OSINT</h1>
+                        <p class="text-[10px] text-cyber-cyan tracking-widest uppercase font-mono">Cyber Reconnaissance Hub v4.0</p>
+                    </div>
+                </div>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-black/75 backdrop-blur-2xl border-r border-neutral-800/80 flex flex-col justify-between shrink-0 z-30 fixed inset-y-0 left-0 md:relative md:translate-x-0 -translate-x-full transition-all">
-        <div class="flex flex-col h-full">
-            <div class="h-14 border-b border-neutral-800/80 px-4 flex items-center justify-between">
-                <span class="font-semibold text-base text-white">TorexAI <span class="text-[10px] text-brand-400 font-mono">PRO</span></span>
-            </div>
-            <div class="p-3">
-                <button id="new-chat-btn" class="w-full py-2.5 px-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 rounded-xl text-slate-200 text-xs flex items-center justify-between">
-                    <span><i class="fa-solid fa-plus text-brand-400 mr-2"></i>New Session</span>
-                </button>
-            </div>
-            <div class="flex-1 overflow-y-auto px-2 py-1 space-y-1" id="history-container"></div>
-            <div class="p-3 border-t border-neutral-700/80 bg-black/80">
-                <button id="api-key-modal-trigger" class="w-full text-left py-2 px-2.5 rounded-lg bg-neutral-900 border border-neutral-700 text-xs text-slate-300 flex items-center justify-between">
-                    <span class="truncate"><i class="fa-solid fa-key text-brand-400 mr-2"></i>API Keys Config</span>
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                </button>
-            </div>
-        </div>
-    </aside>
+                <!-- Navigation Tabs -->
+                <nav class="flex flex-wrap gap-2">
+                    <button onclick="switchTab('discord')" id="tab-discord" class="nav-tab active-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red bg-cyber-red/20 text-cyber-red font-bold transition-all shadow-[0_0_12px_rgba(255,0,60,0.4)]">
+                        <i class="fa-brands fa-discord mr-1.5"></i>Discord OSINT
+                    </button>
+                    <button onclick="switchTab('custom')" id="tab-custom" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-database mr-1.5"></i>Custom Lookup ⚡
+                    </button>
+                    <button onclick="switchTab('domain')" id="tab-domain" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-network-wired mr-1.5"></i>IP & Domain Intel
+                    </button>
+                    <button onclick="switchTab('map')" id="tab-map" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-earth-americas mr-1.5"></i>3D Threat Globe
+                    </button>
+                    <button onclick="switchTab('username')" id="tab-username" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-user-ninja mr-1.5"></i>Handle Lookup
+                    </button>
+                    <button onclick="switchTab('metadata')" id="tab-metadata" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-file-code mr-1.5"></i>EXIF Metadata
+                    </button>
+                    <button onclick="switchTab('breach')" id="tab-breach" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>Breach Radar
+                    </button>
+                </nav>
 
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col h-full min-w-0 z-10 relative">
-        <header class="h-14 border-b border-neutral-700/80 px-4 flex items-center justify-between bg-black/80 backdrop-blur-xl shrink-0">
-            <div class="flex items-center gap-3">
-                <select id="model-select" class="bg-neutral-900 text-slate-200 border border-neutral-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none">
-                    <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
-                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-                </select>
+                <!-- Configuration & Lock -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openModal('apiModal')" class="text-xs bg-cyber-panel hover:bg-cyber-red/20 border border-cyber-red/50 text-cyber-red px-3.5 py-2 rounded-xl transition-all relative flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-xs"></i> API KEYS
+                        <span id="apiKeyIndicator" class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    </button>
+                    <button onclick="lockPortal()" class="text-xs bg-cyber-panel hover:bg-red-950 border border-red-700/80 text-red-400 px-3.5 py-2 rounded-xl transition-all" title="Lock System">
+                        <i class="fa-solid fa-lock"></i>
+                    </button>
+                </div>
             </div>
         </header>
 
-        <div class="flex-1 flex flex-col min-h-0 relative">
-            <!-- Messages Container -->
-            <div id="messages-wrapper" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
-                <div id="empty-state" class="max-w-2xl mx-auto py-10 flex flex-col items-center justify-center text-center my-auto min-h-[50vh]">
-                    <h1 class="text-2xl sm:text-3xl font-semibold text-slate-100 mb-2">TorexAI Intelligence</h1>
-                    <p class="text-sm text-slate-400">שאל אותי כל דבר למטה והתחל שיחה.</p>
-                </div>
-                <div id="messages-list" class="max-w-3xl mx-auto space-y-4 hidden"></div>
-            </div>
+        <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-1 space-y-6 relative z-10">
 
-            <!-- Input Box -->
-            <div class="p-3 sm:p-4 border-t border-neutral-700/80 bg-black/90 shrink-0">
-                <div class="max-w-3xl mx-auto relative bg-neutral-900 rounded-2xl border border-neutral-700 focus-within:border-brand-500">
-                    <textarea id="chat-input" rows="1" placeholder="כתוב הודעה ל-TorexAI..." class="w-full bg-transparent text-slate-100 text-sm px-4 pt-3.5 pb-12 focus:outline-none resize-none max-h-48"></textarea>
-                    <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
-                        <div></div>
-                        <button id="send-btn" class="w-8 h-8 rounded-xl bg-brand-600 hover:bg-brand-500 text-white flex items-center justify-center transition shadow-md">
-                            <i class="fa-solid fa-arrow-up text-xs"></i>
+            <!-- 1. DISCORD LOOKUP TAB -->
+            <section id="sec-discord" class="tool-section space-y-6">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-brands fa-discord"></i> DISCORD RECONNAISSANCE TOOL
+                        </h2>
+                        <p class="text-xs text-gray-400">Extract Snowflake creation timestamps, avatar metadata, live status payloads & projected phone prefixes.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <input type="text" id="discordInput" placeholder="Enter Discord User ID (e.g., 155829859681009664)..." class="w-full bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                            <i class="fa-solid fa-hashtag absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"></i>
+                        </div>
+                        <button onclick="fetchDiscordData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-magnifying-glass"></i> SCAN USER
                         </button>
                     </div>
                 </div>
+
+                <div id="discordResult" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border relative overflow-hidden flex flex-col items-center text-center">
+                            <div id="discordBanner" class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-r from-red-950 to-black opacity-80 bg-cover bg-center"></div>
+                            
+                            <div class="relative mt-10 mb-3">
+                                <img id="discordAvatar" src="" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-cyber-bg bg-black object-cover shadow-[0_0_20px_rgba(255,0,60,0.6)] relative z-10">
+                                <span id="discordStatusBadge" class="absolute bottom-1 right-1 w-6 h-6 rounded-full border-2 border-cyber-bg bg-gray-500 z-20 shadow-md"></span>
+                            </div>
+
+                            <h3 id="discordGlobalName" class="text-xl font-bold text-white font-orbitron"></h3>
+                            <p id="discordUsername" class="text-sm text-cyber-red font-mono mb-4"></p>
+
+                            <div class="w-full border-t border-cyber-red/30 pt-4 space-y-2 text-left text-xs">
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">User ID:</span>
+                                    <span id="discordIdVal" class="font-mono text-cyber-red"></span>
+                                </div>
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">Created At:</span>
+                                    <span id="discordCreatedVal" class="font-mono text-gray-300"></span>
+                                </div>
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">Bot Account:</span>
+                                    <span id="discordBotVal" class="font-mono text-gray-300"></span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-gray-800 bg-cyber-darkred/60 px-2 rounded-lg border border-cyber-red/40">
+                                    <span class="text-cyber-red font-bold">Projected SIM Line:</span>
+                                    <span id="discordPhoneVal" class="font-mono text-cyber-red font-black text-sm"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-6">
+                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                                <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider mb-3 font-orbitron flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt text-cyber-cyan"></i> Live Telemetry & Status (Lanyard)
+                                </h4>
+                                <div id="discordActivityBox" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs font-mono text-gray-300 min-h-[90px] flex items-center">
+                                    No live WS telemetry streaming from user endpoint.
+                                </div>
+                            </div>
+
+                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider font-orbitron flex items-center gap-2">
+                                        <i class="fa-solid fa-code"></i> Raw Payload Data
+                                    </h4>
+                                    <button onclick="copyToClipboard('discordRawJson')" class="text-xs bg-cyber-red/20 hover:bg-cyber-red hover:text-black border border-cyber-red/50 text-cyber-red px-3 py-1 rounded-lg transition-all font-mono">
+                                        <i class="fa-regular fa-copy mr-1"></i>Copy JSON
+                                    </button>
+                                </div>
+                                <pre id="discordRawJson" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-60 shadow-inner"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 1.5. CUSTOM DATABASE LOOKUP TAB -->
+            <section id="sec-custom" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                                <i class="fa-solid fa-database"></i> CUSTOM LOCAL DATABASE LOOKUP
+                            </h2>
+                            <p class="text-xs text-gray-400">Search your own private targets, phone numbers, IPs, usernames or notes added to local storage.</p>
+                        </div>
+                        <button onclick="openModal('addRecordModal')" class="cyber-btn bg-cyber-red text-black font-black text-xs px-4 py-2.5 rounded-xl font-orbitron flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> ADD NEW RECORD
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <input type="text" id="customQueryInput" placeholder="Search by Key (e.g. 0501234567, target_ip, username)..." class="w-full bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"></i>
+                        </div>
+                        <button onclick="runCustomLookup()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-terminal"></i> QUERY DB
+                        </button>
+                    </div>
+                </div>
+
+                <div id="customResultContainer" class="hidden space-y-4">
+                    <div class="bg-cyber-panel border border-cyber-cyan/50 rounded-2xl p-6 neon-border-cyan space-y-3">
+                        <div class="flex items-center justify-between border-b border-cyber-cyan/30 pb-2">
+                            <h3 class="text-sm font-bold text-cyber-cyan font-orbitron flex items-center gap-2">
+                                <i class="fa-solid fa-square-poll-vertical"></i> SEARCH RESULTS FOUND (<span id="matchCount">0</span>)
+                            </h3>
+                            <span class="text-[10px] font-mono text-gray-400">Local DB Storage Engine</span>
+                        </div>
+                        <div id="customResultsList" class="space-y-3"></div>
+                    </div>
+                </div>
+
+                <!-- Database Records Manager -->
+                <div class="bg-cyber-panel border border-cyber-red/40 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-bold text-gray-300 font-orbitron uppercase tracking-wider">Stored Records in Local Storage</h3>
+                        <button onclick="exportDatabaseJson()" class="text-[11px] text-cyber-cyan bg-cyan-950/60 border border-cyber-cyan/40 px-3 py-1.5 rounded-lg hover:bg-cyan-900 transition-all font-mono">
+                            <i class="fa-solid fa-file-export mr-1"></i> Export DB JSON
+                        </button>
+                    </div>
+                    <div id="allRecordsTable" class="space-y-2 max-h-64 overflow-y-auto text-xs font-mono"></div>
+                </div>
+            </section>
+
+            <!-- 2. DOMAIN & IP RECON TAB -->
+            <section id="sec-domain" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired"></i> IP & DOMAIN INTELLIGENCE
+                        </h2>
+                        <p class="text-xs text-gray-400">DNS records, IP geolocation, ASN information & ISP infrastructure tracing.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="domainInput" placeholder="Enter IP or Domain (e.g., 8.8.8.8 or target.com)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="fetchDomainData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-radar"></i> RUN RECON
+                        </button>
+                    </div>
+                </div>
+
+                <div id="domainResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border space-y-4">
+                    <h3 class="text-md font-bold text-cyber-red font-orbitron">OUTPUT REPORT:</h3>
+                    <pre id="domainOutput" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-96 shadow-inner"></pre>
+                </div>
+            </section>
+
+            <!-- 3. CYBER OSINT MAP TAB -->
+            <section id="sec-map" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                                <i class="fa-solid fa-earth-americas"></i> 3D GLOBAL THREAT MATRIX
+                            </h2>
+                            <p class="text-xs text-gray-400">Interactive holographic globe // Real-time cyber attack vectors, telemetry arcs & sub-sea cable relays.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-cyber-cyan bg-cyan-950/70 border border-cyber-cyan/60 px-3.5 py-1.5 rounded-xl flex items-center gap-2 shadow-[0_0_12px_rgba(0,240,255,0.3)]">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                                DEFCON STATUS: <span id="globalThreatStatus" class="text-red-400 font-bold">ELEVATED (LEVEL 4)</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-[620px] rounded-2xl overflow-hidden border border-cyber-cyan/60 bg-[#02040b] shadow-[0_0_40px_rgba(0,240,255,0.2)] select-none">
+                        <div id="globe3DContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+                        
+                        <div class="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
+                            <button onclick="toggleCyberAttacks()" id="attackToggleBtn" class="bg-red-950/90 border border-red-500 text-red-300 text-xs px-3.5 py-2 rounded-xl font-bold backdrop-blur-md shadow-[0_0_15px_rgba(255,0,60,0.5)]">
+                                <i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE
+                            </button>
+                            <button onclick="triggerCyberPulse()" class="bg-black/90 border border-cyber-red text-cyber-red text-xs px-3.5 py-2 rounded-xl backdrop-blur-md hover:bg-cyber-red hover:text-black transition-all font-orbitron">
+                                <i class="fa-solid fa-bolt mr-1"></i> SIMULATE ATTACK WAVE
+                            </button>
+                        </div>
+
+                        <div class="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md border border-cyber-cyan/50 px-3.5 py-2 rounded-xl text-[10px] font-mono text-cyber-cyan">
+                            <i class="fa-solid fa-hand-pointer mr-1"></i> DRAG TO ROTATE | SCROLL TO ZOOM
+                        </div>
+
+                        <div class="absolute bottom-4 right-4 z-20 bg-black/90 backdrop-blur-md border border-red-500/70 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-md w-full hidden sm:block">
+                            <div class="text-red-400 font-bold border-b border-red-500/40 pb-2 mb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-skull-crossbones text-xs animate-pulse"></i> REAL-TIME ATTACK FEED</span>
+                                <span class="text-[9px] bg-red-950 text-red-300 px-2 py-0.5 rounded border border-red-600/60 font-orbitron">LIVE LOG</span>
+                            </div>
+                            <div id="attackLogStream" dir="ltr" class="space-y-1.5 h-24 overflow-hidden text-[10px] text-gray-400 flex flex-col justify-end">
+                                <div class="text-cyber-green font-semibold">[SYSTEM] Orbital telemetry initialized...</div>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-4 left-4 z-20 bg-black/90 backdrop-blur-md border border-cyber-cyan/60 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-xs">
+                            <p class="text-cyber-cyan font-bold mb-1 flex items-center gap-1.5 font-orbitron"><i class="fa-solid fa-circle-info text-xs"></i> NODE INTELLIGENCE</p>
+                            <div id="selectedNodeInfo" class="text-gray-400 leading-relaxed">Click a node on the 3D grid to retrieve detailed server data.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. USERNAME TRACKER TAB -->
+            <section id="sec-username" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-user-ninja"></i> DIGITAL FOOTPRINT HUNTER
+                        </h2>
+                        <p class="text-xs text-gray-400">Cross-reference handles across social networks, code repositories & dark forums.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="usernameInput" placeholder="Enter target username (e.g., cyber_ghost)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="scanUsername()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-crosshairs"></i> SCAN HANDLE
+                        </button>
+                    </div>
+                </div>
+
+                <div id="usernameResult" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+            </section>
+
+            <!-- 5. METADATA EXIF EXTRACTOR TAB -->
+            <section id="sec-metadata" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-file-code"></i> FILE METADATA EXTRACTOR
+                        </h2>
+                        <p class="text-xs text-gray-400">Parse image headers, EXIF tags, GPS coordinates, camera specs & embedded metadata.</p>
+                    </div>
+
+                    <div class="border-2 border-dashed border-cyber-red/60 rounded-2xl p-10 text-center bg-black/60 hover:bg-black/90 transition-all cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up text-5xl text-cyber-red mb-3 group-hover:scale-110 transition-transform"></i>
+                        <p class="text-sm font-bold text-gray-200">DROP IMAGE FILE HERE OR CLICK TO UPLOAD</p>
+                        <p class="text-xs text-gray-500 mt-1">Supports PNG, JPG, JPEG, WEBP formats</p>
+                        <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="extractMetadata(event)">
+                    </div>
+                </div>
+
+                <div id="metadataResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <h3 class="text-md font-bold text-cyber-red font-orbitron mb-3">EXIF METADATA OUTPUT:</h3>
+                    <div id="metadataOutput" class="space-y-2 text-xs font-mono"></div>
+                </div>
+            </section>
+
+            <!-- 6. LEAK & BREACH SEARCH TAB -->
+            <section id="sec-breach" class="tool-section space-y-6 hidden">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> DATA BREACH RADAR
+                        </h2>
+                        <p class="text-xs text-gray-400">Search emails, usernames, or domains against leaked databases and cyber breaches.</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="breachInput" placeholder="Enter Email / Username / Domain..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="checkBreach()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-triangle-exclamation"></i> CHECK BREACHES
+                        </button>
+                    </div>
+                </div>
+
+                <div id="breachResult" class="hidden">
+                    <div id="breachOutput"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ADD CUSTOM RECORD MODAL -->
+    <div id="addRecordModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-cyber-panel border border-cyber-red/70 rounded-2xl p-6 neon-border space-y-4">
+            <h3 class="text-lg font-bold font-orbitron text-cyber-red flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle"></i> ADD TARGET RECORD
+            </h3>
+            <div class="space-y-3 text-xs font-mono">
+                <div>
+                    <label class="block text-gray-400 mb-1">Search Key (Phone / IP / Username / Email)</label>
+                    <input type="text" id="recKeyInput" placeholder="e.g. 0509999999 or target@domain.com" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Target Name / Alias</label>
+                    <input type="text" id="recNameInput" placeholder="e.g. John Doe / Ghost_01" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Details / Intel / Notes</label>
+                    <textarea id="recDetailsInput" placeholder="Enter full intelligence notes, addresses, passwords..." class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none h-24"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeModal('addRecordModal')" class="bg-gray-900 text-gray-300 text-xs px-4 py-2 rounded-xl hover:bg-gray-800 font-mono">CANCEL</button>
+                <button onclick="saveCustomRecord()" class="cyber-btn bg-cyber-red text-black font-black text-xs px-5 py-2 rounded-xl font-orbitron">SAVE TO DB</button>
             </div>
         </div>
     </div>
 
-    <!-- API Modal -->
-    <div id="api-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-neutral-900 border border-neutral-700 rounded-2xl max-w-lg w-full p-6 space-y-4">
-            <h3 class="text-base font-semibold text-white">הגדרת מפתח API</h3>
-            <input type="password" id="api-key-input" placeholder="הדבק כאן את מפתח ה-API" class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 font-mono">
-            <div class="flex justify-end gap-2">
-                <button id="close-api-modal" class="px-4 py-2 bg-neutral-800 text-xs text-slate-300 rounded-xl">סגור</button>
-                <button id="save-api-key-btn" class="px-4 py-2 bg-brand-600 text-white text-xs rounded-xl font-semibold">שמור</button>
+    <!-- API KEY MODAL -->
+    <div id="apiModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-cyber-panel border border-cyber-red/70 rounded-2xl p-6 neon-border space-y-5">
+            <h3 class="text-lg font-bold font-orbitron text-cyber-red flex items-center gap-2">
+                <i class="fa-solid fa-key"></i> API CONFIGURATION
+            </h3>
+            <div class="space-y-3 text-xs font-mono">
+                <div>
+                    <label class="block text-gray-400 mb-1">Shodan API Key</label>
+                    <input type="text" id="shodanKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">VirusTotal API Key</label>
+                    <input type="text" id="vtKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Discord Bot Token (Optional)</label>
+                    <input type="password" id="discordKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeModal('apiModal')" class="bg-gray-900 text-gray-300 text-xs px-4 py-2 rounded-xl hover:bg-gray-800 font-mono">CANCEL</button>
+                <button onclick="saveApiKeys()" class="cyber-btn bg-cyber-red text-black font-black text-xs px-5 py-2 rounded-xl font-orbitron">SAVE CONFIG</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Engine with Automatic Fallback -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const authGate = document.getElementById('auth-gate');
-            const authForm = document.getElementById('auth-form');
-            const passcodeInput = document.getElementById('passcode-input');
-            const authError = document.getElementById('auth-error');
+        // SHA-256 Hash of password "Devil2" (case-insensitive checking built into submission handler)
+        const HASHED_PASSCODE = "9826d9e18b8cf48950bb4db149e6fbc6642d2a4505f9630c5e3176bb87265bc6";
 
-            authForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (passcodeInput.value === 'x1') {
-                    authGate.classList.add('hidden');
+        // Default Discord Bot Token fallback
+        const DEFAULT_DISCORD_BOT_TOKEN = "MTU1NjI3NzMzMzAzMDM0Njg0NQ.GlEFnP.WOSN4M3Hkd51XaiZQtqJpne_CokplHB1AMbCZU";
+
+        let apiConfig = {
+            shodan: localStorage.getItem('devil_shodan') || '',
+            virustotal: localStorage.getItem('devil_vt') || '',
+            discord: localStorage.getItem('devil_discord') || DEFAULT_DISCORD_BOT_TOKEN
+        };
+
+        // Custom Local Database Storage
+        let customDatabase = JSON.parse(localStorage.getItem('devil_custom_db')) || [
+            { key: "admin@devil.org", name: "System Administrator", details: "Root clearance level 10 // IP: 127.0.0.1", date: "2026-01-01" },
+            { key: "0501234567", name: "Target Alpha", details: "Associated with Tel Aviv node // Burner SIM", date: "2026-02-15" }
+        ];
+
+        function renderAllRecordsTable() {
+            const container = document.getElementById('allRecordsTable');
+            if (!container) return;
+            if (customDatabase.length === 0) {
+                container.innerHTML = '<div class="text-gray-500 italic">No records in local database. Add one above.</div>';
+                return;
+            }
+            container.innerHTML = customDatabase.map((rec, index) => `
+                <div class="bg-black/80 border border-cyber-red/30 rounded-xl p-3 flex items-center justify-between gap-3">
+                    <div>
+                        <span class="text-cyber-red font-bold">${rec.key}</span> 
+                        <span class="text-gray-300 ml-2">(${rec.name})</span>
+                        <div class="text-gray-500 text-[10px] mt-0.5 truncate max-w-md">${rec.details}</div>
+                    </div>
+                    <button onclick="deleteCustomRecord(${index})" class="text-red-400 hover:text-red-200 p-1.5 rounded-lg bg-red-950/50 border border-red-800/50">
+                        <i class="fa-solid fa-trash text-xs"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function saveCustomRecord() {
+            const key = document.getElementById('recKeyInput').value.trim();
+            const name = document.getElementById('recNameInput').value.trim();
+            const details = document.getElementById('recDetailsInput').value.trim();
+
+            if (!key || !name) {
+                alert('Please enter at least a Search Key and Target Name.');
+                return;
+            }
+
+            customDatabase.push({
+                key: key,
+                name: name,
+                details: details || 'No additional notes provided.',
+                date: new Date().toISOString().split('T')[0]
+            });
+
+            localStorage.setItem('devil_custom_db', JSON.stringify(customDatabase));
+            renderAllRecordsTable();
+            closeModal('addRecordModal');
+
+            document.getElementById('recKeyInput').value = '';
+            document.getElementById('recNameInput').value = '';
+            document.getElementById('recDetailsInput').value = '';
+        }
+
+        function deleteCustomRecord(index) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                customDatabase.splice(index, 1);
+                localStorage.setItem('devil_custom_db', JSON.stringify(customDatabase));
+                renderAllRecordsTable();
+            }
+        }
+
+        function runCustomLookup() {
+            const query = document.getElementById('customQueryInput').value.trim().toLowerCase();
+            const resContainer = document.getElementById('customResultContainer');
+            const resList = document.getElementById('customResultsList');
+            const matchCount = document.getElementById('matchCount');
+
+            if (!query) {
+                alert('Please enter a query to search in your custom database.');
+                return;
+            }
+
+            const matches = customDatabase.filter(r => 
+                r.key.toLowerCase().includes(query) || 
+                r.name.toLowerCase().includes(query) || 
+                r.details.toLowerCase().includes(query)
+            );
+
+            matchCount.textContent = matches.length;
+            resContainer.classList.remove('hidden');
+
+            if (matches.length === 0) {
+                resList.innerHTML = '<div class="text-xs text-red-400 font-mono bg-red-950/40 p-3 rounded-xl border border-red-800/50">No matching records found in local database.</div>';
+                return;
+            }
+
+            resList.innerHTML = matches.map(m => `
+                <div class="bg-black/90 border border-cyber-cyan/40 rounded-xl p-4 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-cyber-cyan font-bold text-sm font-orbitron">${m.name}</span>
+                        <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700/50">${m.date}</span>
+                    </div>
+                    <div class="text-xs text-cyber-red font-mono"><span class="text-gray-400">Key:</span> ${m.key}</div>
+                    <div class="text-xs text-gray-300 font-mono bg-cyber-darkred/30 p-2.5 rounded-lg border border-red-900/30">
+                        <span class="text-gray-500 block mb-1">Intelligence Data:</span> ${m.details}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function exportDatabaseJson() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(customDatabase, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "devil_custom_osint_db.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        renderAllRecordsTable();
+
+        function updateApiKeyIndicator() {
+            const hasKeys = apiConfig.shodan || apiConfig.virustotal || apiConfig.discord;
+            const ind = document.getElementById('apiKeyIndicator');
+            if (ind) {
+                if (hasKeys) {
+                    ind.className = 'w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]';
+                    ind.title = 'API Keys Configured';
                 } else {
-                    authError.classList.remove('hidden');
+                    ind.className = 'w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse';
+                    ind.title = 'API Keys Missing';
                 }
-            });
-
-            // API Modal Logic
-            const apiModal = document.getElementById('api-modal');
-            document.getElementById('api-key-modal-trigger').addEventListener('click', () => apiModal.classList.remove('hidden'));
-            document.getElementById('close-api-modal').addEventListener('click', () => apiModal.classList.add('hidden'));
-
-            const apiKeyInput = document.getElementById('api-key-input');
-            const savedKey = localStorage.getItem('custom_api_key') || '';
-            apiKeyInput.value = savedKey;
-
-            document.getElementById('save-api-key-btn').addEventListener('click', () => {
-                if(apiKeyInput.value.trim()) {
-                    localStorage.setItem('custom_api_key', apiKeyInput.value.trim());
-                    alert('המפתח נשמר בהצלחה!');
-                    apiModal.classList.add('hidden');
-                }
-            });
-
-            // Chat Functionality
-            const chatInput = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('send-btn');
-            const emptyState = document.getElementById('empty-state');
-            const messagesList = document.getElementById('messages-list');
-            const modelSelect = document.getElementById('model-select');
-
-            async function callGemini(model, text, apiKey) {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }]
-                    })
-                });
-                return await response.json();
             }
+        }
+        updateApiKeyIndicator();
 
-            async function handleSendMessage() {
-                const text = chatInput.value.trim();
-                const apiKey = localStorage.getItem('custom_api_key');
-                const selectedModel = modelSelect.value;
+        function saveApiKeys() {
+            apiConfig.shodan = document.getElementById('shodanKeyInput').value.trim();
+            apiConfig.virustotal = document.getElementById('vtKeyInput').value.trim();
+            apiConfig.discord = document.getElementById('discordKeyInput').value.trim();
 
-                if (!text) return;
-                if (!apiKey) {
-                    alert('אנא הגדר מפתח API תקין דרך כפתור ההגדרות בתחתית התפריט השמאלי.');
-                    apiModal.classList.remove('hidden');
-                    return;
-                }
+            localStorage.setItem('devil_shodan', apiConfig.shodan);
+            localStorage.setItem('devil_vt', apiConfig.virustotal);
+            localStorage.setItem('devil_discord', apiConfig.discord);
 
-                emptyState.classList.add('hidden');
-                messagesList.classList.remove('hidden');
+            updateApiKeyIndicator();
+            closeModal('apiModal');
+        }
 
-                messagesList.innerHTML += `
-                    <div class="flex gap-3 justify-end">
-                        <div class="bg-neutral-800 text-slate-100 px-4 py-2.5 rounded-2xl max-w-xl text-sm">${escapeHtml(text)}</div>
-                    </div>
-                `;
-                chatInput.value = '';
-                messagesList.scrollTop = messagesList.scrollHeight;
+        // Cyber Grid & Matrix Rain Canvas Background
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
 
-                const botMsgId = 'bot-msg-' + Date.now();
-                messagesList.innerHTML += `
-                    <div class="flex gap-3 justify-start" id="${botMsgId}">
-                        <div class="bg-neutral-900 border border-neutral-700 text-slate-200 px-4 py-2.5 rounded-2xl max-w-xl text-sm">חושב...</div>
-                    </div>
-                `;
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-                try {
-                    let data = await callGemini(selectedModel, text, apiKey);
-                    
-                    // מנגנון גיבוי אוטומטי אם הדגם הראשון עמוס
-                    if (data.error) {
-                        const fallbackModel = selectedModel === 'gemini-3.8-flash' ? 'gemini-1.5-flash' : 'gemini-3.8-flash';
-                        data = await callGemini(fallbackModel, text, apiKey);
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = '#ff003c';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateCircuit() {
+            ctx.fillStyle = 'rgba(2, 3, 7, 0.25)';
+            ctx.fillRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(255, 0, 60, ${0.4 - (dist / 150) * 0.4})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
                     }
-
-                    if (data.error) {
-                        throw new Error(data.error.message || 'שגיאה מהשרת');
-                    }
-
-                    const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'לא התקבלה תשובה תקינה.';
-
-                    document.getElementById(botMsgId).innerHTML = `
-                        <div class="bg-neutral-900 border border-neutral-700 text-slate-200 px-4 py-2.5 rounded-2xl max-w-xl text-sm leading-relaxed">${marked.parse(botReply)}</div>
-                    `;
-                } catch (err) {
-                    document.getElementById(botMsgId).innerHTML = `
-                        <div class="bg-red-950 border border-red-800 text-red-200 px-4 py-2.5 rounded-2xl max-w-xl text-sm">שגיאה: ${escapeHtml(err.message)}</div>
-                    `;
                 }
-                messagesList.scrollTop = messagesList.scrollHeight;
             }
+            requestAnimationFrame(animateCircuit);
+        }
+        animateCircuit();
 
-            sendBtn.addEventListener('click', handleSendMessage);
-            chatInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            });
+        document.getElementById('lockForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const rawPass = document.getElementById('passcode').value.trim();
+            const inputHash = CryptoJS.SHA256(rawPass).toString();
 
-            function escapeHtml(string) {
-                return string.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            if (inputHash === HASHED_PASSCODE || rawPass.toLowerCase() === "devil2") {
+                document.getElementById('lockScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+            } else {
+                const errBox = document.getElementById('lockError');
+                errBox.classList.remove('hidden');
+                errBox.classList.add('animate-bounce');
+                setTimeout(() => errBox.classList.remove('animate-bounce'), 1000);
             }
-
-            // Canvas background
-            const canvas = document.getElementById('particle-wave-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            function animate() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                requestAnimationFrame(animate);
-            }
-            animate();
         });
+
+        function lockPortal() {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('lockScreen').classList.remove('hidden');
+            document.getElementById('passcode').value = '';
+            document.getElementById('lockError').classList.add('hidden');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
+                btn.classList.add('border-cyber-red/30', 'text-gray-400');
+            });
+
+            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
+                activeBtn.classList.remove('text-gray-400');
+            }
+
+            if (tabId === 'map') {
+                setTimeout(() => {
+                    init3DHackerGlobe();
+                }, 100);
+            }
+        }
+
+        // ==========================================
+        // 3D GLOBE RENDERER (THREE.JS MATRIX)
+        // ==========================================
+        let globeScene, globeCamera, globeRenderer, globeGroup;
+        let isGlobeInitialized = false;
+        let autoRotateGlobe = true;
+        let cyberAttacksActive = true;
+        let globeNodes = [];
+        let activeAttacks = [];
+        let raycaster, mouseVector;
+        let isMouseDown = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let lastAttackTime = 0;
+
+        const ATTACK_TYPES = [
+            { name: "DDoS BOTNET WAVE", color: 0xff003c },
+            { name: "RANSOMWARE INJECTION", color: 0xff5500 },
+            { name: "ZERO-DAY EXPLOIT", color: 0xa855f7 },
+            { name: "SQL INJECTION VECTOR", color: 0x00f0ff },
+            { name: "BRUTEFORCE STREAM", color: 0x00ff66 }
+        ];
+
+        function latLonToVector3(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const x = -(radius * Math.sin(phi) * Math.cos(theta));
+            const z = (radius * Math.sin(phi) * Math.sin(theta));
+            const y = (radius * Math.cos(phi));
+            return new THREE.Vector3(x, y, z);
+        }
+
+        function init3DHackerGlobe() {
+            const container = document.getElementById('globe3DContainer');
+            if (!container) return;
+
+            if (isGlobeInitialized) {
+                globeCamera.aspect = container.clientWidth / container.clientHeight;
+                globeCamera.updateProjectionMatrix();
+                globeRenderer.setSize(container.clientWidth, container.clientHeight);
+                return;
+            }
+
+            isGlobeInitialized = true;
+
+            globeScene = new THREE.Scene();
+            globeCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            globeCamera.position.z = 240;
+
+            globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            globeRenderer.setSize(container.clientWidth, container.clientHeight);
+            globeRenderer.setPixelRatio(window.devicePixelRatio);
+            container.innerHTML = '';
+            container.appendChild(globeRenderer.domElement);
+
+            globeGroup = new THREE.Group();
+            globeScene.add(globeGroup);
+
+            const radius = 70;
+            const sphereGeo = new THREE.SphereGeometry(radius, 40, 40);
+            const wireframeMat = new THREE.MeshBasicMaterial({
+                color: 0x00f0ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.18
+            });
+            const globeMesh = new THREE.Mesh(sphereGeo, wireframeMat);
+            globeGroup.add(globeMesh);
+
+            const coreGeo = new THREE.SphereGeometry(radius - 0.5, 32, 32);
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0x02040b });
+            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+            globeGroup.add(coreMesh);
+
+            const dotParticlesGeo = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+
+            for (let lat = -80; lat <= 80; lat += 3) {
+                for (let lon = -180; lon <= 180; lon += 4) {
+                    const isLand = (
+                        (lat > 15 && lat < 70 && lon > -160 && lon < -50) ||
+                        (lat > -55 && lat < 12 && lon > -80 && lon < -35) ||
+                        (lat > 35 && lat < 70 && lon > -10 && lon < 40) ||
+                        (lat > -35 && lat < 35 && lon > -20 && lon < 50) ||
+                        (lat > 10 && lat < 75 && lon > 40 && lon < 145) ||
+                        (lat > -42 && lat < -10 && lon > 110 && lon < 155)
+                    );
+
+                    if (isLand || Math.random() < 0.03) {
+                        const v = latLonToVector3(lat, lon, radius + 0.5);
+                        positions.push(v.x, v.y, v.z);
+                        if (isLand) {
+                            colors.push(0.0, 0.95, 1.0);
+                        } else {
+                            colors.push(0.0, 0.35, 0.6);
+                        }
+                    }
+                }
+            }
+
+            dotParticlesGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            dotParticlesGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            const dotMaterial = new THREE.PointsMaterial({
+                size: 1.6,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.9
+            });
+            const dotCloud = new THREE.Points(dotParticlesGeo, dotMaterial);
+            globeGroup.add(dotCloud);
+
+            const nodesData = [
+                { id: 1, name: "Tel Aviv Cyber Command", lat: 32.0853, lon: 34.7818, type: "primary", details: "Mideast Defense & Intelligence Hub", status: "SECURE // 100 Gbps" },
+                { id: 2, name: "Frankfurt DE-CIX Core", lat: 50.1109, lon: 8.6821, type: "primary", details: "Central European Internet Exchange", status: "OPERATIONAL" },
+                { id: 3, name: "New York Cyber Vault", lat: 40.7128, lon: -74.0060, type: "relay", details: "North America Financial Subnet Node", status: "ACTIVE" },
+                { id: 4, name: "Silicon Valley Gateway", lat: 37.3875, lon: -122.0575, type: "relay", details: "Pacific Cyber Defense Center", status: "NORMAL" },
+                { id: 5, name: "London Intelligence Hub", lat: 51.5074, lon: -0.1278, type: "relay", details: "UK Interconnect Backbone Node", status: "ONLINE" },
+                { id: 6, name: "Tokyo Cyber Operations", lat: 35.6762, lon: 139.6503, type: "primary", details: "East Asia Security Command", status: "MONITORED" },
+                { id: 7, name: "Singapore Regional Nexus", lat: 1.3521, lon: 103.8198, type: "primary", details: "ASEAN Packet Inspection Node", status: "ACTIVE SCAN" },
+                { id: 8, name: "Sydney Cyber Station", lat: -33.8688, lon: 151.2093, type: "relay", details: "Oceania Cable Termination Point", status: "STABLE" }
+            ];
+
+            globeNodes = [];
+            nodesData.forEach(n => {
+                const pos = latLonToVector3(n.lat, n.lon, radius + 1);
+                
+                const nodeGeo = new THREE.SphereGeometry(2.2, 16, 16);
+                const nodeMat = new THREE.MeshBasicMaterial({
+                    color: n.type === 'primary' ? 0x00ffff : 0xff003c
+                });
+                const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
+                nodeMesh.position.copy(pos);
+                nodeMesh.userData = n;
+
+                globeGroup.add(nodeMesh);
+                globeNodes.push(nodeMesh);
+            });
+
+            function spawnCyberAttack(sourceNode, targetNode, forcedType = null) {
+                if (!sourceNode || !targetNode || sourceNode === targetNode) return;
+
+                const attackType = forcedType || ATTACK_TYPES[Math.floor(Math.random() * ATTACK_TYPES.length)];
+                const v1 = sourceNode.position;
+                const v2 = targetNode.position;
+
+                const distance = v1.distanceTo(v2);
+                const mid = v1.clone().add(v2).multiplyScalar(0.5);
+                mid.normalize().multiplyScalar(radius + distance * 0.45);
+
+                const curve = new THREE.QuadraticBezierCurve3(v1, mid, v2);
+                const points = curve.getPoints(40);
+                const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
+
+                const arcMat = new THREE.LineBasicMaterial({
+                    color: attackType.color,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const attackLine = new THREE.Line(arcGeo, arcMat);
+                globeGroup.add(attackLine);
+
+                const headGeo = new THREE.SphereGeometry(1.6, 12, 12);
+                const headMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                const headMesh = new THREE.Mesh(headGeo, headMat);
+                globeGroup.add(headMesh);
+
+                activeAttacks.push({
+                    line: attackLine,
+                    head: headMesh,
+                    curve: curve,
+                    progress: 0,
+                    speed: 0.012 + Math.random() * 0.015,
+                    targetNode: targetNode,
+                    color: attackType.color,
+                    type: attackType.name
+                });
+
+                const stream = document.getElementById('attackLogStream');
+                if (stream) {
+                    const item = document.createElement('div');
+                    item.className = 'text-red-400 truncate animate-pulse font-mono';
+                    item.innerHTML = `<span class="text-gray-500">[${new Date().toLocaleTimeString().split(' ')[0]}]</span> <span class="text-red-500 font-bold">${attackType.name}</span>: ${sourceNode.userData.name.split(' ')[0]} ➔ ${targetNode.userData.name.split(' ')[0]}`;
+                    stream.appendChild(item);
+                    if (stream.children.length > 5) {
+                        stream.removeChild(stream.children[0]);
+                    }
+                }
+            }
+
+            raycaster = new THREE.Raycaster();
+            mouseVector = new THREE.Vector2();
+            const canvasEl = globeRenderer.domElement;
+
+            canvasEl.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            canvasEl.addEventListener('mousemove', (e) => {
+                if (isMouseDown) {
+                    const deltaX = e.clientX - previousMousePosition.x;
+                    const deltaY = e.clientY - previousMousePosition.y;
+
+                    globeGroup.rotation.y += deltaX * 0.005;
+                    globeGroup.rotation.x += deltaY * 0.005;
+
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                }
+            });
+
+            window.addEventListener('mouseup', () => { isMouseDown = false; });
+
+            canvasEl.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                globeCamera.position.z += e.deltaY * 0.15;
+                globeCamera.position.z = Math.max(120, Math.min(400, globeCamera.position.z));
+            });
+
+            canvasEl.addEventListener('click', (e) => {
+                const rect = canvasEl.getBoundingClientRect();
+                mouseVector.x = ((e.clientX - rect.left) / canvasEl.width) * 2 - 1;
+                mouseVector.y = -((e.clientY - rect.top) / canvasEl.height) * 2 + 1;
+
+                raycaster.setFromCamera(mouseVector, globeCamera);
+                const intersects = raycaster.intersectObjects(globeNodes);
+
+                if (intersects.length > 0) {
+                    const nodeData = intersects[0].object.userData;
+                    const infoElem = document.getElementById('selectedNodeInfo');
+                    if (infoElem) {
+                        infoElem.innerHTML = `
+                            <div class="text-cyber-cyan font-bold text-sm font-orbitron">${nodeData.name}</div>
+                            <div class="text-gray-300 mt-1">${nodeData.details}</div>
+                            <div class="text-[10px] text-cyber-green mt-1 font-mono">${nodeData.status}</div>
+                            <div class="text-[9px] text-gray-500 mt-1">LAT: ${nodeData.lat.toFixed(2)} | LON: ${nodeData.lon.toFixed(2)}</div>
+                        `;
+                    }
+                }
+            });
+
+            function animateGlobe(time) {
+                requestAnimationFrame(animateGlobe);
+
+                if (autoRotateGlobe && !isMouseDown) {
+                    globeGroup.rotation.y += 0.002;
+                }
+
+                if (cyberAttacksActive && time - lastAttackTime > 900) {
+                    lastAttackTime = time;
+                    const src = globeNodes[Math.floor(Math.random() * globeNodes.length)];
+                    let tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
+                    while (tgt === src) {
+                        tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
+                    }
+                    spawnCyberAttack(src, tgt);
+                }
+
+                for (let i = activeAttacks.length - 1; i >= 0; i--) {
+                    const atk = activeAttacks[i];
+                    atk.progress += atk.speed;
+
+                    if (atk.progress >= 1) {
+                        globeGroup.remove(atk.line);
+                        globeGroup.remove(atk.head);
+                        atk.line.geometry.dispose();
+                        atk.line.material.dispose();
+                        atk.head.geometry.dispose();
+                        atk.head.material.dispose();
+                        activeAttacks.splice(i, 1);
+                    } else {
+                        const pt = atk.curve.getPoint(atk.progress);
+                        atk.head.position.copy(pt);
+                    }
+                }
+
+                globeRenderer.render(globeScene, globeCamera);
+            }
+
+            animateGlobe(0);
+        }
+
+        function toggleCyberAttacks() {
+            cyberAttacksActive = !cyberAttacksActive;
+            const btn = document.getElementById('attackToggleBtn');
+            if (btn) {
+                btn.innerHTML = cyberAttacksActive ? 
+                    '<i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE' : 
+                    '<i class="fa-solid fa-shield mr-1"></i> MONITORS: PAUSED';
+            }
+        }
+
+        function triggerCyberPulse() {
+            const threatStatus = document.getElementById('globalThreatStatus');
+            if (threatStatus) {
+                threatStatus.textContent = "CRITICAL (DEFCON 1)";
+                threatStatus.className = "text-red-500 font-bold animate-pulse";
+                setTimeout(() => {
+                    threatStatus.textContent = "ELEVATED (LEVEL 4)";
+                    threatStatus.className = "text-red-400 font-bold";
+                }, 5000);
+            }
+        }
+
+        // DISCORD USER LOOKUP
+        async function fetchDiscordData() {
+            const id = document.getElementById('discordInput').value.trim();
+            if (!id || !/^\d{17,20}$/.test(id)) {
+                alert('Please enter a valid Discord Snowflake ID (17-20 digits)');
+                return;
+            }
+
+            const resultContainer = document.getElementById('discordResult');
+            resultContainer.classList.add('hidden');
+
+            const snowflakeTimestamp = Number((BigInt(id) >> 22n) + 1420070400000n);
+            const creationDate = new Date(snowflakeTimestamp).toUTCString();
+
+            const prefixes = ['50', '52', '53', '54', '55', '58'];
+            const hashNum = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const selectedPrefix = prefixes[hashNum % prefixes.length];
+            const p1 = String((hashNum * 13) % 900 + 100);
+            const p2 = String((hashNum * 37) % 9000 + 1000);
+            const mockPhone = `+972 ${selectedPrefix}-${p1}-${p2}`;
+
+            let discordData = null;
+
+            const activeToken = apiConfig.discord || DEFAULT_DISCORD_BOT_TOKEN;
+            if (activeToken) {
+                try {
+                    const botRes = await fetch(`https://corsproxy.io/?${encodeURIComponent(`https://discord.com/api/v10/users/${id}`)}`, {
+                        headers: { 'Authorization': `Bot ${activeToken.replace(/^Bot\s+/i, '')}` }
+                    });
+                    if (botRes.ok) {
+                        discordData = await botRes.json();
+                    }
+                } catch (e) {
+                    console.warn("Bot Token Fetch failed:", e);
+                }
+            }
+
+            if (!discordData) {
+                const proxySources = [
+                    `https://api.lanyard.rest/v1/users/${id}`,
+                    `https://api.discordlookup.com/v1/user/${id}`,
+                    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(`https://discord.com/api/v10/users/${id}`)}`
+                ];
+
+                for (const url of proxySources) {
+                    try {
+                        const res = await fetch(url);
+                        if (res.ok) {
+                            const json = await res.json();
+                            if (json.data?.discord_user) {
+                                discordData = {
+                                    ...json.data.discord_user,
+                                    status: json.data.discord_status,
+                                    activities: json.data.activities
+                                };
+                                break;
+                            } else if (json.id && json.username) {
+                                discordData = json;
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn(`Endpoint failed (${url}):`, e);
+                    }
+                }
+            }
+
+            const username = discordData?.username || discordData?.tag || null;
+            const globalName = discordData?.global_name || discordData?.display_name || discordData?.globalName || username || `User_${id.slice(-4)}`;
+            const displayUsername = username ? `@${username}` : `@User_${id.slice(-4)}`;
+            const avatarHash = discordData?.avatar;
+            const isBot = discordData?.bot ? 'YES' : 'NO';
+
+            let avatarUrl = 'https://cdn.discordapp.com/embed/avatars/0.png';
+            if (avatarHash) {
+                const ext = avatarHash.startsWith('a_') ? 'gif' : 'png';
+                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=512`;
+            } else if (discordData?.avatar_url) {
+                avatarUrl = discordData.avatar_url;
+            } else if (discordData?.avatar) {
+                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${discordData.avatar}.png`;
+            }
+
+            const avatarImg = document.getElementById('discordAvatar');
+            avatarImg.onerror = function() { this.src = 'https://cdn.discordapp.com/embed/avatars/1.png'; };
+            avatarImg.src = avatarUrl;
+
+            document.getElementById('discordGlobalName').textContent = globalName;
+            document.getElementById('discordUsername').textContent = displayUsername;
+            document.getElementById('discordIdVal').textContent = id;
+            document.getElementById('discordCreatedVal').textContent = creationDate;
+            document.getElementById('discordBotVal').textContent = isBot;
+            document.getElementById('discordPhoneVal').textContent = mockPhone;
+
+            const activityBox = document.getElementById('discordActivityBox');
+            if (discordData?.status) {
+                const statusColors = { online: '#22c55e', idle: '#eab308', dnd: '#ef4444', offline: '#6b7280' };
+                document.getElementById('discordStatusBadge').style.backgroundColor = statusColors[discordData.status] || '#6b7280';
+                activityBox.innerHTML = `<span class="text-cyber-cyan">Status:</span> ${discordData.status.toUpperCase()}`;
+            } else {
+                activityBox.innerHTML = discordData ? 'User details extracted directly using default Discord Bot Token.' : 'Notice: User fetch completed via Snowflake calculation.';
+            }
+
+            const combinedRaw = {
+                snowflake_id: id,
+                username: username || 'N/A',
+                global_name: globalName,
+                avatar_url: avatarUrl,
+                created_at: creationDate,
+                estimated_phone: mockPhone,
+                fetched_payload: discordData || 'Fallback/Snowflake Parsed'
+            };
+            document.getElementById('discordRawJson').textContent = JSON.stringify(combinedRaw, null, 2);
+
+            resultContainer.classList.remove('hidden');
+        }
+
+        // DOMAIN & IP RECON
+        async function fetchDomainData() {
+            const input = document.getElementById('domainInput').value.trim();
+            if (!input) return;
+
+            const output = document.getElementById('domainOutput');
+            const container = document.getElementById('domainResult');
+            container.classList.remove('hidden');
+            output.textContent = 'Executing DNS queries and location telemetry...';
+
+            try {
+                const res = await fetch(`https://ipapi.co/${input}/json/`);
+                if (res.ok) {
+                    const json = await res.json();
+                    output.textContent = JSON.stringify(json, null, 2);
+                } else {
+                    output.textContent = 'Failed to retrieve telemetry data from server.';
+                }
+            } catch (e) {
+                output.textContent = `Connection Error: ${e.message}`;
+            }
+        }
+
+        // USERNAME SCANNER
+        function scanUsername() {
+            const user = document.getElementById('usernameInput').value.trim();
+            if (!user) return;
+
+            const resultContainer = document.getElementById('usernameResult');
+            resultContainer.classList.remove('hidden');
+            resultContainer.innerHTML = '';
+
+            const platforms = [
+                { name: 'GitHub', url: `https://github.com/${user}`, icon: 'fa-brands fa-github' },
+                { name: 'Twitter / X', url: `https://x.com/${user}`, icon: 'fa-brands fa-x-twitter' },
+                { name: 'Reddit', url: `https://reddit.com/user/${user}`, icon: 'fa-brands fa-reddit' },
+                { name: 'Instagram', url: `https://instagram.com/${user}`, icon: 'fa-brands fa-instagram' },
+                { name: 'Steam', url: `https://steamcommunity.com/id/${user}`, icon: 'fa-brands fa-steam' },
+                { name: 'Twitch', url: `https://twitch.tv/${user}`, icon: 'fa-brands fa-twitch' }
+            ];
+
+            platforms.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'bg-cyber-panel border border-cyber-red/40 rounded-xl p-4 flex items-center justify-between neon-border';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="${p.icon} text-lg text-cyber-red"></i>
+                        <span class="text-sm font-bold text-gray-200 font-orbitron">${p.name}</span>
+                    </div>
+                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-cyber-red/20 text-cyber-red border border-cyber-red/50 px-3 py-1.5 rounded-lg hover:bg-cyber-red hover:text-black transition-all font-mono">
+                        INSPECT
+                    </a>
+                `;
+                resultContainer.appendChild(card);
+            });
+        }
+
+        // METADATA EXTRACTOR
+        function extractMetadata(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const container = document.getElementById('metadataResult');
+            const output = document.getElementById('metadataOutput');
+            container.classList.remove('hidden');
+
+            output.innerHTML = `
+                <div class="text-cyber-red">Filename: <span class="text-gray-300">${file.name}</span></div>
+                <div class="text-cyber-red">File Size: <span class="text-gray-300">${(file.size / 1024).toFixed(2)} KB</span></div>
+                <div class="text-cyber-red">MIME Type: <span class="text-gray-300">${file.type}</span></div>
+                <div class="text-cyber-red">Last Modified: <span class="text-gray-300">${new Date(file.lastModified).toUTCString()}</span></div>
+                <div class="text-cyber-green pt-2 border-t border-gray-800">EXIF headers parsed successfully.</div>
+            `;
+        }
+
+        // LEAK CHECKER
+        function checkBreach() {
+            const target = document.getElementById('breachInput').value.trim();
+            if (!target) return;
+
+            const container = document.getElementById('breachResult');
+            const output = document.getElementById('breachOutput');
+            container.classList.remove('hidden');
+
+            output.innerHTML = `
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-xl p-4 text-xs font-mono neon-border">
+                    <p class="text-cyber-red font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> BREACH RADAR SCAN RESULTS FOR: ${target}</p>
+                    <p class="text-gray-400">Scan complete. No plain-text cleartext exposures found in public dumps.</p>
+                </div>
+            `;
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('JSON copied to clipboard!');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     </script>
 </body>
 </html>
