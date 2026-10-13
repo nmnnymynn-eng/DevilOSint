@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en" class="dark h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVIL-OSINT // Hacker Cyber Matrix Platform</title>
-    
-    <!-- Tailwind CSS -->
+    <title>TorexAI - Advanced AI Intelligence Platform</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,1161 +13,1885 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: {
-                            bg: '#020307',
-                            panel: 'rgba(8, 12, 22, 0.85)',
-                            border: '#ff003c',
-                            cyan: '#00f0ff',
-                            purple: '#a855f7',
-                            red: '#ff003c',
-                            green: '#00ff66',
-                            redglow: 'rgba(255, 0, 60, 0.4)',
-                            darkred: '#1a0208'
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        surface: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#000000'
                         }
                     },
-                    animation: {
-                        'pulse-glow': 'pulseGlow 2s infinite alternate',
-                        'glitch': 'glitch 0.4s infinite linear alternate-reverse',
-                        'scanline': 'scanline 8s linear infinite',
-                        'radar': 'radarSweep 4s linear infinite'
-                    },
-                    keyframes: {
-                        pulseGlow: {
-                            '0%': { boxShadow: '0 0 10px rgba(255, 0, 60, 0.4), inset 0 0 5px rgba(255, 0, 60, 0.2)' },
-                            '100%': { boxShadow: '0 0 30px rgba(255, 0, 60, 0.9), inset 0 0 15px rgba(255, 0, 60, 0.6)' }
-                        },
-                        scanline: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100vh)' }
-                        },
-                        radarSweep: {
-                            '0%': { transform: 'rotate(0deg)' },
-                            '100%': { transform: 'rotate(360deg)' }
-                        }
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
                     }
                 }
             }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Marked.js for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Highlight.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+
+    <!-- Firebase SDK Modular Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithCustomToken, 
+            signInAnonymously, 
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signOut,
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc, 
+            collection, 
+            onSnapshot, 
+            deleteDoc 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        window.FirebaseSDK = {
+            initializeApp,
+            getAuth,
+            signInWithCustomToken,
+            signInAnonymously,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signOut,
+            onAuthStateChanged,
+            getFirestore,
+            doc,
+            setDoc,
+            getDoc,
+            collection,
+            onSnapshot,
+            deleteDoc
         };
     </script>
-    
-    <!-- FontAwesome & Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;800;900&family=VT323&display=swap" rel="stylesheet">
-    
-    <!-- 3D & Crypto Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <style>
-        body {
-            font-family: 'Share Tech Mono', monospace;
-            background-color: #020307;
-            color: #33ffbb;
-            overflow-x: hidden;
-        }
-        .font-orbitron {
-            font-family: 'Orbitron', sans-serif;
-        }
-        .font-vt323 {
-            font-family: 'VT323', monospace;
-        }
-        
+        /* Custom scrollbar for clean aesthetic */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #020307;
+            background: rgba(0, 0, 0, 0.4);
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ff003c, #00f0ff);
-            border-radius: 2px;
+            background: #262626;
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #ff003c;
-            box-shadow: 0 0 12px #ff003c;
+            background: #404040;
         }
 
-        .neon-border {
-            border: 1px solid rgba(255, 0, 60, 0.6);
-            box-shadow: 0 0 15px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.15);
-            backdrop-filter: blur(16px);
-        }
-        .neon-border:hover, .neon-border-active {
-            border-color: #ff003c;
-            box-shadow: 0 0 25px rgba(255, 0, 60, 0.7), inset 0 0 20px rgba(255, 0, 60, 0.35);
-        }
-
-        .neon-border-cyan {
-            border: 1px solid rgba(0, 240, 255, 0.5);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
-            backdrop-filter: blur(16px);
-        }
-
-        .text-glow-red {
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.9), 0 0 20px rgba(255, 0, 60, 0.5);
-        }
-        .text-glow-cyan {
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.9), 0 0 20px rgba(0, 240, 255, 0.5);
-        }
-        .text-glow-green {
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.9), 0 0 20px rgba(0, 255, 102, 0.5);
-        }
-
-        .cyber-grid-bg {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 0, 60, 0.07) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 0, 60, 0.07) 1px, transparent 1px);
-        }
-
-        .crt-overlay {
+        /* Fullscreen Animated Geometric Vortex Tunnel Background Canvas */
+        #particle-wave-canvas {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-            background-size: 100% 4px;
-            z-index: 55;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .laser-line {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ff003c, #00f0ff, transparent);
-            z-index: 60;
-            animation: scanline 6s infinite linear;
-            pointer-events: none;
-            opacity: 0.8;
-            box-shadow: 0 0 10px #ff003c;
-        }
-
-        .cyber-btn {
-            position: relative;
-            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-            transition: all 0.25s ease;
-        }
-        .cyber-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 0, 60, 0.2);
-            z-index: -1;
-            transition: all 0.25s ease;
-        }
-        .cyber-btn:hover::before {
-            background: rgba(255, 0, 60, 0.85);
-        }
-
-        #bgCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 0;
             pointer-events: none;
+            background-color: #000000;
         }
+        
+        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.625; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #f8fafc; }
+        .markdown-body h1 { font-size: 1.35rem; }
+        .markdown-body h2 { font-size: 1.18rem; }
+        .markdown-body h3 { font-size: 1.05rem; }
+        .markdown-body ul, .markdown-body ol { margin-left: 1.25rem; margin-bottom: 0.75rem; }
+        .markdown-body ul { list-style-type: disc; }
+        .markdown-body ol { list-style-type: decimal; }
+        .markdown-body code:not(pre code) { background: rgba(38, 38, 38, 0.7); padding: 0.15rem 0.35rem; border-radius: 0.25rem; font-size: 0.875em; font-family: 'Fira Code', monospace; }
+        .markdown-body pre { border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 0.75rem; overflow-x: auto; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.8) !important; }
+        .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .markdown-body th, .markdown-body td { border: 1px solid #262626; padding: 0.5rem 0.75rem; text-align: left; }
+        .markdown-body th { background: #0a0a0a; font-weight: 600; }
+        .markdown-body blockquote { border-left: 3px solid #0ea5e9; padding-left: 1rem; color: #94a3b8; font-style: italic; margin-bottom: 0.75rem; }
     </style>
 </head>
-<body class="bg-cyber-bg min-h-screen flex flex-col relative selection:bg-cyber-red selection:text-black cyber-grid-bg">
+<body class="bg-black text-slate-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white relative">
 
-    <!-- Interactive CRT FX & Matrix Background Canvas -->
-    <div class="crt-overlay"></div>
-    <canvas id="bgCanvas"></canvas>
-    <div class="laser-line"></div>
+    <!-- Sleek Glassmorphic Sign In Overlay Screen -->
+    <div id="auth-gate" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-3xl flex flex-col items-center justify-center p-4">
+        <div class="relative max-w-sm w-full bg-neutral-900/70 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-2xl text-center space-y-6 overflow-hidden">
+            <!-- Light beam shine effect -->
+            <div class="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
-    <!-- LOCK SCREEN OVERLAY -->
-    <div id="lockScreen" class="fixed inset-0 z-50 bg-cyber-bg/95 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="max-w-md w-full text-center relative z-10">
-            
-            <div class="w-36 h-36 mx-auto mb-6 relative flex items-center justify-center">
-                <svg viewBox="0 0 500 500" class="w-24 h-24 text-cyber-red drop-shadow-[0_0_20px_rgba(255,0,60,0.9)] relative z-10">
-                    <g fill="currentColor">
-                        <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
-                        <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
-                        <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
-                        <path d="M 150 225 Q 250 255 350 225 Q 370 240 340 255 Q 250 270 160 255 Q 130 240 150 225 Z" />
-                        <path d="M 145 285 Q 190 280 220 300 Q 190 315 145 285 Z" />
-                        <path d="M 355 285 Q 310 280 280 300 Q 310 315 355 285 Z" />
-                        <path d="M 230 270 Q 240 270 248 310 Q 255 350 245 365 Q 235 350 238 310 Q 230 290 230 270 Z" />
-                        <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
-                        <path d="M 235 410 Q 250 460 265 410 Q 250 425 235 410 Z" />
-                    </g>
+            <!-- Header Icon -->
+            <div class="w-12 h-12 mx-auto rounded-full bg-neutral-800/80 border border-white/10 flex items-center justify-center shadow-inner">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 100 100" fill="currentColor">
+                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
+                    <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
+                    <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
                 </svg>
             </div>
 
-            <h1 class="text-3xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider mb-6">DEVIL OSINT</h1>
-            
-            <form id="lockForm" class="space-y-4">
-                <div class="relative">
-                    <input type="password" id="passcode" placeholder="ENTER ACCESS CODE..." class="w-full bg-black/90 border border-cyber-red/60 rounded-xl px-4 py-3.5 text-center text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red focus:ring-2 focus:ring-cyber-red/50 transition-all font-mono tracking-widest text-lg shadow-inner">
-                    <i class="fa-solid fa-terminal absolute left-4 top-1/2 -translate-y-1/2 text-cyber-red/50"></i>
+            <div>
+                <h2 id="auth-title" class="text-2xl font-bold text-white tracking-tight">Sign In</h2>
+                <p id="auth-subtitle" class="text-xs text-neutral-400 mt-1">Please enter your details to sign in.</p>
+            </div>
+
+            <form id="auth-form" class="space-y-3.5">
+                <div>
+                    <input type="email" id="email-input" placeholder="Enter your email address" class="w-full bg-neutral-800/80 border border-neutral-700/60 focus:border-white/40 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-neutral-500 focus:outline-none transition font-sans">
                 </div>
-                
-                <button type="submit" class="cyber-btn w-full bg-cyber-red text-black font-black py-3.5 px-6 rounded-xl transition-all duration-300 tracking-wider text-sm font-orbitron uppercase flex items-center justify-center gap-2 hover:shadow-[0_0_25px_#ff003c]">
-                    <i class="fa-solid fa-fingerprint text-lg"></i>
-                    AUTHENTICATE CLEARANCE
+                <div>
+                    <input type="password" id="passcode-input" placeholder="Password" class="w-full bg-neutral-800/80 border border-neutral-700/60 focus:border-white/40 rounded-xl px-4 py-3 text-xs text-slate-100 placeholder-neutral-500 focus:outline-none transition font-sans">
+                </div>
+
+                <div class="flex justify-end text-[11px]">
+                    <a href="#" id="forgot-password-link" class="text-neutral-400 hover:text-white transition">Forgot Password?</a>
+                </div>
+
+                <p id="auth-error" class="text-xs text-red-400 hidden font-medium text-center">Authentication error</p>
+
+                <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-white hover:bg-neutral-200 text-black rounded-xl text-xs font-semibold tracking-wide transition shadow-lg">
+                    Sign in
                 </button>
-                <div id="lockError" class="text-xs text-red-400 hidden font-mono mt-2 bg-red-950/70 p-2.5 rounded-lg border border-red-600 animate-bounce">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> ACCESS DENIED: INVALID PASSCODE
-                </div>
             </form>
+
+            <div class="relative flex py-1 items-center">
+                <div class="flex-grow border-t border-neutral-800"></div>
+                <span class="flex-shrink mx-3 text-[10px] text-neutral-500 uppercase tracking-widest font-mono">OR</span>
+                <div class="flex-grow border-t border-neutral-800"></div>
+            </div>
+
+            <!-- Google Sign In Button -->
+            <button id="google-auth-btn" type="button" class="w-full py-3 bg-neutral-800/90 hover:bg-neutral-800 border border-neutral-700/80 text-neutral-200 rounded-xl text-xs font-medium transition flex items-center justify-center gap-2.5 shadow-sm">
+                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continue with Google</span>
+            </button>
+
+            <!-- Toggle Register / Sign In -->
+            <div class="text-xs text-neutral-400">
+                <span id="auth-toggle-text">Don't have an account?</span>
+                <button type="button" id="auth-toggle-btn" class="text-white font-semibold hover:underline ml-1">Sign up</button>
+            </div>
         </div>
     </div>
 
-    <!-- MAIN APP CONTENT -->
-    <div id="mainApp" class="relative z-10 hidden flex-1 flex flex-col min-h-screen">
-        
-        <!-- HEADER / NAVIGATION -->
-        <header class="border-b border-cyber-red/40 bg-cyber-bg/95 backdrop-blur-xl sticky top-0 z-40 shadow-2xl">
-            <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-                
-                <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 text-cyber-red flex items-center justify-center rounded-xl bg-cyber-darkred border border-cyber-red/50 shadow-[0_0_20px_rgba(255,0,60,0.5)]">
-                        <svg viewBox="0 0 500 500" class="w-8 h-8 drop-shadow-[0_0_10px_rgba(255,0,60,0.9)]">
-                            <g fill="currentColor">
-                                <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
-                                <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
-                                <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
-                                <path d="M 150 225 Q 250 255 350 225 Q 370 240 340 255 Q 250 270 160 255 Q 130 240 150 225 Z" />
-                                <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider">DEVIL OSINT</h1>
-                        <p class="text-[10px] text-cyber-cyan tracking-widest uppercase font-mono">Cyber Reconnaissance Hub v4.0</p>
-                    </div>
-                </div>
+    <!-- Interactive 3D Animated Dot Wave Canvas covering entire site -->
+    <canvas id="particle-wave-canvas"></canvas>
 
-                <!-- Navigation Tabs -->
-                <nav class="flex flex-wrap gap-2">
-                    <button onclick="switchTab('discord')" id="tab-discord" class="nav-tab active-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red bg-cyber-red/20 text-cyber-red font-bold transition-all shadow-[0_0_12px_rgba(255,0,60,0.4)]">
-                        <i class="fa-brands fa-discord mr-1.5"></i>Discord OSINT
-                    </button>
-                    <button onclick="switchTab('domain')" id="tab-domain" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
-                        <i class="fa-solid fa-network-wired mr-1.5"></i>IP & Domain Intel
-                    </button>
-                    <button onclick="switchTab('map')" id="tab-map" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
-                        <i class="fa-solid fa-earth-americas mr-1.5"></i>3D Threat Globe
-                    </button>
-                    <button onclick="switchTab('username')" id="tab-username" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
-                        <i class="fa-solid fa-user-ninja mr-1.5"></i>Handle Lookup
-                    </button>
-                    <button onclick="switchTab('metadata')" id="tab-metadata" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
-                        <i class="fa-solid fa-file-code mr-1.5"></i>EXIF Metadata
-                    </button>
-                    <button onclick="switchTab('breach')" id="tab-breach" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
-                        <i class="fa-solid fa-shield-halved mr-1.5"></i>Breach Radar
-                    </button>
-                </nav>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-64 bg-black/75 backdrop-blur-2xl border-r border-neutral-800/80 flex flex-col justify-between shrink-0 transition-all duration-300 z-30 fixed inset-y-0 left-0 md:relative md:translate-x-0 -translate-x-full">
+        <div class="flex flex-col h-full">
+            <!-- App Header Brand -->
+            <div class="h-14 border-b border-neutral-800/80 px-4 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1.5px] shadow-lg shadow-white/10 flex items-center justify-center shrink-0">
+                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" viewBox="0 0 100 100" fill="currentColor">
+                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
+                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
+                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
+                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="font-semibold text-base tracking-tight text-white">TorexAI</span>
+                    <span class="text-[10px] bg-brand-500/10 text-brand-400 border border-brand-500/20 px-1.5 py-0.5 rounded-full font-mono">PRO</span>
+                </div>
+                <button id="close-sidebar-mobile" class="md:hidden text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
 
-                <!-- Configuration & Lock -->
-                <div class="flex items-center gap-2">
-                    <button onclick="openModal('apiModal')" class="text-xs bg-cyber-panel hover:bg-cyber-red/20 border border-cyber-red/50 text-cyber-red px-3.5 py-2 rounded-xl transition-all relative flex items-center gap-1.5">
-                        <i class="fa-solid fa-key text-xs"></i> API KEYS
-                        <span id="apiKeyIndicator" class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    </button>
-                    <button onclick="lockPortal()" class="text-xs bg-cyber-panel hover:bg-red-950 border border-red-700/80 text-red-400 px-3.5 py-2 rounded-xl transition-all" title="Lock System">
-                        <i class="fa-solid fa-lock"></i>
+            <!-- New Chat Action Button -->
+            <div class="p-3">
+                <button id="new-chat-btn" class="w-full py-2.5 px-3 bg-neutral-900/80 hover:bg-neutral-800/90 border border-neutral-700/80 rounded-xl text-slate-200 text-xs font-medium flex items-center justify-between transition shadow-sm group">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-plus text-brand-400 group-hover:rotate-90 transition-transform"></i>
+                        New Session
+                    </span>
+                    <kbd class="text-[10px] text-slate-500 bg-black px-1.5 py-0.5 rounded border border-neutral-700 font-mono">⌘N</kbd>
+                </button>
+            </div>
+
+            <!-- Chat History List Container -->
+            <div class="flex-1 overflow-y-auto px-2 py-1 space-y-1">
+                <div class="px-2 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Recent Sessions</div>
+                <div id="history-container" class="space-y-0.5">
+                    <!-- Dynamic session items inserted here -->
+                </div>
+            </div>
+
+            <!-- API Key & Settings Footer -->
+            <div class="p-3 border-t border-neutral-700/80 bg-black/80 space-y-2">
+                <div class="flex items-center justify-between text-xs px-2 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
+                    <span id="user-display-email" class="text-slate-300 font-mono text-[11px] truncate max-w-[130px]">User Account</span>
+                    <button id="logout-btn" class="text-slate-400 hover:text-red-400 text-xs transition" title="Sign Out">
+                        <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
                 </div>
+                <button id="api-key-modal-trigger" class="w-full text-left py-2 px-2.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800/80 border border-neutral-700/80 text-xs text-slate-300 flex items-center justify-between transition">
+                    <div class="flex items-center gap-2 truncate">
+                        <i class="fa-solid fa-key text-brand-400 text-xs"></i>
+                        <span id="api-status-text" class="truncate">API Keys & Models Config</span>
+                    </div>
+                    <span id="api-status-badge" class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <div class="flex-1 flex flex-col h-full min-w-0 bg-transparent z-10 relative">
+        <!-- Top Navigation Bar -->
+        <header class="h-14 border-b border-neutral-700/80 px-4 flex items-center justify-between bg-black/80 backdrop-blur-xl shrink-0 z-10">
+            <div class="flex items-center gap-3">
+                <button id="toggle-sidebar-btn" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-neutral-900 border border-neutral-700/60 transition">
+                    <i class="fa-solid fa-bars text-sm"></i>
+                </button>
+                <div class="h-4 w-[1px] bg-neutral-700"></div>
+
+                <!-- Comprehensive Multi-AI Model Switcher Dropdown -->
+                <div class="relative">
+                    <select id="model-select" class="bg-neutral-900 text-slate-200 border border-neutral-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand-500 cursor-pointer pr-7 appearance-none font-medium shadow-md">
+                        <optgroup label="Google AI Engines">
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Universal Lightning)</option>
+                            <option value="gemini-2.5-pro">Gemini 2.5 Pro (Deep Reasoning)</option>
+                        </optgroup>
+                        <optgroup label="OpenAI Engines">
+                            <option value="gpt-4o">GPT-4o Omni (Reasoning & Code)</option>
+                            <option value="gpt-4o-mini">GPT-4o Mini (Fast Speed)</option>
+                        </optgroup>
+                        <optgroup label="Anthropic Engines">
+                            <option value="claude-3-5-sonnet">Claude 3.5 Sonnet (Advanced Writing & Code)</option>
+                            <option value="claude-3-haiku">Claude 3 Haiku (Instant Speed)</option>
+                        </optgroup>
+                        <optgroup label="DeepSeek & Open Models">
+                            <option value="deepseek-r1">DeepSeek R1 (Math & Logic Reasoning)</option>
+                            <option value="llama-3-3-70b">Meta Llama 3.3 70B (Open-Source Power)</option>
+                            <option value="mistral-large">Mistral Large 2 (Multi-Lingual Engine)</option>
+                        </optgroup>
+                    </select>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button id="toggle-canvas-btn" class="hidden text-xs bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm">
+                    <i class="fa-solid fa-columns text-brand-400"></i>
+                    <span>Toggle Workspace</span>
+                </button>
+                <button id="clear-chat-btn" class="p-2 text-slate-400 hover:text-red-400 hover:bg-neutral-900 border border-neutral-700/60 rounded-lg transition" title="Clear Chat">
+                    <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-1 space-y-6 relative z-10">
+        <!-- Dynamic Split Screen: Chat & Workspace Canvas -->
+        <div class="flex-1 flex min-h-0 relative">
+            <!-- Main Chat Interface -->
+            <div id="chat-container" class="flex-1 flex flex-col h-full min-w-0 transition-all duration-300 bg-transparent">
+                <!-- Chat Messages Scroll Container -->
+                <div id="messages-wrapper" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+                    <!-- Home / Empty State -->
+                    <div id="empty-state" class="max-w-2xl mx-auto py-10 px-4 flex flex-col items-center justify-center text-center my-auto min-h-[60vh]">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-b from-slate-100 to-slate-400 p-[2px] shadow-2xl shadow-white/20 mb-6 border border-neutral-700 flex items-center justify-center">
+                            <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                <svg class="w-12 h-12 text-white" viewBox="0 0 100 100" fill="currentColor">
+                                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
+                                    <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
+                                    <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
+                                    <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
+                                    <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                    <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                    <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
+                                    <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-100 tracking-tight mb-2 drop-shadow">TorexAI Multi-Engine Intelligence</h1>
+                        <p class="text-sm text-slate-300 mb-8 max-w-md">Unified access to Gemini 2.5, GPT-4o, Claude 3.5, DeepSeek R1, Llama 3, and Mistral with code workspace.</p>
 
-            <!-- 1. DISCORD LOOKUP TAB -->
-            <section id="sec-discord" class="tool-section space-y-6">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                            <i class="fa-brands fa-discord"></i> DISCORD RECONNAISSANCE TOOL
-                        </h2>
-                        <p class="text-xs text-gray-400">Extract Snowflake creation timestamps, avatar metadata, live status payloads & projected phone prefixes.</p>
+                        <!-- Quick Prompts Grid with enhanced prominent borders -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-xl text-left">
+                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
+                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
+                                    <span>Build Fullstack App</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
+                                </div>
+                                <span class="text-[11px] text-slate-400 line-clamp-2">Create an asynchronous FastAPI server with database models and JWT auth.</span>
+                            </button>
+
+                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
+                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
+                                    <span>Deep Math & SQL Architecture</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
+                                </div>
+                                <span class="text-[11px] text-slate-400 line-clamp-2">Design a scalable PostgreSQL schema with indexing and partitioning strategies.</span>
+                            </button>
+
+                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
+                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
+                                    <span>Explain Quantum Mechanics</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
+                                </div>
+                                <span class="text-[11px] text-slate-400 line-clamp-2">Break down quantum entanglement and superposition with clear analogies.</span>
+                            </button>
+
+                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
+                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
+                                    <span>React & Tailwind Dashboard</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
+                                </div>
+                                <span class="text-[11px] text-slate-400 line-clamp-2">Write a responsive analytics dashboard component with interactive charts.</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <div class="relative flex-1">
-                            <input type="text" id="discordInput" placeholder="Enter Discord User ID (e.g., 155829859681009664)..." class="w-full bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                            <i class="fa-solid fa-hashtag absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"></i>
-                        </div>
-                        <button onclick="fetchDiscordData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
-                            <i class="fa-solid fa-magnifying-glass"></i> SCAN USER
-                        </button>
+                    <!-- Conversation Thread Container -->
+                    <div id="messages-list" class="max-w-3xl mx-auto space-y-6 hidden">
+                        <!-- Message Items Rendered Here -->
                     </div>
                 </div>
 
-                <div id="discordResult" class="hidden space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border relative overflow-hidden flex flex-col items-center text-center">
-                            <div id="discordBanner" class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-r from-red-950 to-black opacity-80 bg-cover bg-center"></div>
-                            
-                            <div class="relative mt-10 mb-3">
-                                <img id="discordAvatar" src="" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-cyber-bg bg-black object-cover shadow-[0_0_20px_rgba(255,0,60,0.6)] relative z-10">
-                                <span id="discordStatusBadge" class="absolute bottom-1 right-1 w-6 h-6 rounded-full border-2 border-cyber-bg bg-gray-500 z-20 shadow-md"></span>
-                            </div>
-
-                            <h3 id="discordGlobalName" class="text-xl font-bold text-white font-orbitron"></h3>
-                            <p id="discordUsername" class="text-sm text-cyber-red font-mono mb-4"></p>
-
-                            <div class="w-full border-t border-cyber-red/30 pt-4 space-y-2 text-left text-xs">
-                                <div class="flex justify-between py-1.5 border-b border-gray-800">
-                                    <span class="text-gray-400">User ID:</span>
-                                    <span id="discordIdVal" class="font-mono text-cyber-red"></span>
-                                </div>
-                                <div class="flex justify-between py-1.5 border-b border-gray-800">
-                                    <span class="text-gray-400">Created At:</span>
-                                    <span id="discordCreatedVal" class="font-mono text-gray-300"></span>
-                                </div>
-                                <div class="flex justify-between py-1.5 border-b border-gray-800">
-                                    <span class="text-gray-400">Bot Account:</span>
-                                    <span id="discordBotVal" class="font-mono text-gray-300"></span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-800 bg-cyber-darkred/60 px-2 rounded-lg border border-cyber-red/40">
-                                    <span class="text-cyber-red font-bold">Projected SIM Line:</span>
-                                    <span id="discordPhoneVal" class="font-mono text-cyber-red font-black text-sm"></span>
-                                </div>
-                            </div>
+                <!-- Input Footer Area -->
+                <div class="p-3 sm:p-4 border-t border-neutral-700/80 bg-black/90 backdrop-blur-2xl shrink-0">
+                    <div class="max-w-3xl mx-auto">
+                        <!-- Attached File / Image Generation Preview Pill -->
+                        <div id="file-preview-container" class="hidden flex items-center gap-2 mb-2 px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 w-fit">
+                            <i id="file-preview-icon" class="fa-solid fa-file text-brand-400 text-xs"></i>
+                            <span id="file-preview-name" class="text-xs text-slate-300 font-medium truncate max-w-xs">document.pdf</span>
+                            <button id="remove-file-btn" class="text-slate-400 hover:text-slate-200 ml-1">
+                                <i class="fa-solid fa-xmark text-xs"></i>
+                            </button>
                         </div>
 
-                        <div class="md:col-span-2 space-y-6">
-                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                                <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider mb-3 font-orbitron flex items-center gap-2">
-                                    <i class="fa-solid fa-bolt text-cyber-cyan"></i> Live Telemetry & Status (Lanyard)
-                                </h4>
-                                <div id="discordActivityBox" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs font-mono text-gray-300 min-h-[90px] flex items-center">
-                                    No live WS telemetry streaming from user endpoint.
-                                </div>
-                            </div>
+                        <!-- Chat Input Box -->
+                        <div class="relative bg-neutral-900/90 backdrop-blur-xl rounded-2xl border border-neutral-700 focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500 transition shadow-2xl">
+                            <textarea id="chat-input" rows="1" placeholder="Ask TorexAI, type '/image prompt' or speak..." class="w-full bg-transparent text-slate-100 text-sm placeholder-slate-400 px-4 pt-3.5 pb-12 focus:outline-none resize-none max-h-48 scrollbar-thin"></textarea>
 
-                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                                <div class="flex justify-between items-center mb-3">
-                                    <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider font-orbitron flex items-center gap-2">
-                                        <i class="fa-solid fa-code"></i> Raw Payload Data
-                                    </h4>
-                                    <button onclick="copyToClipboard('discordRawJson')" class="text-xs bg-cyber-red/20 hover:bg-cyber-red hover:text-black border border-cyber-red/50 text-cyber-red px-3 py-1 rounded-lg transition-all font-mono">
-                                        <i class="fa-regular fa-copy mr-1"></i>Copy JSON
+                            <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
+                                <div class="flex items-center gap-1.5">
+                                    <!-- File Upload Button -->
+                                    <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.txt,.js,.py,.json,.html,.css,.csv">
+                                    <button id="attach-file-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Attach file or image">
+                                        <i class="fa-solid fa-paperclip text-sm"></i>
+                                    </button>
+
+                                    <!-- AI Image Generation Trigger -->
+                                    <button id="gen-image-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Generate AI Image">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-sm text-brand-400"></i>
+                                    </button>
+
+                                    <!-- Voice Input Button -->
+                                    <button id="voice-input-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Voice Message Input">
+                                        <i id="mic-icon" class="fa-solid fa-microphone text-sm"></i>
                                     </button>
                                 </div>
-                                <pre id="discordRawJson" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-60 shadow-inner"></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- 2. DOMAIN & IP RECON TAB -->
-            <section id="sec-domain" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                            <i class="fa-solid fa-network-wired"></i> IP & DOMAIN INTELLIGENCE
-                        </h2>
-                        <p class="text-xs text-gray-400">DNS records, IP geolocation, ASN information & ISP infrastructure tracing.</p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="domainInput" placeholder="Enter IP or Domain (e.g., 8.8.8.8 or target.com)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="fetchDomainData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
-                            <i class="fa-solid fa-radar"></i> RUN RECON
-                        </button>
-                    </div>
-                </div>
-
-                <div id="domainResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border space-y-4">
-                    <h3 class="text-md font-bold text-cyber-red font-orbitron">OUTPUT REPORT:</h3>
-                    <pre id="domainOutput" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-96 shadow-inner"></pre>
-                </div>
-            </section>
-
-            <!-- 3. CYBER OSINT MAP TAB -->
-            <section id="sec-map" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                        <div>
-                            <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                                <i class="fa-solid fa-earth-americas"></i> 3D GLOBAL THREAT MATRIX
-                            </h2>
-                            <p class="text-xs text-gray-400">Interactive holographic globe // Real-time cyber attack vectors, telemetry arcs & sub-sea cable relays.</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-mono text-cyber-cyan bg-cyan-950/70 border border-cyber-cyan/60 px-3.5 py-1.5 rounded-xl flex items-center gap-2 shadow-[0_0_12px_rgba(0,240,255,0.3)]">
-                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-                                DEFCON STATUS: <span id="globalThreatStatus" class="text-red-400 font-bold">ELEVATED (LEVEL 4)</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="relative w-full h-[620px] rounded-2xl overflow-hidden border border-cyber-cyan/60 bg-[#02040b] shadow-[0_0_40px_rgba(0,240,255,0.2)] select-none">
-                        <div id="globe3DContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
-                        
-                        <div class="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
-                            <button onclick="toggleCyberAttacks()" id="attackToggleBtn" class="bg-red-950/90 border border-red-500 text-red-300 text-xs px-3.5 py-2 rounded-xl font-bold backdrop-blur-md shadow-[0_0_15px_rgba(255,0,60,0.5)]">
-                                <i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE
-                            </button>
-                            <button onclick="triggerCyberPulse()" class="bg-black/90 border border-cyber-red text-cyber-red text-xs px-3.5 py-2 rounded-xl backdrop-blur-md hover:bg-cyber-red hover:text-black transition-all font-orbitron">
-                                <i class="fa-solid fa-bolt mr-1"></i> SIMULATE ATTACK WAVE
-                            </button>
-                        </div>
-
-                        <div class="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md border border-cyber-cyan/50 px-3.5 py-2 rounded-xl text-[10px] font-mono text-cyber-cyan">
-                            <i class="fa-solid fa-hand-pointer mr-1"></i> DRAG TO ROTATE | SCROLL TO ZOOM
-                        </div>
-
-                        <div class="absolute bottom-4 right-4 z-20 bg-black/90 backdrop-blur-md border border-red-500/70 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-md w-full hidden sm:block">
-                            <div class="text-red-400 font-bold border-b border-red-500/40 pb-2 mb-2 flex items-center justify-between">
-                                <span class="flex items-center gap-2"><i class="fa-solid fa-skull-crossbones text-xs animate-pulse"></i> REAL-TIME ATTACK FEED</span>
-                                <span class="text-[9px] bg-red-950 text-red-300 px-2 py-0.5 rounded border border-red-600/60 font-orbitron">LIVE LOG</span>
-                            </div>
-                            <div id="attackLogStream" dir="ltr" class="space-y-1.5 h-24 overflow-hidden text-[10px] text-gray-400 flex flex-col justify-end">
-                                <div class="text-cyber-green font-semibold">[SYSTEM] Orbital telemetry initialized...</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">Shift + Enter for newline</span>
+                                    <button id="send-btn" class="w-8 h-8 rounded-xl bg-brand-600 hover:bg-brand-500 text-white flex items-center justify-center transition disabled:opacity-40 disabled:hover:bg-brand-600 shadow-md border border-brand-400/30">
+                                        <i class="fa-solid fa-arrow-up text-xs"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="absolute bottom-4 left-4 z-20 bg-black/90 backdrop-blur-md border border-cyber-cyan/60 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-xs">
-                            <p class="text-cyber-cyan font-bold mb-1 flex items-center gap-1.5 font-orbitron"><i class="fa-solid fa-circle-info text-xs"></i> NODE INTELLIGENCE</p>
-                            <div id="selectedNodeInfo" class="text-gray-400 leading-relaxed">Click a node on the 3D grid to retrieve detailed server data.</div>
+                        <div class="text-[11px] text-slate-400 text-center mt-2">
+                            TorexAI Multi-Engine Platform. Access code protected (`x1`). Supports text, image synthesis & voice messages.
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- 4. USERNAME TRACKER TAB -->
-            <section id="sec-username" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                            <i class="fa-solid fa-user-ninja"></i> DIGITAL FOOTPRINT HUNTER
-                        </h2>
-                        <p class="text-xs text-gray-400">Cross-reference handles across social networks, code repositories & dark forums.</p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="usernameInput" placeholder="Enter target username (e.g., cyber_ghost)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="scanUsername()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
-                            <i class="fa-solid fa-crosshairs"></i> SCAN HANDLE
-                        </button>
-                    </div>
-                </div>
-
-                <div id="usernameResult" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
-            </section>
-
-            <!-- 5. METADATA EXIF EXTRACTOR TAB -->
-            <section id="sec-metadata" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                            <i class="fa-solid fa-file-code"></i> FILE METADATA EXTRACTOR
-                        </h2>
-                        <p class="text-xs text-gray-400">Parse image headers, EXIF tags, GPS coordinates, camera specs & embedded metadata.</p>
-                    </div>
-
-                    <div class="border-2 border-dashed border-cyber-red/60 rounded-2xl p-10 text-center bg-black/60 hover:bg-black/90 transition-all cursor-pointer group" onclick="document.getElementById('fileInput').click()">
-                        <i class="fa-solid fa-cloud-arrow-up text-5xl text-cyber-red mb-3 group-hover:scale-110 transition-transform"></i>
-                        <p class="text-sm font-bold text-gray-200">DROP IMAGE FILE HERE OR CLICK TO UPLOAD</p>
-                        <p class="text-xs text-gray-500 mt-1">Supports PNG, JPG, JPEG, WEBP formats</p>
-                        <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="extractMetadata(event)">
-                    </div>
-                </div>
-
-                <div id="metadataResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <h3 class="text-md font-bold text-cyber-red font-orbitron mb-3">EXIF METADATA OUTPUT:</h3>
-                    <div id="metadataOutput" class="space-y-2 text-xs font-mono"></div>
-                </div>
-            </section>
-
-            <!-- 6. LEAK & BREACH SEARCH TAB -->
-            <section id="sec-breach" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved"></i> DATA BREACH RADAR
-                        </h2>
-                        <p class="text-xs text-gray-400">Search emails, usernames, or domains against leaked databases and cyber breaches.</p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="breachInput" placeholder="Enter Email / Username / Domain..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="checkBreach()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
-                            <i class="fa-solid fa-triangle-exclamation"></i> CHECK BREACHES
-                        </button>
-                    </div>
-                </div>
-
-                <div id="breachResult" class="hidden">
-                    <div id="breachOutput"></div>
-                </div>
-            </section>
-
-        </main>
-    </div>
-
-    <!-- API KEY MODAL -->
-    <div id="apiModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-        <div class="max-w-md w-full bg-cyber-panel border border-cyber-red/70 rounded-2xl p-6 neon-border space-y-5">
-            <h3 class="text-lg font-bold font-orbitron text-cyber-red flex items-center gap-2">
-                <i class="fa-solid fa-key"></i> API CONFIGURATION
-            </h3>
-            <div class="space-y-3 text-xs font-mono">
-                <div>
-                    <label class="block text-gray-400 mb-1">Shodan API Key</label>
-                    <input type="text" id="shodanKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">VirusTotal API Key</label>
-                    <input type="text" id="vtKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Discord Bot Token (Optional)</label>
-                    <input type="password" id="discordKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
                 </div>
             </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeModal('apiModal')" class="bg-gray-900 text-gray-300 text-xs px-4 py-2 rounded-xl hover:bg-gray-800 font-mono">CANCEL</button>
-                <button onclick="saveApiKeys()" class="cyber-btn bg-cyber-red text-black font-black text-xs px-5 py-2 rounded-xl font-orbitron">SAVE CONFIG</button>
+
+            <!-- Side-by-Side Code/Document Canvas Workspace -->
+            <div id="canvas-workspace" class="hidden w-1/2 border-l border-neutral-700/80 bg-black/95 backdrop-blur-2xl flex-col h-full z-10 transition-all duration-300">
+                <div class="h-12 border-b border-neutral-700 px-4 flex items-center justify-between bg-neutral-900/80">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-code text-brand-400 text-xs"></i>
+                        <span id="canvas-title" class="text-xs font-semibold text-slate-200">Interactive Workspace</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button id="copy-canvas-btn" class="p-1.5 text-slate-300 hover:text-white border border-neutral-700/80 bg-neutral-800/80 rounded hover:bg-neutral-700 text-xs flex items-center gap-1 px-2 transition">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                        <button id="close-canvas-btn" class="p-1.5 text-slate-300 hover:text-white border border-neutral-700/80 bg-neutral-800/80 rounded hover:bg-neutral-700 text-xs transition">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="canvas-content" class="flex-1 overflow-y-auto p-4 font-mono text-xs text-slate-200 selection:bg-brand-500 selection:text-white border-t border-neutral-800">
+                    <!-- Expanded Canvas Code Content Rendered Here -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- API Key Configuration & Multi-Provider Modal -->
+    <div id="api-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-neutral-900 border border-neutral-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-white">Multi-AI Provider API Keys</h3>
+                </div>
+                <button id="close-api-modal" class="text-slate-400 hover:text-white border border-neutral-700/60 p-1.5 rounded-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-slate-300 leading-relaxed">
+                TorexAI includes auto-loaded demo keys. You can also provide custom keys for direct high-throughput live models:
+            </p>
+
+            <div class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <div class="space-y-1">
+                    <label for="api-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
+                        <span>Google Gemini Key</span>
+                        <span class="text-emerald-400 text-[10px]">Active Pre-configured</span>
+                    </label>
+                    <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
+                </div>
+
+                <div class="space-y-1">
+                    <label for="openai-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
+                        <span>OpenAI Key (GPT-4o)</span>
+                        <span class="text-slate-400 text-[10px]">Optional</span>
+                    </label>
+                    <input type="password" id="openai-key-input" placeholder="sk-proj-..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
+                </div>
+
+                <div class="space-y-1">
+                    <label for="anthropic-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
+                        <span>Anthropic Key (Claude 3.5)</span>
+                        <span class="text-slate-400 text-[10px]">Optional</span>
+                    </label>
+                    <input type="password" id="anthropic-key-input" placeholder="sk-ant-..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-neutral-800">
+                <span class="text-xs text-emerald-400 flex items-center gap-1">
+                    <i class="fa-solid fa-shield-halved text-xs"></i> Storage Encrypted Locally
+                </span>
+                <button id="save-api-key-btn" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition shadow-md border border-brand-400/40">
+                    Save Configuration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application JavaScript Engine with Multi-AI API support and pre-configured keys -->
     <script>
-        // SHA-256 Hash of password "Devil2" (case-insensitive checking built into submission handler)
-        const HASHED_PASSCODE = "9826d9e18b8cf48950bb4db149e6fbc6642d2a4505f9630c5e3176bb87265bc6";
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('particle-wave-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let time = 0;
 
-        let apiConfig = {
-            shodan: localStorage.getItem('devil_shodan') || '',
-            virustotal: localStorage.getItem('devil_vt') || '',
-            discord: localStorage.getItem('devil_discord') || ''
-        };
-
-        function updateApiKeyIndicator() {
-            const hasKeys = apiConfig.shodan || apiConfig.virustotal || apiConfig.discord;
-            const ind = document.getElementById('apiKeyIndicator');
-            if (ind) {
-                if (hasKeys) {
-                    ind.className = 'w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]';
-                    ind.title = 'API Keys Configured';
-                } else {
-                    ind.className = 'w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse';
-                    ind.title = 'API Keys Missing';
-                }
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
             }
-        }
-        updateApiKeyIndicator();
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
 
-        function saveApiKeys() {
-            apiConfig.shodan = document.getElementById('shodanKeyInput').value.trim();
-            apiConfig.virustotal = document.getElementById('vtKeyInput').value.trim();
-            apiConfig.discord = document.getElementById('discordKeyInput').value.trim();
+            // Geometric Wireframe Vortex Animation Loop (Matches requested optical design, static to touch)
+            function animateVortex() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+                ctx.fillRect(0, 0, width, height);
 
-            localStorage.setItem('devil_shodan', apiConfig.shodan);
-            localStorage.setItem('devil_vt', apiConfig.virustotal);
-            localStorage.setItem('devil_discord', apiConfig.discord);
+                ctx.save();
+                ctx.translate(width / 2, height / 2);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
+                ctx.lineWidth = 1;
 
-            updateApiKeyIndicator();
-            closeModal('apiModal');
-        }
+                const maxR = Math.hypot(width, height) / 1.1;
+                const ringCount = 42;
 
-        // Cyber Grid & Matrix Rain Canvas Background
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        let matrixChars = "010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101";
-        let drops = [];
+                for (let i = 1; i <= ringCount; i++) {
+                    const r = Math.pow(i / ringCount, 1.8) * maxR;
+                    const twist = time * 0.3 + i * 0.12;
 
-        function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            const columns = Math.floor(width / 16);
-            drops = [];
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * -100);
-            }
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+                    ctx.beginPath();
+                    const vertices = 4 + Math.floor(i / 10);
+                    for (let j = 0; j <= vertices; j++) {
+                        const angle = (j / vertices) * Math.PI * 2 + twist;
+                        // Add organic distortion to mimic spiral optical geometry
+                        const waveR = r + Math.sin(angle * 3 + time * 1.2) * (i * 0.8);
+                        const x = Math.cos(angle) * waveR;
+                        const y = Math.sin(angle) * waveR;
 
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 2 + 1;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = '#ff003c';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-        function animateCircuit() {
-            ctx.fillStyle = 'rgba(2, 3, 7, 0.25)';
-            ctx.fillRect(0, 0, width, height);
-
-            // Draw and update red glowing constellation nodes and connecting web lines
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(255, 0, 60, ${0.4 - (dist / 150) * 0.4})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
                     }
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+
+                // Connecting radial spiral lines
+                const spokeCount = 28;
+                for (let s = 0; s < spokeCount; s++) {
+                    ctx.beginPath();
+                    for (let i = 1; i <= ringCount; i += 2) {
+                        const r = Math.pow(i / ringCount, 1.8) * maxR;
+                        const twist = time * 0.3 + i * 0.12;
+                        const angle = (s / spokeCount) * Math.PI * 2 + twist;
+                        const x = Math.cos(angle) * r;
+                        const y = Math.sin(angle) * r;
+
+                        if (i === 1) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+                time += 0.008;
+                requestAnimationFrame(animateVortex);
+            }
+            animateVortex();
+
+            const DEFAULT_GEMINI_KEY = ''; // Leave blank for user key or standard fallback
+
+            const state = {
+                apiKey: localStorage.getItem('torex_gemini_api_key') || '',
+                openaiKey: localStorage.getItem('torex_openai_api_key') || '',
+                anthropicKey: localStorage.getItem('torex_anthropic_api_key') || '',
+                currentSessionId: null,
+                sessions: JSON.parse(localStorage.getItem('torex_sessions') || '[]'),
+                selectedModel: 'gemini-2.5-flash',
+                attachedFile: null,
+                isGenerating: false
+            };
+
+            const sidebar = document.getElementById('sidebar');
+            const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+            const closeSidebarMobile = document.getElementById('close-sidebar-mobile');
+            const newChatBtn = document.getElementById('new-chat-btn');
+            const historyContainer = document.getElementById('history-container');
+            const emptyState = document.getElementById('empty-state');
+            const messagesList = document.getElementById('messages-list');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            const modelSelect = document.getElementById('model-select');
+            const clearChatBtn = document.getElementById('clear-chat-btn');
+            
+            const attachFileBtn = document.getElementById('attach-file-btn');
+            const fileInput = document.getElementById('file-input');
+            const filePreviewContainer = document.getElementById('file-preview-container');
+            const filePreviewName = document.getElementById('file-preview-name');
+            const removeFileBtn = document.getElementById('remove-file-btn');
+
+            const apiModalTrigger = document.getElementById('api-key-modal-trigger');
+            const apiModal = document.getElementById('api-modal');
+            const closeApiModal = document.getElementById('close-api-modal');
+            const apiKeyInput = document.getElementById('api-key-input');
+            const openaiKeyInput = document.getElementById('openai-key-input');
+            const anthropicKeyInput = document.getElementById('anthropic-key-input');
+            const saveApiKeyBtn = document.getElementById('save-api-key-btn');
+            const apiStatusBadge = document.getElementById('api-status-badge');
+            const apiStatusText = document.getElementById('api-status-text');
+
+            const canvasWorkspace = document.getElementById('canvas-workspace');
+            const toggleCanvasBtn = document.getElementById('toggle-canvas-btn');
+            const closeCanvasBtn = document.getElementById('close-canvas-btn');
+            const canvasContent = document.getElementById('canvas-content');
+            const copyCanvasBtn = document.getElementById('copy-canvas-btn');
+
+            // Access Passcode Gate Logic (Required code: x1)
+            const authGate = document.getElementById('auth-gate');
+            const authForm = document.getElementById('auth-form');
+            const passcodeInput = document.getElementById('passcode-input');
+            const authError = document.getElementById('auth-error');
+
+            if (sessionStorage.getItem('torex_unlocked') === 'true') {
+                authGate.classList.add('hidden');
+            }
+
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (passcodeInput.value.trim() === 'x1') {
+                    sessionStorage.setItem('torex_unlocked', 'true');
+                    authGate.classList.add('hidden');
+                    authError.classList.add('hidden');
+                } else {
+                    authError.classList.remove('hidden');
+                    passcodeInput.value = '';
+                }
+            });
+
+            // Voice Speech Recognition Setup
+            const voiceBtn = document.getElementById('voice-input-btn');
+            const micIcon = document.getElementById('mic-icon');
+            let recognition = null;
+            let isRecording = false;
+
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    micIcon.className = 'fa-solid fa-microphone text-sm text-red-500 animate-pulse';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    chatInput.value += (chatInput.value ? ' ' : '') + transcript;
+                };
+
+                recognition.onerror = () => {
+                    isRecording = false;
+                    micIcon.className = 'fa-solid fa-microphone text-sm';
+                };
+
+                recognition.onend = () => {
+                    isRecording = false;
+                    micIcon.className = 'fa-solid fa-microphone text-sm';
+                };
+
+                voiceBtn.addEventListener('click', () => {
+                    if (isRecording) {
+                        recognition.stop();
+                    } else {
+                        recognition.start();
+                    }
+                });
+            } else {
+                voiceBtn.addEventListener('click', () => {
+                    alert('Voice input is not supported in this browser.');
+                });
+            }
+
+            // Image Generation Modal / Prompt helper
+            const genImageBtn = document.getElementById('gen-image-btn');
+            genImageBtn.addEventListener('click', () => {
+                chatInput.value = '/image ' + (chatInput.value || '');
+                chatInput.focus();
+            });
+
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(code, { language: lang }).value;
+                    }
+                    return hljs.highlightAuto(code).value;
+                },
+                breaks: true
+            });
+
+            function updateApiStatusUI() {
+                apiKeyInput.value = state.apiKey;
+                if (openaiKeyInput) openaiKeyInput.value = state.openaiKey;
+                if (anthropicKeyInput) anthropicKeyInput.value = state.anthropicKey;
+                
+                if (state.apiKey || state.openaiKey || state.anthropicKey) {
+                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-emerald-500 shrink-0';
+                    apiStatusText.innerText = 'API Key Configured';
+                } else {
+                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
+                    apiStatusText.innerText = 'Set Gemini / OpenAI Key';
                 }
             }
-            requestAnimationFrame(animateCircuit);
-        }
-        animateCircuit();
 
-        // Fixed authentication: Case-insensitive & trimmed comparison + direct "Devil2" fallback check
-        document.getElementById('lockForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const rawPass = document.getElementById('passcode').value.trim();
-            const inputHash = CryptoJS.SHA256(rawPass).toString();
-
-            // Check against either the exact hash OR direct password match
-            if (inputHash === HASHED_PASSCODE || rawPass.toLowerCase() === "devil2") {
-                document.getElementById('lockScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-            } else {
-                const errBox = document.getElementById('lockError');
-                errBox.classList.remove('hidden');
-                errBox.classList.add('animate-bounce');
-                setTimeout(() => errBox.classList.remove('animate-bounce'), 1000);
+            function saveSessionsToStorage() {
+                localStorage.setItem('torex_sessions', JSON.stringify(state.sessions));
             }
-        });
 
-        function lockPortal() {
-            document.getElementById('mainApp').classList.add('hidden');
-            document.getElementById('lockScreen').classList.remove('hidden');
-            document.getElementById('passcode').value = '';
-            document.getElementById('lockError').classList.add('hidden');
-        }
+            function renderHistoryList() {
+                historyContainer.innerHTML = '';
+                if (state.sessions.length === 0) {
+                    historyContainer.innerHTML = '<div class="px-3 py-2 text-xs text-slate-500 font-mono">No previous sessions</div>';
+                    return;
+                }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tool-section').forEach(sec => sec.classList.add('hidden'));
-            document.querySelectorAll('.nav-tab').forEach(btn => {
-                btn.classList.remove('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
-                btn.classList.add('border-cyber-red/30', 'text-gray-400');
+                state.sessions.forEach(session => {
+                    const isActive = session.id === state.currentSessionId;
+                    const btn = document.createElement('div');
+                    btn.className = `group flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer border border-transparent transition ${isActive ? 'bg-neutral-800/90 text-white font-medium border-neutral-700/80 shadow-md' : 'text-slate-400 hover:bg-neutral-900 hover:text-slate-200'}`;
+                    btn.innerHTML = `
+                        <div class="flex items-center gap-2 truncate flex-1 pr-2">
+                            <i class="fa-regular fa-message text-[11px] ${isActive ? 'text-brand-400' : 'text-slate-500'}"></i>
+                            <span class="truncate">${session.title || 'Untitled Session'}</span>
+                        </div>
+                        <button class="delete-session-btn opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 p-1 transition" data-id="${session.id}">
+                            <i class="fa-solid fa-xmark text-xs"></i>
+                        </button>
+                    `;
+
+                    btn.addEventListener('click', (e) => {
+                        if (!e.target.closest('.delete-session-btn')) {
+                            loadSession(session.id);
+                        }
+                    });
+
+                    const deleteBtn = btn.querySelector('.delete-session-btn');
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteSession(session.id);
+                    });
+
+                    historyContainer.appendChild(btn);
+                });
+            }
+
+            function deleteSession(id) {
+                state.sessions = state.sessions.filter(s => s.id !== id);
+                saveSessionsToStorage();
+                if (state.currentSessionId === id) {
+                    createNewSession();
+                } else {
+                    renderHistoryList();
+                }
+            }
+
+            function createNewSession() {
+                state.currentSessionId = 'session_' + Date.now();
+                messagesList.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                messagesList.classList.add('hidden');
+                renderHistoryList();
+            }
+
+            function loadSession(id) {
+                const session = state.sessions.find(s => s.id === id);
+                if (!session) return;
+
+                state.currentSessionId = session.id;
+                emptyState.classList.add('hidden');
+                messagesList.classList.remove('hidden');
+                messagesList.innerHTML = '';
+
+                session.messages.forEach(msg => {
+                    appendMessageUI(msg.role, msg.content);
+                });
+
+                renderHistoryList();
+            }
+
+            function appendMessageUI(role, content) {
+                emptyState.classList.add('hidden');
+                messagesList.classList.remove('hidden');
+
+                const isUser = role === 'user';
+                const msgNode = document.createElement('div');
+                msgNode.className = `flex gap-3 sm:gap-4 ${isUser ? 'justify-end' : 'justify-start'}`;
+
+                const catLogoAvatarHTML = `
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1px] shadow-md flex items-center justify-center shrink-0 border border-neutral-700">
+                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" viewBox="0 0 100 100" fill="currentColor">
+                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
+                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
+                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
+                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+
+                const innerHTML = `
+                    <div class="flex gap-3 sm:gap-4 max-w-full sm:max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}">
+                        ${isUser ? `
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs shadow-md bg-brand-600 border border-brand-400/40 text-white">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        ` : catLogoAvatarHTML}
+                        <div class="flex flex-col min-w-0">
+                            <div class="text-[11px] font-medium text-slate-400 mb-1 ${isUser ? 'text-right' : 'text-left'}">
+                                ${isUser ? 'You' : 'TorexAI (' + state.selectedModel.toUpperCase() + ')'}
+                            </div>
+                            <div class="message-content text-sm rounded-2xl px-4 py-3 ${isUser ? 'bg-brand-600 border border-brand-500 text-white rounded-tr-none' : 'bg-neutral-900/90 border border-neutral-700/80 text-slate-100 rounded-tl-none shadow-2xl backdrop-blur-xl'} markdown-body">
+                                ${isUser ? escapeHtml(content) : marked.parse(content)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                msgNode.innerHTML = innerHTML;
+                messagesList.appendChild(msgNode);
+
+                if (!isUser) {
+                    msgNode.querySelectorAll('pre code').forEach((codeBlock) => {
+                        const pre = codeBlock.parentElement;
+                        const copyBtn = document.createElement('button');
+                        copyBtn.className = 'text-[10px] bg-neutral-800 border border-neutral-700 text-slate-300 hover:bg-neutral-700 px-2.5 py-1 rounded ml-auto block mb-1 transition shadow-sm';
+                        copyBtn.innerHTML = '<i class="fa-solid fa-code"></i> Open in Workspace Canvas';
+                        copyBtn.addEventListener('click', () => {
+                            openInCanvas(codeBlock.innerText);
+                        });
+                        pre.parentNode.insertBefore(copyBtn, pre);
+                    });
+                }
+
+                const wrapper = document.getElementById('messages-wrapper');
+                wrapper.scrollTop = wrapper.scrollHeight;
+
+                return msgNode;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.innerText = text;
+                return div.innerHTML;
+            }
+
+            function openInCanvas(codeText) {
+                canvasContent.innerText = codeText;
+                hljs.highlightElement(canvasContent);
+                canvasWorkspace.classList.remove('hidden');
+                canvasWorkspace.classList.add('flex');
+                toggleCanvasBtn.classList.remove('hidden');
+            }
+
+            toggleCanvasBtn.addEventListener('click', () => {
+                canvasWorkspace.classList.toggle('hidden');
             });
 
-            document.getElementById(`sec-${tabId}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
-                activeBtn.classList.remove('text-gray-400');
-            }
-
-            if (tabId === 'map') {
-                setTimeout(() => {
-                    init3DHackerGlobe();
-                }, 100);
-            }
-        }
-
-        // ==========================================
-        // 3D GLOBE RENDERER (THREE.JS MATRIX)
-        // ==========================================
-        let globeScene, globeCamera, globeRenderer, globeGroup;
-        let isGlobeInitialized = false;
-        let autoRotateGlobe = true;
-        let cyberAttacksActive = true;
-        let globeNodes = [];
-        let activeAttacks = [];
-        let raycaster, mouseVector;
-        let isMouseDown = false;
-        let previousMousePosition = { x: 0, y: 0 };
-        let lastAttackTime = 0;
-
-        const ATTACK_TYPES = [
-            { name: "DDoS BOTNET WAVE", color: 0xff003c },
-            { name: "RANSOMWARE INJECTION", color: 0xff5500 },
-            { name: "ZERO-DAY EXPLOIT", color: 0xa855f7 },
-            { name: "SQL INJECTION VECTOR", color: 0x00f0ff },
-            { name: "BRUTEFORCE STREAM", color: 0x00ff66 }
-        ];
-
-        function latLonToVector3(lat, lon, radius) {
-            const phi = (90 - lat) * (Math.PI / 180);
-            const theta = (lon + 180) * (Math.PI / 180);
-            const x = -(radius * Math.sin(phi) * Math.cos(theta));
-            const z = (radius * Math.sin(phi) * Math.sin(theta));
-            const y = (radius * Math.cos(phi));
-            return new THREE.Vector3(x, y, z);
-        }
-
-        function init3DHackerGlobe() {
-            const container = document.getElementById('globe3DContainer');
-            if (!container) return;
-
-            if (isGlobeInitialized) {
-                globeCamera.aspect = container.clientWidth / container.clientHeight;
-                globeCamera.updateProjectionMatrix();
-                globeRenderer.setSize(container.clientWidth, container.clientHeight);
-                return;
-            }
-
-            isGlobeInitialized = true;
-
-            globeScene = new THREE.Scene();
-            globeCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            globeCamera.position.z = 240;
-
-            globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            globeRenderer.setSize(container.clientWidth, container.clientHeight);
-            globeRenderer.setPixelRatio(window.devicePixelRatio);
-            container.innerHTML = '';
-            container.appendChild(globeRenderer.domElement);
-
-            globeGroup = new THREE.Group();
-            globeScene.add(globeGroup);
-
-            const radius = 70;
-            const sphereGeo = new THREE.SphereGeometry(radius, 40, 40);
-            const wireframeMat = new THREE.MeshBasicMaterial({
-                color: 0x00f0ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.18
+            closeCanvasBtn.addEventListener('click', () => {
+                canvasWorkspace.classList.add('hidden');
             });
-            const globeMesh = new THREE.Mesh(sphereGeo, wireframeMat);
-            globeGroup.add(globeMesh);
 
-            const coreGeo = new THREE.SphereGeometry(radius - 0.5, 32, 32);
-            const coreMat = new THREE.MeshBasicMaterial({ color: 0x02040b });
-            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-            globeGroup.add(coreMesh);
+            copyCanvasBtn.addEventListener('click', () => {
+                document.execCommand('copy');
+                copyCanvasBtn.innerText = 'Copied!';
+                setTimeout(() => copyCanvasBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 2000);
+            });
 
-            const dotParticlesGeo = new THREE.BufferGeometry();
-            const positions = [];
-            const colors = [];
+            async function handleSendMessage() {
+                const text = chatInput.value.trim();
+                if ((!text && !state.attachedFile) || state.isGenerating) return;
 
-            for (let lat = -80; lat <= 80; lat += 3) {
-                for (let lon = -180; lon <= 180; lon += 4) {
-                    const isLand = (
-                        (lat > 15 && lat < 70 && lon > -160 && lon < -50) ||
-                        (lat > -55 && lat < 12 && lon > -80 && lon < -35) ||
-                        (lat > 35 && lat < 70 && lon > -10 && lon < 40) ||
-                        (lat > -35 && lat < 35 && lon > -20 && lon < 50) ||
-                        (lat > 10 && lat < 75 && lon > 40 && lon < 145) ||
-                        (lat > -42 && lat < -10 && lon > 110 && lon < 155)
-                    );
+                if (!state.currentSessionId) {
+                    state.currentSessionId = 'session_' + Date.now();
+                }
 
-                    if (isLand || Math.random() < 0.03) {
-                        const v = latLonToVector3(lat, lon, radius + 0.5);
-                        positions.push(v.x, v.y, v.z);
-                        if (isLand) {
-                            colors.push(0.0, 0.95, 1.0);
+                let currentSession = state.sessions.find(s => s.id === state.currentSessionId);
+                if (!currentSession) {
+                    currentSession = {
+                        id: state.currentSessionId,
+                        title: text.slice(0, 30) || 'New Conversation',
+                        messages: []
+                    };
+                    state.sessions.unshift(currentSession);
+                }
+
+                currentSession.messages.push({ role: 'user', content: text });
+                appendMessageUI('user', text);
+
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+
+                const botNode = appendMessageUI('assistant', '<i class="fa-solid fa-spinner fa-spin text-brand-400"></i> חושב ומייצר תשובה בזמן אמת...');
+                const contentDiv = botNode.querySelector('.message-content');
+
+                state.isGenerating = true;
+                sendBtn.disabled = true;
+
+                try {
+                    // Check if query is an Image Generation request
+                    if (text.startsWith('/image ')) {
+                        const imagePrompt = text.replace('/image ', '').trim();
+                        const encodedPrompt = encodeURIComponent(imagePrompt);
+                        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=600&nologo=true`;
+
+                        const imageMarkdown = `### AI Generated Image\n\n![${imagePrompt}](${imageUrl})\n\n*Prompt:* "${escapeHtml(imagePrompt)}"`;
+                        contentDiv.innerHTML = marked.parse(imageMarkdown);
+                        currentSession.messages.push({ role: 'assistant', content: imageMarkdown });
+
+                        saveSessionsToStorage();
+                        renderHistoryList();
+                        return;
+                    }
+
+                    let activeApiKey = state.apiKey || "";
+                    let modelName = "gemini-2.5-flash";
+
+                    const contentsPayload = currentSession.messages.map(m => ({
+                        role: m.role === 'user' ? 'user' : 'model',
+                        parts: [{ text: m.content }]
+                    }));
+
+                    // If user attached a file or image, encode or attach context
+                    if (state.attachedFile) {
+                        const reader = new FileReader();
+                        const fileDataUrl = await new Promise((resolve) => {
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsDataURL(state.attachedFile);
+                        });
+                        const base64Data = fileDataUrl.split(',')[1];
+                        const mimeType = state.attachedFile.type || 'image/png';
+
+                        if (mimeType.startsWith('image/')) {
+                            // Inline image data part
+                            contentsPayload[contentsPayload.length - 1].parts.push({
+                                inlineData: { mimeType: mimeType, data: base64Data }
+                            });
                         } else {
-                            colors.push(0.0, 0.35, 0.6);
+                            // Text / code attachment
+                            const textContent = await state.attachedFile.text();
+                            contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n[קובץ מצורף: ${state.attachedFile.name}]\n\`\`\`\n${textContent}\n\`\`\``;
                         }
                     }
-                }
-            }
 
-            dotParticlesGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            dotParticlesGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`;
 
-            const dotMaterial = new THREE.PointsMaterial({
-                size: 1.6,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.9
-            });
-            const dotCloud = new THREE.Points(dotParticlesGeo, dotMaterial);
-            globeGroup.add(dotCloud);
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: contentsPayload,
+                            systemInstruction: {
+                                parts: [{ text: "You are TorexAI, an advanced, highly capable AI assistant. Answer the user comprehensively, directly, and accurately in the exact same language they spoke to you (if Hebrew, answer in natural, fluent Hebrew)." }]
+                            }
+                        })
+                    });
 
-            const nodesData = [
-                { id: 1, name: "Tel Aviv Cyber Command", lat: 32.0853, lon: 34.7818, type: "primary", details: "Mideast Defense & Intelligence Hub", status: "SECURE // 100 Gbps" },
-                { id: 2, name: "Frankfurt DE-CIX Core", lat: 50.1109, lon: 8.6821, type: "primary", details: "Central European Internet Exchange", status: "OPERATIONAL" },
-                { id: 3, name: "New York Cyber Vault", lat: 40.7128, lon: -74.0060, type: "relay", details: "North America Financial Subnet Node", status: "ACTIVE" },
-                { id: 4, name: "Silicon Valley Gateway", lat: 37.3875, lon: -122.0575, type: "relay", details: "Pacific Cyber Defense Center", status: "NORMAL" },
-                { id: 5, name: "London Intelligence Hub", lat: 51.5074, lon: -0.1278, type: "relay", details: "UK Interconnect Backbone Node", status: "ONLINE" },
-                { id: 6, name: "Tokyo Cyber Operations", lat: 35.6762, lon: 139.6503, type: "primary", details: "East Asia Security Command", status: "MONITORED" },
-                { id: 7, name: "Singapore Regional Nexus", lat: 1.3521, lon: 103.8198, type: "primary", details: "ASEAN Packet Inspection Node", status: "ACTIVE SCAN" },
-                { id: 8, name: "Sydney Cyber Station", lat: -33.8688, lon: 151.2093, type: "relay", details: "Oceania Cable Termination Point", status: "STABLE" }
-            ];
-
-            globeNodes = [];
-            nodesData.forEach(n => {
-                const pos = latLonToVector3(n.lat, n.lon, radius + 1);
-                
-                const nodeGeo = new THREE.SphereGeometry(2.2, 16, 16);
-                const nodeMat = new THREE.MeshBasicMaterial({
-                    color: n.type === 'primary' ? 0x00ffff : 0xff003c
-                });
-                const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
-                nodeMesh.position.copy(pos);
-                nodeMesh.userData = n;
-
-                globeGroup.add(nodeMesh);
-                globeNodes.push(nodeMesh);
-            });
-
-            function spawnCyberAttack(sourceNode, targetNode, forcedType = null) {
-                if (!sourceNode || !targetNode || sourceNode === targetNode) return;
-
-                const attackType = forcedType || ATTACK_TYPES[Math.floor(Math.random() * ATTACK_TYPES.length)];
-                const v1 = sourceNode.position;
-                const v2 = targetNode.position;
-
-                const distance = v1.distanceTo(v2);
-                const mid = v1.clone().add(v2).multiplyScalar(0.5);
-                mid.normalize().multiplyScalar(radius + distance * 0.45);
-
-                const curve = new THREE.QuadraticBezierCurve3(v1, mid, v2);
-                const points = curve.getPoints(40);
-                const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
-
-                const arcMat = new THREE.LineBasicMaterial({
-                    color: attackType.color,
-                    transparent: true,
-                    opacity: 0.9
-                });
-                const attackLine = new THREE.Line(arcGeo, arcMat);
-                globeGroup.add(attackLine);
-
-                const headGeo = new THREE.SphereGeometry(1.6, 12, 12);
-                const headMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                const headMesh = new THREE.Mesh(headGeo, headMat);
-                globeGroup.add(headMesh);
-
-                activeAttacks.push({
-                    line: attackLine,
-                    head: headMesh,
-                    curve: curve,
-                    progress: 0,
-                    speed: 0.012 + Math.random() * 0.015,
-                    targetNode: targetNode,
-                    color: attackType.color,
-                    type: attackType.name
-                });
-
-                const stream = document.getElementById('attackLogStream');
-                if (stream) {
-                    const item = document.createElement('div');
-                    item.className = 'text-red-400 truncate animate-pulse font-mono';
-                    item.innerHTML = `<span class="text-gray-500">[${new Date().toLocaleTimeString().split(' ')[0]}]</span> <span class="text-red-500 font-bold">${attackType.name}</span>: ${sourceNode.userData.name.split(' ')[0]} ➔ ${targetNode.userData.name.split(' ')[0]}`;
-                    stream.appendChild(item);
-                    if (stream.children.length > 5) {
-                        stream.removeChild(stream.children[0]);
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.error.message || 'Gemini API Error');
                     }
-                }
-            }
 
-            raycaster = new THREE.Raycaster();
-            mouseVector = new THREE.Vector2();
-            const canvasEl = globeRenderer.domElement;
-
-            canvasEl.addEventListener('mousedown', (e) => {
-                isMouseDown = true;
-                previousMousePosition = { x: e.clientX, y: e.clientY };
-            });
-
-            canvasEl.addEventListener('mousemove', (e) => {
-                if (isMouseDown) {
-                    const deltaX = e.clientX - previousMousePosition.x;
-                    const deltaY = e.clientY - previousMousePosition.y;
-
-                    globeGroup.rotation.y += deltaX * 0.005;
-                    globeGroup.rotation.x += deltaY * 0.005;
-
-                    previousMousePosition = { x: e.clientX, y: e.clientY };
-                }
-            });
-
-            window.addEventListener('mouseup', () => { isMouseDown = false; });
-
-            canvasEl.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                globeCamera.position.z += e.deltaY * 0.15;
-                globeCamera.position.z = Math.max(120, Math.min(400, globeCamera.position.z));
-            });
-
-            canvasEl.addEventListener('click', (e) => {
-                const rect = canvasEl.getBoundingClientRect();
-                mouseVector.x = ((e.clientX - rect.left) / canvasEl.width) * 2 - 1;
-                mouseVector.y = -((e.clientY - rect.top) / canvasEl.height) * 2 + 1;
-
-                raycaster.setFromCamera(mouseVector, globeCamera);
-                const intersects = raycaster.intersectObjects(globeNodes);
-
-                if (intersects.length > 0) {
-                    const nodeData = intersects[0].object.userData;
-                    const infoElem = document.getElementById('selectedNodeInfo');
-                    if (infoElem) {
-                        infoElem.innerHTML = `
-                            <div class="text-cyber-cyan font-bold text-sm font-orbitron">${nodeData.name}</div>
-                            <div class="text-gray-300 mt-1">${nodeData.details}</div>
-                            <div class="text-[10px] text-cyber-green mt-1 font-mono">${nodeData.status}</div>
-                            <div class="text-[9px] text-gray-500 mt-1">LAT: ${nodeData.lat.toFixed(2)} | LON: ${nodeData.lon.toFixed(2)}</div>
-                        `;
-                    }
-                }
-            });
-
-            function animateGlobe(time) {
-                requestAnimationFrame(animateGlobe);
-
-                if (autoRotateGlobe && !isMouseDown) {
-                    globeGroup.rotation.y += 0.002;
-                }
-
-                if (cyberAttacksActive && time - lastAttackTime > 900) {
-                    lastAttackTime = time;
-                    const src = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                    let tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                    while (tgt === src) {
-                        tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                    }
-                    spawnCyberAttack(src, tgt);
-                }
-
-                for (let i = activeAttacks.length - 1; i >= 0; i--) {
-                    const atk = activeAttacks[i];
-                    atk.progress += atk.speed;
-
-                    if (atk.progress >= 1) {
-                        globeGroup.remove(atk.line);
-                        globeGroup.remove(atk.head);
-                        atk.line.geometry.dispose();
-                        atk.line.material.dispose();
-                        atk.head.geometry.dispose();
-                        atk.head.material.dispose();
-                        activeAttacks.splice(i, 1);
+                    let aiResponseText = "";
+                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                        aiResponseText = data.candidates[0].content.parts[0].text;
                     } else {
-                        const pt = atk.curve.getPoint(atk.progress);
-                        atk.head.position.copy(pt);
+                        throw new Error('לא התקבלה תשובה תקינה מהמנוע.');
+                    }
+
+                    contentDiv.innerHTML = marked.parse(aiResponseText);
+                    currentSession.messages.push({ role: 'assistant', content: aiResponseText });
+
+                    saveSessionsToStorage();
+                    renderHistoryList();
+
+                } catch (err) {
+                    contentDiv.innerHTML = `<div class="p-3 bg-red-950/40 border border-red-500/50 rounded-xl text-red-300 text-xs">
+                        <div class="font-semibold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> שגיאת תקשורת TorexAI</div>
+                        <p>${escapeHtml(err.message)}</p>
+                    </div>`;
+                } finally {
+                    state.isGenerating = false;
+                    sendBtn.disabled = false;
+                    if (state.attachedFile) {
+                        state.attachedFile = null;
+                        filePreviewContainer.classList.add('hidden');
                     }
                 }
-
-                globeRenderer.render(globeScene, globeCamera);
             }
 
-            animateGlobe(0);
-        }
-
-        function toggleCyberAttacks() {
-            cyberAttacksActive = !cyberAttacksActive;
-            const btn = document.getElementById('attackToggleBtn');
-            if (btn) {
-                btn.innerHTML = cyberAttacksActive ? 
-                    '<i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE' : 
-                    '<i class="fa-solid fa-shield mr-1"></i> MONITORS: PAUSED';
-            }
-        }
-
-        function triggerCyberPulse() {
-            const threatStatus = document.getElementById('globalThreatStatus');
-            if (threatStatus) {
-                threatStatus.textContent = "CRITICAL (DEFCON 1)";
-                threatStatus.className = "text-red-500 font-bold animate-pulse";
-                setTimeout(() => {
-                    threatStatus.textContent = "ELEVATED (LEVEL 4)";
-                    threatStatus.className = "text-red-400 font-bold";
-                }, 5000);
-            }
-        }
-
-        // DISCORD USER LOOKUP
-        async function fetchDiscordData() {
-            const id = document.getElementById('discordInput').value.trim();
-            if (!id || !/^\d{17,20}$/.test(id)) {
-                alert('Please enter a valid Discord Snowflake ID (17-20 digits)');
-                return;
-            }
-
-            const resultContainer = document.getElementById('discordResult');
-            resultContainer.classList.add('hidden');
-
-            const snowflakeTimestamp = Number((BigInt(id) >> 22n) + 1420070400000n);
-            const creationDate = new Date(snowflakeTimestamp).toUTCString();
-
-            const prefixes = ['50', '52', '53', '54', '55', '58'];
-            const hashNum = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            const selectedPrefix = prefixes[hashNum % prefixes.length];
-            const p1 = String((hashNum * 13) % 900 + 100);
-            const p2 = String((hashNum * 37) % 9000 + 1000);
-            const mockPhone = `+972 ${selectedPrefix}-${p1}-${p2}`;
-
-            let lanyardData = null;
-            let proxyData = null;
-
-            try {
-                const proxyRes = await fetch(`https://discordlookup.mesal.dev/api/v1/user/${id}`);
-                if (proxyRes.ok) proxyData = await proxyRes.json();
-            } catch (e) {}
-
-            try {
-                const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
-                if (res.ok) {
-                    const json = await res.json();
-                    if (json.success) lanyardData = json.data;
-                }
-            } catch (e) {}
-
-            const rawUser = lanyardData?.discord_user || proxyData || {};
-            const username = proxyData?.username || rawUser.username || `User_${id.slice(-4)}`;
-            const globalName = proxyData?.global_name || rawUser.global_name || username;
-            const avatarHash = proxyData?.avatar || rawUser.avatar;
-            const isBot = (proxyData?.bot || rawUser.bot) ? 'YES' : 'NO';
-
-            let avatarUrl = 'https://cdn.discordapp.com/embed/avatars/0.png';
-            if (avatarHash) {
-                const ext = avatarHash.startsWith('a_') ? 'gif' : 'png';
-                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=512`;
-            }
-
-            const avatarImg = document.getElementById('discordAvatar');
-            avatarImg.onerror = function() { this.src = 'https://cdn.discordapp.com/embed/avatars/1.png'; };
-            avatarImg.src = avatarUrl;
-
-            document.getElementById('discordGlobalName').textContent = globalName;
-            document.getElementById('discordUsername').textContent = `@${username}`;
-            document.getElementById('discordIdVal').textContent = id;
-            document.getElementById('discordCreatedVal').textContent = creationDate;
-            document.getElementById('discordBotVal').textContent = isBot;
-            document.getElementById('discordPhoneVal').textContent = mockPhone;
-
-            const combinedRaw = {
-                snowflake_id: id,
-                username: username,
-                global_name: globalName,
-                avatar_url: avatarUrl,
-                created_at: creationDate,
-                estimated_phone: mockPhone,
-                raw_payload: proxyData || lanyardData || 'N/A'
-            };
-            document.getElementById('discordRawJson').textContent = JSON.stringify(combinedRaw, null, 2);
-
-            resultContainer.classList.remove('hidden');
-        }
-
-        // DOMAIN & IP RECON
-        async function fetchDomainData() {
-            const input = document.getElementById('domainInput').value.trim();
-            if (!input) return;
-
-            const output = document.getElementById('domainOutput');
-            const container = document.getElementById('domainResult');
-            container.classList.remove('hidden');
-            output.textContent = 'Executing DNS queries and location telemetry...';
-
-            try {
-                const res = await fetch(`https://ipapi.co/${input}/json/`);
-                if (res.ok) {
-                    const json = await res.json();
-                    output.textContent = JSON.stringify(json, null, 2);
-                } else {
-                    output.textContent = 'Failed to retrieve telemetry data from server.';
-                }
-            } catch (e) {
-                output.textContent = `Connection Error: ${e.message}`;
-            }
-        }
-
-        // USERNAME SCANNER
-        function scanUsername() {
-            const user = document.getElementById('usernameInput').value.trim();
-            if (!user) return;
-
-            const resultContainer = document.getElementById('usernameResult');
-            resultContainer.classList.remove('hidden');
-            resultContainer.innerHTML = '';
-
-            const platforms = [
-                { name: 'GitHub', url: `https://github.com/${user}`, icon: 'fa-brands fa-github' },
-                { name: 'Twitter / X', url: `https://x.com/${user}`, icon: 'fa-brands fa-x-twitter' },
-                { name: 'Reddit', url: `https://reddit.com/user/${user}`, icon: 'fa-brands fa-reddit' },
-                { name: 'Instagram', url: `https://instagram.com/${user}`, icon: 'fa-brands fa-instagram' },
-                { name: 'Steam', url: `https://steamcommunity.com/id/${user}`, icon: 'fa-brands fa-steam' },
-                { name: 'Twitch', url: `https://twitch.tv/${user}`, icon: 'fa-brands fa-twitch' }
-            ];
-
-            platforms.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'bg-cyber-panel border border-cyber-red/40 rounded-xl p-4 flex items-center justify-between neon-border';
-                card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <i class="${p.icon} text-lg text-cyber-red"></i>
-                        <span class="text-sm font-bold text-gray-200 font-orbitron">${p.name}</span>
-                    </div>
-                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-cyber-red/20 text-cyber-red border border-cyber-red/50 px-3 py-1.5 rounded-lg hover:bg-cyber-red hover:text-black transition-all font-mono">
-                        INSPECT
-                    </a>
-                `;
-                resultContainer.appendChild(card);
+            chatInput.addEventListener('input', () => {
+                chatInput.style.height = 'auto';
+                chatInput.style.height = Math.min(chatInput.scrollHeight, 180) + 'px';
             });
-        }
 
-        // METADATA EXTRACTOR
-        function extractMetadata(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            });
 
-            const container = document.getElementById('metadataResult');
-            const output = document.getElementById('metadataOutput');
-            container.classList.remove('hidden');
+            sendBtn.addEventListener('click', handleSendMessage);
 
-            output.innerHTML = `
-                <div class="text-cyber-red">Filename: <span class="text-gray-300">${file.name}</span></div>
-                <div class="text-cyber-red">File Size: <span class="text-gray-300">${(file.size / 1024).toFixed(2)} KB</span></div>
-                <div class="text-cyber-red">MIME Type: <span class="text-gray-300">${file.type}</span></div>
-                <div class="text-cyber-red">Last Modified: <span class="text-gray-300">${new Date(file.lastModified).toUTCString()}</span></div>
-                <div class="text-cyber-green pt-2 border-t border-gray-800">EXIF headers parsed successfully.</div>
-            `;
-        }
+            document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const title = btn.querySelector('span').innerText;
+                    chatInput.value = `Help me with: ${title}`;
+                    handleSendMessage();
+                });
+            });
 
-        // LEAK CHECKER
-        function checkBreach() {
-            const target = document.getElementById('breachInput').value.trim();
-            if (!target) return;
+            attachFileBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    state.attachedFile = file;
+                    filePreviewName.innerText = file.name;
+                    filePreviewContainer.classList.remove('hidden');
+                }
+            });
 
-            const container = document.getElementById('breachResult');
-            const output = document.getElementById('breachOutput');
-            container.classList.remove('hidden');
+            removeFileBtn.addEventListener('click', () => {
+                state.attachedFile = null;
+                fileInput.value = '';
+                filePreviewContainer.classList.add('hidden');
+            });
 
-            output.innerHTML = `
-                <div class="bg-cyber-panel border border-cyber-red/50 rounded-xl p-4 text-xs font-mono neon-border">
-                    <p class="text-cyber-red font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> BREACH RADAR SCAN RESULTS FOR: ${target}</p>
-                    <p class="text-gray-400">Scan complete. No plain-text cleartext exposures found in public dumps.</p>
-                </div>
-            `;
-        }
+            modelSelect.addEventListener('change', (e) => {
+                state.selectedModel = e.target.value;
+            });
 
-        function copyToClipboard(elementId) {
-            const text = document.getElementById(elementId).textContent;
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            alert('JSON copied to clipboard!');
-        }
+            clearChatBtn.addEventListener('click', () => {
+                if (state.currentSessionId) {
+                    deleteSession(state.currentSessionId);
+                }
+            });
 
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+            apiModalTrigger.addEventListener('click', () => apiModal.classList.remove('hidden'));
+            closeApiModal.addEventListener('click', () => apiModal.classList.add('hidden'));
+            
+            saveApiKeyBtn.addEventListener('click', () => {
+                const gemKey = apiKeyInput.value.trim();
+                const openKey = openaiKeyInput ? openaiKeyInput.value.trim() : '';
+                const antKey = anthropicKeyInput ? anthropicKeyInput.value.trim() : '';
+
+                state.apiKey = gemKey;
+                state.openaiKey = openKey;
+                state.anthropicKey = antKey;
+
+                localStorage.setItem('torex_gemini_api_key', gemKey);
+                localStorage.setItem('torex_openai_api_key', openKey);
+                localStorage.setItem('torex_anthropic_api_key', antKey);
+
+                updateApiStatusUI();
+                apiModal.classList.add('hidden');
+            });
+
+            toggleSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            closeSidebarMobile.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+
+            newChatBtn.addEventListener('click', createNewSession);
+
+            window.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                    e.preventDefault();
+                    createNewSession();
+                }
+            });
+
+            updateApiStatusUI();
+            renderHistoryList();
+        });
+    </script>
+</body>
+</html>
+    <!-- Application JavaScript Engine with Multi-AI API support and Firebase Auth/Database -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const canvas = document.getElementById('particle-wave-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let time = 0;
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            function animateVortex() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+                ctx.fillRect(0, 0, width, height);
+
+                ctx.save();
+                ctx.translate(width / 2, height / 2);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
+                ctx.lineWidth = 1;
+
+                const maxR = Math.hypot(width, height) / 1.1;
+                const ringCount = 42;
+
+                for (let i = 1; i <= ringCount; i++) {
+                    const r = Math.pow(i / ringCount, 1.8) * maxR;
+                    const twist = time * 0.3 + i * 0.12;
+
+                    ctx.beginPath();
+                    const vertices = 4 + Math.floor(i / 10);
+                    for (let j = 0; j <= vertices; j++) {
+                        const angle = (j / vertices) * Math.PI * 2 + twist;
+                        const waveR = r + Math.sin(angle * 3 + time * 1.2) * (i * 0.8);
+                        const x = Math.cos(angle) * waveR;
+                        const y = Math.sin(angle) * waveR;
+
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+
+                const spokeCount = 28;
+                for (let s = 0; s < spokeCount; s++) {
+                    ctx.beginPath();
+                    for (let i = 1; i <= ringCount; i += 2) {
+                        const r = Math.pow(i / ringCount, 1.8) * maxR;
+                        const twist = time * 0.3 + i * 0.12;
+                        const angle = (s / spokeCount) * Math.PI * 2 + twist;
+                        const x = Math.cos(angle) * r;
+                        const y = Math.sin(angle) * r;
+
+                        if (i === 1) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+                time += 0.008;
+                requestAnimationFrame(animateVortex);
+            }
+            animateVortex();
+
+            // Firebase App & Database Setup
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'torexai-platform';
+            const defaultFirebaseConfig = {
+                apiKey: "AIzaSyDemoKeyForTorexAIPlatformFirebase",
+                authDomain: `${appId}.firebaseapp.com`,
+                projectId: appId,
+                storageBucket: `${appId}.appspot.com`,
+                messagingSenderId: "1234567890",
+                appId: "1:1234567890:web:abcdef123456"
+            };
+
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : defaultFirebaseConfig;
+            
+            const { 
+                initializeApp, 
+                getAuth, 
+                signInWithCustomToken, 
+                signInAnonymously, 
+                signInWithEmailAndPassword,
+                createUserWithEmailAndPassword,
+                GoogleAuthProvider,
+                signInWithPopup,
+                signOut,
+                onAuthStateChanged,
+                getFirestore, 
+                doc, 
+                setDoc, 
+                getDoc, 
+                collection, 
+                onSnapshot, 
+                deleteDoc 
+            } = window.FirebaseSDK;
+
+            let app, auth, db;
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+            } catch (err) {
+                console.warn('Firebase init fallback:', err);
+            }
+
+            const state = {
+                user: null,
+                userId: null,
+                apiKey: localStorage.getItem('torex_gemini_api_key') || '',
+                openaiKey: localStorage.getItem('torex_openai_api_key') || '',
+                anthropicKey: localStorage.getItem('torex_anthropic_api_key') || '',
+                currentSessionId: null,
+                sessions: [],
+                selectedModel: 'gemini-2.5-flash',
+                attachedFile: null,
+                isGenerating: false,
+                isSignUpMode: false
+            };
+
+            const sidebar = document.getElementById('sidebar');
+            const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+            const closeSidebarMobile = document.getElementById('close-sidebar-mobile');
+            const newChatBtn = document.getElementById('new-chat-btn');
+            const historyContainer = document.getElementById('history-container');
+            const emptyState = document.getElementById('empty-state');
+            const messagesList = document.getElementById('messages-list');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            const modelSelect = document.getElementById('model-select');
+            const clearChatBtn = document.getElementById('clear-chat-btn');
+            
+            const attachFileBtn = document.getElementById('attach-file-btn');
+            const fileInput = document.getElementById('file-input');
+            const filePreviewContainer = document.getElementById('file-preview-container');
+            const filePreviewName = document.getElementById('file-preview-name');
+            const removeFileBtn = document.getElementById('remove-file-btn');
+
+            const apiModalTrigger = document.getElementById('api-key-modal-trigger');
+            const apiModal = document.getElementById('api-modal');
+            const closeApiModal = document.getElementById('close-api-modal');
+            const apiKeyInput = document.getElementById('api-key-input');
+            const openaiKeyInput = document.getElementById('openai-key-input');
+            const anthropicKeyInput = document.getElementById('anthropic-key-input');
+            const saveApiKeyBtn = document.getElementById('save-api-key-btn');
+            const apiStatusBadge = document.getElementById('api-status-badge');
+            const apiStatusText = document.getElementById('api-status-text');
+
+            const canvasWorkspace = document.getElementById('canvas-workspace');
+            const toggleCanvasBtn = document.getElementById('toggle-canvas-btn');
+            const closeCanvasBtn = document.getElementById('close-canvas-btn');
+            const canvasContent = document.getElementById('canvas-content');
+            const copyCanvasBtn = document.getElementById('copy-canvas-btn');
+
+            // Authentication Screen Elements
+            const authGate = document.getElementById('auth-gate');
+            const authForm = document.getElementById('auth-form');
+            const emailInput = document.getElementById('email-input');
+            const passcodeInput = document.getElementById('passcode-input');
+            const authError = document.getElementById('auth-error');
+            const authTitle = document.getElementById('auth-title');
+            const authSubtitle = document.getElementById('auth-subtitle');
+            const authSubmitBtn = document.getElementById('auth-submit-btn');
+            const googleAuthBtn = document.getElementById('google-auth-btn');
+            const authToggleBtn = document.getElementById('auth-toggle-btn');
+            const authToggleText = document.getElementById('auth-toggle-text');
+            const userDisplayEmail = document.getElementById('user-display-email');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            // Toggle between Sign In & Sign Up
+            authToggleBtn.addEventListener('click', () => {
+                state.isSignUpMode = !state.isSignUpMode;
+                if (state.isSignUpMode) {
+                    authTitle.innerText = "Create Account";
+                    authSubtitle.innerText = "Please enter your details to sign up.";
+                    authSubmitBtn.innerText = "Sign up";
+                    authToggleText.innerText = "Already have an account?";
+                    authToggleBtn.innerText = "Sign in";
+                } else {
+                    authTitle.innerText = "Sign In";
+                    authSubtitle.innerText = "Please enter your details to sign in.";
+                    authSubmitBtn.innerText = "Sign in";
+                    authToggleText.innerText = "Don't have an account?";
+                    authToggleBtn.innerText = "Sign up";
+                }
+                authError.classList.add('hidden');
+            });
+
+            // Sign in / Sign up form handler
+            authForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                const password = passcodeInput.value.trim();
+
+                authError.classList.add('hidden');
+
+                if (!email || !password) {
+                    authError.innerText = "Please fill in all fields.";
+                    authError.classList.remove('hidden');
+                    return;
+                }
+
+                try {
+                    if (state.isSignUpMode) {
+                        await createUserWithEmailAndPassword(auth, email, password);
+                    } else {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    }
+                } catch (err) {
+                    authError.innerText = err.message.replace('Firebase: ', '');
+                    authError.classList.remove('hidden');
+                }
+            });
+
+            // Google Authentication handler
+            googleAuthBtn.addEventListener('click', async () => {
+                try {
+                    const provider = new GoogleAuthProvider();
+                    await signInWithPopup(auth, provider);
+                } catch (err) {
+                    // Fallback to anonymous sign-in if popup is blocked
+                    try {
+                        await signInAnonymously(auth);
+                    } catch (e) {
+                        authError.innerText = "Google Sign-In failed: " + err.message;
+                        authError.classList.remove('hidden');
+                    }
+                }
+            });
+
+            logoutBtn.addEventListener('click', async () => {
+                if (auth) await signOut(auth);
+            });
+
+            // Listen for Authentication state changes
+            let unsubscribeSessions = null;
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    state.user = user;
+                    state.userId = user.uid;
+                    authGate.classList.add('hidden');
+                    userDisplayEmail.innerText = user.email || `User: ${user.uid.slice(0, 6)}...`;
+
+                    // Listen to Firestore real-time database chats for user
+                    subscribeToFirestoreDatabase();
+                } else {
+                    state.user = null;
+                    state.userId = null;
+                    authGate.classList.remove('hidden');
+                    state.sessions = [];
+                    renderHistoryList();
+                    if (unsubscribeSessions) unsubscribeSessions();
+                }
+            });
+
+            // Automatic initial authentication check (supports custom tokens)
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (e) {
+                    console.log("Custom token login skipped");
+                }
+            }
+
+            // Realtime Firestore Database Listener
+            function subscribeToFirestoreDatabase() {
+                if (!state.userId) return;
+                
+                const userSessionsRef = collection(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions');
+
+                if (unsubscribeSessions) unsubscribeSessions();
+
+                unsubscribeSessions = onSnapshot(userSessionsRef, (snapshot) => {
+                    const fetchedSessions = [];
+                    snapshot.forEach((docSnap) => {
+                        fetchedSessions.push({
+                            id: docSnap.id,
+                            ...docSnap.data()
+                        });
+                    });
+
+                    // Sort by timestamp in JS memory
+                    fetchedSessions.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+                    state.sessions = fetchedSessions;
+
+                    renderHistoryList();
+
+                    if (state.currentSessionId) {
+                        const current = state.sessions.find(s => s.id === state.currentSessionId);
+                        if (current) {
+                            loadSession(current.id, false);
+                        }
+                    }
+                }, (error) => {
+                    console.error("Firestore sync error:", error);
+                });
+            }
+
+            async function saveSessionToFirestore(session) {
+                if (!state.userId) return;
+                try {
+                    const sessionDocRef = doc(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions', session.id);
+                    await setDoc(sessionDocRef, {
+                        ...session,
+                        updatedAt: Date.now()
+                    });
+                } catch (err) {
+                    console.error("Error saving chat to database:", err);
+                }
+            }
+
+            async function deleteSessionFromFirestore(id) {
+                if (!state.userId) return;
+                try {
+                    const sessionDocRef = doc(db, 'artifacts', appId, 'users', state.userId, 'chat_sessions', id);
+                    await deleteDoc(sessionDocRef);
+                } catch (err) {
+                    console.error("Error deleting session:", err);
+                }
+            }
+
+            function renderHistoryList() {
+                historyContainer.innerHTML = '';
+                if (state.sessions.length === 0) {
+                    historyContainer.innerHTML = '<div class="px-3 py-2 text-xs text-slate-500 font-mono">No previous sessions</div>';
+                    return;
+                }
+
+                state.sessions.forEach(session => {
+                    const isActive = session.id === state.currentSessionId;
+                    const btn = document.createElement('div');
+                    btn.className = `group flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer border border-transparent transition ${isActive ? 'bg-neutral-800/90 text-white font-medium border-neutral-700/80 shadow-md' : 'text-slate-400 hover:bg-neutral-900 hover:text-slate-200'}`;
+                    btn.innerHTML = `
+                        <div class="flex items-center gap-2 truncate flex-1 pr-2">
+                            <i class="fa-regular fa-message text-[11px] ${isActive ? 'text-brand-400' : 'text-slate-500'}"></i>
+                            <span class="truncate">${session.title || 'Untitled Session'}</span>
+                        </div>
+                        <button class="delete-session-btn opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 p-1 transition" data-id="${session.id}">
+                            <i class="fa-solid fa-xmark text-xs"></i>
+                        </button>
+                    `;
+
+                    btn.addEventListener('click', (e) => {
+                        if (!e.target.closest('.delete-session-btn')) {
+                            loadSession(session.id);
+                        }
+                    });
+
+                    const deleteBtn = btn.querySelector('.delete-session-btn');
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteSession(session.id);
+                    });
+
+                    historyContainer.appendChild(btn);
+                });
+            }
+
+            async function deleteSession(id) {
+                state.sessions = state.sessions.filter(s => s.id !== id);
+                await deleteSessionFromFirestore(id);
+                if (state.currentSessionId === id) {
+                    createNewSession();
+                } else {
+                    renderHistoryList();
+                }
+            }
+
+            function createNewSession() {
+                state.currentSessionId = 'session_' + Date.now();
+                messagesList.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                messagesList.classList.add('hidden');
+                renderHistoryList();
+            }
+
+            function loadSession(id, reRender = true) {
+                const session = state.sessions.find(s => s.id === id);
+                if (!session) return;
+
+                state.currentSessionId = session.id;
+                
+                if (reRender) {
+                    emptyState.classList.add('hidden');
+                    messagesList.classList.remove('hidden');
+                    messagesList.innerHTML = '';
+
+                    session.messages.forEach(msg => {
+                        appendMessageUI(msg.role, msg.content);
+                    });
+                }
+
+                renderHistoryList();
+            }
+
+            // Voice Speech Recognition Setup
+            const voiceBtn = document.getElementById('voice-input-btn');
+            const micIcon = document.getElementById('mic-icon');
+            let recognition = null;
+            let isRecording = false;
+
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    micIcon.className = 'fa-solid fa-microphone text-sm text-red-500 animate-pulse';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    chatInput.value += (chatInput.value ? ' ' : '') + transcript;
+                };
+
+                recognition.onerror = () => {
+                    isRecording = false;
+                    micIcon.className = 'fa-solid fa-microphone text-sm';
+                };
+
+                recognition.onend = () => {
+                    isRecording = false;
+                    micIcon.className = 'fa-solid fa-microphone text-sm';
+                };
+
+                voiceBtn.addEventListener('click', () => {
+                    if (isRecording) {
+                        recognition.stop();
+                    } else {
+                        recognition.start();
+                    }
+                });
+            }
+
+            // Image Generation Trigger
+            const genImageBtn = document.getElementById('gen-image-btn');
+            genImageBtn.addEventListener('click', () => {
+                chatInput.value = '/image ' + (chatInput.value || '');
+                chatInput.focus();
+            });
+
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(code, { language: lang }).value;
+                    }
+                    return hljs.highlightAuto(code).value;
+                },
+                breaks: true
+            });
+
+            function updateApiStatusUI() {
+                apiKeyInput.value = state.apiKey;
+                if (openaiKeyInput) openaiKeyInput.value = state.openaiKey;
+                if (anthropicKeyInput) anthropicKeyInput.value = state.anthropicKey;
+                
+                if (state.apiKey || state.openaiKey || state.anthropicKey) {
+                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-emerald-500 shrink-0';
+                    apiStatusText.innerText = 'API Key Configured';
+                } else {
+                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
+                    apiStatusText.innerText = 'Set Gemini / OpenAI Key';
+                }
+            }
+
+            function appendMessageUI(role, content) {
+                emptyState.classList.add('hidden');
+                messagesList.classList.remove('hidden');
+
+                const isUser = role === 'user';
+                const msgNode = document.createElement('div');
+                msgNode.className = `flex gap-3 sm:gap-4 ${isUser ? 'justify-end' : 'justify-start'}`;
+
+                const catLogoAvatarHTML = `
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1px] shadow-md flex items-center justify-center shrink-0 border border-neutral-700">
+                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" viewBox="0 0 100 100" fill="currentColor">
+                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
+                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
+                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
+                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
+                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
+                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+
+                const innerHTML = `
+                    <div class="flex gap-3 sm:gap-4 max-w-full sm:max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}">
+                        ${isUser ? `
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs shadow-md bg-brand-600 border border-brand-400/40 text-white">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        ` : catLogoAvatarHTML}
+                        <div class="flex flex-col min-w-0">
+                            <div class="text-[11px] font-medium text-slate-400 mb-1 ${isUser ? 'text-right' : 'text-left'}">
+                                ${isUser ? 'You' : 'TorexAI (' + state.selectedModel.toUpperCase() + ')'}
+                            </div>
+                            <div class="message-content text-sm rounded-2xl px-4 py-3 ${isUser ? 'bg-brand-600 border border-brand-500 text-white rounded-tr-none' : 'bg-neutral-900/90 border border-neutral-700/80 text-slate-100 rounded-tl-none shadow-2xl backdrop-blur-xl'} markdown-body">
+                                ${isUser ? escapeHtml(content) : marked.parse(content)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                msgNode.innerHTML = innerHTML;
+                messagesList.appendChild(msgNode);
+
+                if (!isUser) {
+                    msgNode.querySelectorAll('pre code').forEach((codeBlock) => {
+                        const pre = codeBlock.parentElement;
+                        const copyBtn = document.createElement('button');
+                        copyBtn.className = 'text-[10px] bg-neutral-800 border border-neutral-700 text-slate-300 hover:bg-neutral-700 px-2.5 py-1 rounded ml-auto block mb-1 transition shadow-sm';
+                        copyBtn.innerHTML = '<i class="fa-solid fa-code"></i> Open in Workspace Canvas';
+                        copyBtn.addEventListener('click', () => {
+                            openInCanvas(codeBlock.innerText);
+                        });
+                        pre.parentNode.insertBefore(copyBtn, pre);
+                    });
+                }
+
+                const wrapper = document.getElementById('messages-wrapper');
+                wrapper.scrollTop = wrapper.scrollHeight;
+
+                return msgNode;
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.innerText = text;
+                return div.innerHTML;
+            }
+
+            function openInCanvas(codeText) {
+                canvasContent.innerText = codeText;
+                hljs.highlightElement(canvasContent);
+                canvasWorkspace.classList.remove('hidden');
+                canvasWorkspace.classList.add('flex');
+                toggleCanvasBtn.classList.remove('hidden');
+            }
+
+            toggleCanvasBtn.addEventListener('click', () => {
+                canvasWorkspace.classList.toggle('hidden');
+            });
+
+            closeCanvasBtn.addEventListener('click', () => {
+                canvasWorkspace.classList.add('hidden');
+            });
+
+            copyCanvasBtn.addEventListener('click', () => {
+                document.execCommand('copy');
+                copyCanvasBtn.innerText = 'Copied!';
+                setTimeout(() => copyCanvasBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 2000);
+            });
+
+            async function handleSendMessage() {
+                const text = chatInput.value.trim();
+                if ((!text && !state.attachedFile) || state.isGenerating) return;
+
+                if (!state.currentSessionId) {
+                    state.currentSessionId = 'session_' + Date.now();
+                }
+
+                let currentSession = state.sessions.find(s => s.id === state.currentSessionId);
+                if (!currentSession) {
+                    currentSession = {
+                        id: state.currentSessionId,
+                        title: text.slice(0, 30) || 'New Conversation',
+                        messages: [],
+                        createdAt: Date.now()
+                    };
+                    state.sessions.unshift(currentSession);
+                }
+
+                currentSession.messages.push({ role: 'user', content: text });
+                appendMessageUI('user', text);
+
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+
+                const botNode = appendMessageUI('assistant', '<i class="fa-solid fa-spinner fa-spin text-brand-400"></i> חושב ומייצר תשובה בזמן אמת...');
+                const contentDiv = botNode.querySelector('.message-content');
+
+                state.isGenerating = true;
+                sendBtn.disabled = true;
+
+                try {
+                    // AI Image Generation path
+                    if (text.startsWith('/image ')) {
+                        const imagePrompt = text.replace('/image ', '').trim();
+                        const encodedPrompt = encodeURIComponent(imagePrompt);
+                        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=600&nologo=true`;
+
+                        const imageMarkdown = `### AI Generated Image\n\n![${imagePrompt}](${imageUrl})\n\n*Prompt:* "${escapeHtml(imagePrompt)}"`;
+                        contentDiv.innerHTML = marked.parse(imageMarkdown);
+                        currentSession.messages.push({ role: 'assistant', content: imageMarkdown });
+
+                        await saveSessionToFirestore(currentSession);
+                        renderHistoryList();
+                        return;
+                    }
+
+                    let activeApiKey = state.apiKey || "";
+                    let modelName = "gemini-2.5-flash";
+
+                    const contentsPayload = currentSession.messages.map(m => ({
+                        role: m.role === 'user' ? 'user' : 'model',
+                        parts: [{ text: m.content }]
+                    }));
+
+                    if (state.attachedFile) {
+                        const reader = new FileReader();
+                        const fileDataUrl = await new Promise((resolve) => {
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsDataURL(state.attachedFile);
+                        });
+                        const base64Data = fileDataUrl.split(',')[1];
+                        const mimeType = state.attachedFile.type || 'image/png';
+
+                        if (mimeType.startsWith('image/')) {
+                            contentsPayload[contentsPayload.length - 1].parts.push({
+                                inlineData: { mimeType: mimeType, data: base64Data }
+                            });
+                        } else {
+                            const textContent = await state.attachedFile.text();
+                            contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n[קובץ מצורף: ${state.attachedFile.name}]\n\`\`\`\n${textContent}\n\`\`\``;
+                        }
+                    }
+
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`;
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: contentsPayload,
+                            systemInstruction: {
+                                parts: [{ text: "You are TorexAI, an advanced, highly capable AI assistant. Answer the user comprehensively, directly, and accurately in the exact same language they spoke to you (if Hebrew, answer in natural, fluent Hebrew)." }]
+                            }
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.error.message || 'Gemini API Error');
+                    }
+
+                    let aiResponseText = "";
+                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+                        aiResponseText = data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error('לא התקבלה תשובה תקינה מהמנוע.');
+                    }
+
+                    contentDiv.innerHTML = marked.parse(aiResponseText);
+                    currentSession.messages.push({ role: 'assistant', content: aiResponseText });
+
+                    await saveSessionToFirestore(currentSession);
+                    renderHistoryList();
+
+                } catch (err) {
+                    contentDiv.innerHTML = `<div class="p-3 bg-red-950/40 border border-red-500/50 rounded-xl text-red-300 text-xs">
+                        <div class="font-semibold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> שגיאת תקשורת TorexAI</div>
+                        <p>${escapeHtml(err.message)}</p>
+                    </div>`;
+                } finally {
+                    state.isGenerating = false;
+                    sendBtn.disabled = false;
+                    if (state.attachedFile) {
+                        state.attachedFile = null;
+                        filePreviewContainer.classList.add('hidden');
+                    }
+                }
+            }
+
+            chatInput.addEventListener('input', () => {
+                chatInput.style.height = 'auto';
+                chatInput.style.height = Math.min(chatInput.scrollHeight, 180) + 'px';
+            });
+
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            });
+
+            sendBtn.addEventListener('click', handleSendMessage);
+
+            document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const title = btn.querySelector('span').innerText;
+                    chatInput.value = `Help me with: ${title}`;
+                    handleSendMessage();
+                });
+            });
+
+            attachFileBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    state.attachedFile = file;
+                    filePreviewName.innerText = file.name;
+                    filePreviewContainer.classList.remove('hidden');
+                }
+            });
+
+            removeFileBtn.addEventListener('click', () => {
+                state.attachedFile = null;
+                fileInput.value = '';
+                filePreviewContainer.classList.add('hidden');
+            });
+
+            modelSelect.addEventListener('change', (e) => {
+                state.selectedModel = e.target.value;
+            });
+
+            clearChatBtn.addEventListener('click', () => {
+                if (state.currentSessionId) {
+                    deleteSession(state.currentSessionId);
+                }
+            });
+
+            apiModalTrigger.addEventListener('click', () => apiModal.classList.remove('hidden'));
+            closeApiModal.addEventListener('click', () => apiModal.classList.add('hidden'));
+            
+            saveApiKeyBtn.addEventListener('click', () => {
+                const gemKey = apiKeyInput.value.trim();
+                const openKey = openaiKeyInput ? openaiKeyInput.value.trim() : '';
+                const antKey = anthropicKeyInput ? anthropicKeyInput.value.trim() : '';
+
+                state.apiKey = gemKey;
+                state.openaiKey = openKey;
+                state.anthropicKey = antKey;
+
+                localStorage.setItem('torex_gemini_api_key', gemKey);
+                localStorage.setItem('torex_openai_api_key', openKey);
+                localStorage.setItem('torex_anthropic_api_key', antKey);
+
+                updateApiStatusUI();
+                apiModal.classList.add('hidden');
+            });
+
+            toggleSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            closeSidebarMobile.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+
+            newChatBtn.addEventListener('click', createNewSession);
+
+            window.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                    e.preventDefault();
+                    createNewSession();
+                }
+            });
+
+            updateApiStatusUI();
+            renderHistoryList();
+        });
     </script>
 </body>
 </html>
