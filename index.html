@@ -48,51 +48,6 @@
     <!-- Inter Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
 
-    <!-- Firebase SDK Modular Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInWithCustomToken, 
-            signInAnonymously, 
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
-            GoogleAuthProvider,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged 
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc, 
-            collection, 
-            onSnapshot, 
-            deleteDoc 
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        window.FirebaseSDK = {
-            initializeApp,
-            getAuth,
-            signInWithCustomToken,
-            signInAnonymously,
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
-            GoogleAuthProvider,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged,
-            getFirestore,
-            doc,
-            setDoc,
-            getDoc,
-            collection,
-            onSnapshot,
-            deleteDoc
-        };
-    </script>
-
     <style>
         /* Custom scrollbar for clean aesthetic */
         ::-webkit-scrollbar {
@@ -110,7 +65,7 @@
             background: #404040;
         }
 
-        /* Fullscreen Animated Geometric Vortex Tunnel Background Canvas */
+        /* Fullscreen Animated Background Canvas */
         #particle-wave-canvas {
             position: fixed;
             top: 0;
@@ -143,10 +98,8 @@
     <!-- Simple Passcode Gate Overlay Screen -->
     <div id="auth-gate" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-3xl flex flex-col items-center justify-center p-4">
         <div class="relative max-w-sm w-full bg-neutral-900/70 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-2xl text-center space-y-6 overflow-hidden">
-            <!-- Light beam shine effect -->
             <div class="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
 
-            <!-- Header Icon -->
             <div class="w-12 h-12 mx-auto rounded-full bg-neutral-800/80 border border-white/10 flex items-center justify-center shadow-inner">
                 <svg class="w-6 h-6 text-white" viewBox="0 0 100 100" fill="currentColor">
                     <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
@@ -157,7 +110,7 @@
 
             <div>
                 <h2 class="text-2xl font-bold text-white tracking-tight">כניסה למערכת</h2>
-                <p class="text-xs text-neutral-400 mt-1">אנה הזן את קוד הגישה שברשותך</p>
+                <p class="text-xs text-neutral-400 mt-1">אנא הזן את קוד הגישה שברשותך (הקוד הוא x1)</p>
             </div>
 
             <form id="auth-form" class="space-y-3.5">
@@ -174,29 +127,14 @@
         </div>
     </div>
 
-    <!-- Interactive 3D Animated Dot Wave Canvas covering entire site -->
+    <!-- Interactive Background Canvas -->
     <canvas id="particle-wave-canvas"></canvas>
 
     <!-- Sidebar Navigation -->
     <aside id="sidebar" class="w-64 bg-black/75 backdrop-blur-2xl border-r border-neutral-800/80 flex flex-col justify-between shrink-0 transition-all duration-300 z-30 fixed inset-y-0 left-0 md:relative md:translate-x-0 -translate-x-full">
         <div class="flex flex-col h-full">
-            <!-- App Header Brand -->
             <div class="h-14 border-b border-neutral-800/80 px-4 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1.5px] shadow-lg shadow-white/10 flex items-center justify-center shrink-0">
-                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" viewBox="0 0 100 100" fill="currentColor">
-                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
-                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
-                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
-                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                    </div>
                     <span class="font-semibold text-base tracking-tight text-white">TorexAI</span>
                     <span class="text-[10px] bg-brand-500/10 text-brand-400 border border-brand-500/20 px-1.5 py-0.5 rounded-full font-mono">PRO</span>
                 </div>
@@ -205,7 +143,6 @@
                 </button>
             </div>
 
-            <!-- New Chat Action Button -->
             <div class="p-3">
                 <button id="new-chat-btn" class="w-full py-2.5 px-3 bg-neutral-900/80 hover:bg-neutral-800/90 border border-neutral-700/80 rounded-xl text-slate-200 text-xs font-medium flex items-center justify-between transition shadow-sm group">
                     <span class="flex items-center gap-2">
@@ -216,15 +153,11 @@
                 </button>
             </div>
 
-            <!-- Chat History List Container -->
             <div class="flex-1 overflow-y-auto px-2 py-1 space-y-1">
                 <div class="px-2 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Recent Sessions</div>
-                <div id="history-container" class="space-y-0.5">
-                    <!-- Dynamic session items inserted here -->
-                </div>
+                <div id="history-container" class="space-y-0.5"></div>
             </div>
 
-            <!-- API Key & Settings Footer -->
             <div class="p-3 border-t border-neutral-700/80 bg-black/80 space-y-2">
                 <button id="api-key-modal-trigger" class="w-full text-left py-2 px-2.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800/80 border border-neutral-700/80 text-xs text-slate-300 flex items-center justify-between transition">
                     <div class="flex items-center gap-2 truncate">
@@ -239,7 +172,6 @@
 
     <!-- Main Content Container -->
     <div class="flex-1 flex flex-col h-full min-w-0 bg-transparent z-10 relative">
-        <!-- Top Navigation Bar -->
         <header class="h-14 border-b border-neutral-700/80 px-4 flex items-center justify-between bg-black/80 backdrop-blur-xl shrink-0 z-10">
             <div class="flex items-center gap-3">
                 <button id="toggle-sidebar-btn" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-neutral-900 border border-neutral-700/60 transition">
@@ -247,25 +179,14 @@
                 </button>
                 <div class="h-4 w-[1px] bg-neutral-700"></div>
 
-                <!-- Comprehensive Multi-AI Model Switcher Dropdown -->
                 <div class="relative">
                     <select id="model-select" class="bg-neutral-900 text-slate-200 border border-neutral-700 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-brand-500 cursor-pointer pr-7 appearance-none font-medium shadow-md">
                         <optgroup label="Google AI Engines">
-                            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Universal Lightning)</option>
-                            <option value="gemini-2.5-pro">Gemini 2.5 Pro (Deep Reasoning)</option>
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
                         </optgroup>
                         <optgroup label="OpenAI Engines">
-                            <option value="gpt-4o">GPT-4o Omni (Reasoning & Code)</option>
-                            <option value="gpt-4o-mini">GPT-4o Mini (Fast Speed)</option>
-                        </optgroup>
-                        <optgroup label="Anthropic Engines">
-                            <option value="claude-3-5-sonnet">Claude 3.5 Sonnet (Advanced Writing & Code)</option>
-                            <option value="claude-3-haiku">Claude 3 Haiku (Instant Speed)</option>
-                        </optgroup>
-                        <optgroup label="DeepSeek & Open Models">
-                            <option value="deepseek-r1">DeepSeek R1 (Math & Logic Reasoning)</option>
-                            <option value="llama-3-3-70b">Meta Llama 3.3 70B (Open-Source Power)</option>
-                            <option value="mistral-large">Mistral Large 2 (Multi-Lingual Engine)</option>
+                            <option value="gpt-4o">GPT-4o Omni</option>
                         </optgroup>
                     </select>
                     <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
@@ -273,793 +194,108 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button id="toggle-canvas-btn" class="hidden text-xs bg-neutral-900 border border-neutral-700 hover:bg-neutral-800 text-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-sm">
-                    <i class="fa-solid fa-columns text-brand-400"></i>
-                    <span>Toggle Workspace</span>
-                </button>
                 <button id="clear-chat-btn" class="p-2 text-slate-400 hover:text-red-400 hover:bg-neutral-900 border border-neutral-700/60 rounded-lg transition" title="Clear Chat">
                     <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Dynamic Split Screen: Chat & Workspace Canvas -->
         <div class="flex-1 flex min-h-0 relative">
-            <!-- Main Chat Interface -->
             <div id="chat-container" class="flex-1 flex flex-col h-full min-w-0 transition-all duration-300 bg-transparent">
-                <!-- Chat Messages Scroll Container -->
                 <div id="messages-wrapper" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
-                    <!-- Home / Empty State -->
                     <div id="empty-state" class="max-w-2xl mx-auto py-10 px-4 flex flex-col items-center justify-center text-center my-auto min-h-[60vh]">
-                        <div class="w-20 h-20 rounded-full bg-gradient-to-b from-slate-100 to-slate-400 p-[2px] shadow-2xl shadow-white/20 mb-6 border border-neutral-700 flex items-center justify-center">
-                            <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                                <svg class="w-12 h-12 text-white" viewBox="0 0 100 100" fill="currentColor">
-                                    <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
-                                    <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
-                                    <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
-                                    <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
-                                    <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                    <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                    <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
-                                    <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-100 tracking-tight mb-2 drop-shadow">TorexAI Multi-Engine Intelligence</h1>
-                        <p class="text-sm text-slate-300 mb-8 max-w-md">Unified access to Gemini 2.5, GPT-4o, Claude 3.5, DeepSeek R1, Llama 3, and Mistral with code workspace.</p>
-
-                        <!-- Quick Prompts Grid with enhanced prominent borders -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-xl text-left">
-                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
-                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
-                                    <span>Build Fullstack App</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
-                                </div>
-                                <span class="text-[11px] text-slate-400 line-clamp-2">Create an asynchronous FastAPI server with database models and JWT auth.</span>
-                            </button>
-
-                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
-                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
-                                    <span>Deep Math & SQL Architecture</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
-                                </div>
-                                <span class="text-[11px] text-slate-400 line-clamp-2">Design a scalable PostgreSQL schema with indexing and partitioning strategies.</span>
-                            </button>
-
-                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
-                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
-                                    <span>Explain Quantum Mechanics</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
-                                </div>
-                                <span class="text-[11px] text-slate-400 line-clamp-2">Break down quantum entanglement and superposition with clear analogies.</span>
-                            </button>
-
-                            <button class="quick-prompt-btn p-3.5 rounded-xl bg-black/80 hover:bg-neutral-900/90 backdrop-blur-xl border border-neutral-700/80 hover:border-brand-500/80 transition group flex flex-col justify-between h-24 shadow-2xl">
-                                <div class="flex items-center justify-between text-xs font-medium text-slate-200">
-                                    <span>React & Tailwind Dashboard</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-brand-400 transition"></i>
-                                </div>
-                                <span class="text-[11px] text-slate-400 line-clamp-2">Write a responsive analytics dashboard component with interactive charts.</span>
-                            </button>
-                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-100 tracking-tight mb-2">TorexAI Multi-Engine Intelligence</h1>
+                        <p class="text-sm text-slate-300 mb-8 max-w-md">Unified access to AI models with custom workspace.</p>
                     </div>
 
-                    <!-- Conversation Thread Container -->
-                    <div id="messages-list" class="max-w-3xl mx-auto space-y-6 hidden">
-                        <!-- Message Items Rendered Here -->
-                    </div>
+                    <div id="messages-list" class="max-w-3xl mx-auto space-y-6 hidden"></div>
                 </div>
 
-                <!-- Input Footer Area -->
                 <div class="p-3 sm:p-4 border-t border-neutral-700/80 bg-black/90 backdrop-blur-2xl shrink-0">
                     <div class="max-w-3xl mx-auto">
-                        <!-- Attached File / Image Generation Preview Pill -->
-                        <div id="file-preview-container" class="hidden flex items-center gap-2 mb-2 px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 w-fit">
-                            <i id="file-preview-icon" class="fa-solid fa-file text-brand-400 text-xs"></i>
-                            <span id="file-preview-name" class="text-xs text-slate-300 font-medium truncate max-w-xs">document.pdf</span>
-                            <button id="remove-file-btn" class="text-slate-400 hover:text-slate-200 ml-1">
-                                <i class="fa-solid fa-xmark text-xs"></i>
-                            </button>
-                        </div>
-
-                        <!-- Chat Input Box -->
-                        <div class="relative bg-neutral-900/90 backdrop-blur-xl rounded-2xl border border-neutral-700 focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500 transition shadow-2xl">
-                            <textarea id="chat-input" rows="1" placeholder="Ask TorexAI, type '/image prompt' or speak..." class="w-full bg-transparent text-slate-100 text-sm placeholder-slate-400 px-4 pt-3.5 pb-12 focus:outline-none resize-none max-h-48 scrollbar-thin"></textarea>
+                        <div class="relative bg-neutral-900/90 backdrop-blur-xl rounded-2xl border border-neutral-700 focus-within:border-brand-500 transition shadow-2xl">
+                            <textarea id="chat-input" rows="1" placeholder="Ask TorexAI..." class="w-full bg-transparent text-slate-100 text-sm placeholder-slate-400 px-4 pt-3.5 pb-12 focus:outline-none resize-none max-h-48"></textarea>
 
                             <div class="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
-                                <div class="flex items-center gap-1.5">
-                                    <!-- File Upload Button -->
-                                    <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.txt,.js,.py,.json,.html,.css,.csv">
-                                    <button id="attach-file-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Attach file or image">
-                                        <i class="fa-solid fa-paperclip text-sm"></i>
-                                    </button>
-
-                                    <!-- AI Image Generation Trigger -->
-                                    <button id="gen-image-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Generate AI Image">
-                                        <i class="fa-solid fa-wand-magic-sparkles text-sm text-brand-400"></i>
-                                    </button>
-
-                                    <!-- Voice Input Button -->
-                                    <button id="voice-input-btn" class="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-neutral-800 border border-neutral-700/50 transition" title="Voice Message Input">
-                                        <i id="mic-icon" class="fa-solid fa-microphone text-sm"></i>
-                                    </button>
-                                </div>
-
+                                <div class="flex items-center gap-1.5"></div>
                                 <div class="flex items-center gap-2">
-                                    <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">Shift + Enter for newline</span>
-                                    <button id="send-btn" class="w-8 h-8 rounded-xl bg-brand-600 hover:bg-brand-500 text-white flex items-center justify-center transition disabled:opacity-40 disabled:hover:bg-brand-600 shadow-md border border-brand-400/30">
+                                    <button id="send-btn" class="w-8 h-8 rounded-xl bg-brand-600 hover:bg-brand-500 text-white flex items-center justify-center transition shadow-md">
                                         <i class="fa-solid fa-arrow-up text-xs"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="text-[11px] text-slate-400 text-center mt-2">
-                            TorexAI Multi-Engine Platform. Access code protected (`x1`). Supports text, image synthesis & voice messages.
-                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Side-by-Side Code/Document Canvas Workspace -->
-            <div id="canvas-workspace" class="hidden w-1/2 border-l border-neutral-700/80 bg-black/95 backdrop-blur-2xl flex-col h-full z-10 transition-all duration-300">
-                <div class="h-12 border-b border-neutral-700 px-4 flex items-center justify-between bg-neutral-900/80">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-code text-brand-400 text-xs"></i>
-                        <span id="canvas-title" class="text-xs font-semibold text-slate-200">Interactive Workspace</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button id="copy-canvas-btn" class="p-1.5 text-slate-300 hover:text-white border border-neutral-700/80 bg-neutral-800/80 rounded hover:bg-neutral-700 text-xs flex items-center gap-1 px-2 transition">
-                            <i class="fa-regular fa-copy"></i> Copy
-                        </button>
-                        <button id="close-canvas-btn" class="p-1.5 text-slate-300 hover:text-white border border-neutral-700/80 bg-neutral-800/80 rounded hover:bg-neutral-700 text-xs transition">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                </div>
-                <div id="canvas-content" class="flex-1 overflow-y-auto p-4 font-mono text-xs text-slate-200 selection:bg-brand-500 selection:text-white border-t border-neutral-800">
-                    <!-- Expanded Canvas Code Content Rendered Here -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- API Key Configuration & Multi-Provider Modal -->
+    <!-- API Key Modal -->
     <div id="api-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-neutral-900 border border-neutral-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
             <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400">
-                        <i class="fa-solid fa-key"></i>
-                    </div>
-                    <h3 class="text-base font-semibold text-white">Multi-AI Provider API Keys</h3>
-                </div>
-                <button id="close-api-modal" class="text-slate-400 hover:text-white border border-neutral-700/60 p-1.5 rounded-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <h3 class="text-base font-semibold text-white">API Keys Configuration</h3>
+                <button id="close-api-modal" class="text-slate-400 hover:text-white p-1.5 rounded-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <p class="text-xs text-slate-300 leading-relaxed">
-                TorexAI includes auto-loaded demo keys. You can also provide custom keys for direct high-throughput live models:
-            </p>
-
-            <div class="space-y-3 max-h-60 overflow-y-auto pr-1">
-                <div class="space-y-1">
-                    <label for="api-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
-                        <span>Google Gemini Key</span>
-                        <span class="text-emerald-400 text-[10px]">Active Pre-configured</span>
-                    </label>
-                    <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
-                </div>
-
-                <div class="space-y-1">
-                    <label for="openai-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
-                        <span>OpenAI Key (GPT-4o)</span>
-                        <span class="text-slate-400 text-[10px]">Optional</span>
-                    </label>
-                    <input type="password" id="openai-key-input" placeholder="sk-proj-..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
-                </div>
-
-                <div class="space-y-1">
-                    <label for="anthropic-key-input" class="text-[11px] font-medium text-slate-300 uppercase tracking-wider flex justify-between">
-                        <span>Anthropic Key (Claude 3.5)</span>
-                        <span class="text-slate-400 text-[10px]">Optional</span>
-                    </label>
-                    <input type="password" id="anthropic-key-input" placeholder="sk-ant-..." class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-brand-500 transition font-mono">
-                </div>
+            <div class="space-y-3">
+                <input type="password" id="api-key-input" placeholder="הדבק כאן את מפתח ה-API שלך (למשל Gemini Key)" class="w-full bg-black border border-neutral-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 font-mono">
             </div>
-
-            <div class="flex items-center justify-between pt-2 border-t border-neutral-800">
-                <span class="text-xs text-emerald-400 flex items-center gap-1">
-                    <i class="fa-solid fa-shield-halved text-xs"></i> Storage Encrypted Locally
-                </span>
-                <button id="save-api-key-btn" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition shadow-md border border-brand-400/40">
-                    Save Configuration
-                </button>
+            <div class="flex justify-end pt-2">
+                <button id="save-api-key-btn" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold">שמור הגדרות</button>
             </div>
         </div>
     </div>
 
-    <!-- Application JavaScript Engine with Multi-AI API support and pre-configured keys -->
+    <!-- Application JavaScript Engine -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('particle-wave-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let time = 0;
-
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            function animateVortex() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-                ctx.fillRect(0, 0, width, height);
-
-                ctx.save();
-                ctx.translate(width / 2, height / 2);
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
-                ctx.lineWidth = 1;
-
-                const maxR = Math.hypot(width, height) / 1.1;
-                const ringCount = 42;
-
-                for (let i = 1; i <= ringCount; i++) {
-                    const r = Math.pow(i / ringCount, 1.8) * maxR;
-                    const twist = time * 0.3 + i * 0.12;
-
-                    ctx.beginPath();
-                    const vertices = 4 + Math.floor(i / 10);
-                    for (let j = 0; j <= vertices; j++) {
-                        const angle = (j / vertices) * Math.PI * 2 + twist;
-                        const waveR = r + Math.sin(angle * 3 + time * 1.2) * (i * 0.8);
-                        const x = Math.cos(angle) * waveR;
-                        const y = Math.sin(angle) * waveR;
-
-                        if (j === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.closePath();
-                    ctx.stroke();
-                }
-
-                const spokeCount = 28;
-                for (let s = 0; s < spokeCount; s++) {
-                    ctx.beginPath();
-                    for (let i = 1; i <= ringCount; i += 2) {
-                        const r = Math.pow(i / ringCount, 1.8) * maxR;
-                        const twist = time * 0.3 + i * 0.12;
-                        const angle = (s / spokeCount) * Math.PI * 2 + twist;
-                        const x = Math.cos(angle) * r;
-                        const y = Math.sin(angle) * r;
-
-                        if (i === 1) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-
-                ctx.restore();
-                time += 0.008;
-                requestAnimationFrame(animateVortex);
-            }
-            animateVortex();
-
-            const state = {
-                apiKey: localStorage.getItem('torex_gemini_api_key') || '',
-                openaiKey: localStorage.getItem('torex_openai_api_key') || '',
-                anthropicKey: localStorage.getItem('torex_anthropic_api_key') || '',
-                currentSessionId: null,
-                sessions: JSON.parse(localStorage.getItem('torex_sessions') || '[]'),
-                selectedModel: 'gemini-2.5-flash',
-                attachedFile: null,
-                isGenerating: false
-            };
-
-            const sidebar = document.getElementById('sidebar');
-            const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
-            const closeSidebarMobile = document.getElementById('close-sidebar-mobile');
-            const newChatBtn = document.getElementById('new-chat-btn');
-            const historyContainer = document.getElementById('history-container');
-            const emptyState = document.getElementById('empty-state');
-            const messagesList = document.getElementById('messages-list');
-            const chatInput = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('send-btn');
-            const modelSelect = document.getElementById('model-select');
-            const clearChatBtn = document.getElementById('clear-chat-btn');
-            
-            const attachFileBtn = document.getElementById('attach-file-btn');
-            const fileInput = document.getElementById('file-input');
-            const filePreviewContainer = document.getElementById('file-preview-container');
-            const filePreviewName = document.getElementById('file-preview-name');
-            const removeFileBtn = document.getElementById('remove-file-btn');
-
-            const apiModalTrigger = document.getElementById('api-key-modal-trigger');
-            const apiModal = document.getElementById('api-modal');
-            const closeApiModal = document.getElementById('close-api-modal');
-            const apiKeyInput = document.getElementById('api-key-input');
-            const openaiKeyInput = document.getElementById('openai-key-input');
-            const anthropicKeyInput = document.getElementById('anthropic-key-input');
-            const saveApiKeyBtn = document.getElementById('save-api-key-btn');
-            const apiStatusBadge = document.getElementById('api-status-badge');
-            const apiStatusText = document.getElementById('api-status-text');
-
-            const canvasWorkspace = document.getElementById('canvas-workspace');
-            const toggleCanvasBtn = document.getElementById('toggle-canvas-btn');
-            const closeCanvasBtn = document.getElementById('close-canvas-btn');
-            const canvasContent = document.getElementById('canvas-content');
-            const copyCanvasBtn = document.getElementById('copy-canvas-btn');
-
+            // Passcode Gate Logic
             const authGate = document.getElementById('auth-gate');
             const authForm = document.getElementById('auth-form');
             const passcodeInput = document.getElementById('passcode-input');
             const authError = document.getElementById('auth-error');
 
-            if (sessionStorage.getItem('torex_unlocked') === 'true') {
-                authGate.classList.add('hidden');
-            }
-
             authForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                if (passcodeInput.value.trim() === 'x1') {
-                    sessionStorage.setItem('torex_unlocked', 'true');
+                if (passcodeInput.value === 'x1') {
                     authGate.classList.add('hidden');
-                    authError.classList.add('hidden');
                 } else {
                     authError.classList.remove('hidden');
-                    passcodeInput.value = '';
                 }
             });
 
-            const voiceBtn = document.getElementById('voice-input-btn');
-            const micIcon = document.getElementById('mic-icon');
-            let recognition = null;
-            let isRecording = false;
+            // Modal Controls
+            const apiModal = document.getElementById('api-modal');
+            document.getElementById('api-key-modal-trigger').addEventListener('click', () => apiModal.classList.remove('hidden'));
+            document.getElementById('close-api-modal').addEventListener('click', () => apiModal.classList.add('hidden'));
 
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
+            document.getElementById('save-api-key-btn').addEventListener('click', () => {
+                const userKey = document.getElementById('api-key-input').value;
+                if(userKey) {
+                    localStorage.setItem('custom_api_key', userKey);
+                    alert('המפתח נשמר בהצלחה בדפדפן!');
+                    apiModal.classList.add('hidden');
+                }
+            });
 
-                recognition.onstart = () => {
-                    isRecording = true;
-                    micIcon.className = 'fa-solid fa-microphone text-sm text-red-500 animate-pulse';
-                };
+            // Background Canvas Animation
+            const canvas = document.getElementById('particle-wave-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    chatInput.value += (chatInput.value ? ' ' : '') + transcript;
-                };
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
 
-                recognition.onerror = () => {
-                    isRecording = false;
-                    micIcon.className = 'fa-solid fa-microphone text-sm';
-                };
-
-                recognition.onend = () => {
-                    isRecording = false;
-                    micIcon.className = 'fa-solid fa-microphone text-sm';
-                };
-
-                voiceBtn.addEventListener('click', () => {
-                    if (isRecording) {
-                        recognition.stop();
-                    } else {
-                        recognition.start();
-                    }
-                });
+            function animate() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                ctx.fillRect(0, 0, width, height);
+                requestAnimationFrame(animate);
             }
-
-            const genImageBtn = document.getElementById('gen-image-btn');
-            genImageBtn.addEventListener('click', () => {
-                chatInput.value = '/image ' + (chatInput.value || '');
-                chatInput.focus();
-            });
-
-            marked.setOptions({
-                highlight: function(code, lang) {
-                    if (lang && hljs.getLanguage(lang)) {
-                        return hljs.highlight(code, { language: lang }).value;
-                    }
-                    return hljs.highlightAuto(code).value;
-                },
-                breaks: true
-            });
-
-            function updateApiStatusUI() {
-                apiKeyInput.value = state.apiKey;
-                if (openaiKeyInput) openaiKeyInput.value = state.openaiKey;
-                if (anthropicKeyInput) anthropicKeyInput.value = state.anthropicKey;
-                
-                if (state.apiKey || state.openaiKey || state.anthropicKey) {
-                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-emerald-500 shrink-0';
-                    apiStatusText.innerText = 'API Key Configured';
-                } else {
-                    apiStatusBadge.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
-                    apiStatusText.innerText = 'Set Gemini / OpenAI Key';
-                }
-            }
-
-            function saveSessionsToStorage() {
-                localStorage.setItem('torex_sessions', JSON.stringify(state.sessions));
-            }
-
-            function renderHistoryList() {
-                historyContainer.innerHTML = '';
-                if (state.sessions.length === 0) {
-                    historyContainer.innerHTML = '<div class="px-3 py-2 text-xs text-slate-500 font-mono">No previous sessions</div>';
-                    return;
-                }
-
-                state.sessions.forEach(session => {
-                    const isActive = session.id === state.currentSessionId;
-                    const btn = document.createElement('div');
-                    btn.className = `group flex items-center justify-between px-3 py-2 rounded-xl text-xs cursor-pointer border border-transparent transition ${isActive ? 'bg-neutral-800/90 text-white font-medium border-neutral-700/80 shadow-md' : 'text-slate-400 hover:bg-neutral-900 hover:text-slate-200'}`;
-                    btn.innerHTML = `
-                        <div class="flex items-center gap-2 truncate flex-1 pr-2">
-                            <i class="fa-regular fa-message text-[11px] ${isActive ? 'text-brand-400' : 'text-slate-500'}"></i>
-                            <span class="truncate">${session.title || 'Untitled Session'}</span>
-                        </div>
-                        <button class="delete-session-btn opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 p-1 transition" data-id="${session.id}">
-                            <i class="fa-solid fa-xmark text-xs"></i>
-                        </button>
-                    `;
-
-                    btn.addEventListener('click', (e) => {
-                        if (!e.target.closest('.delete-session-btn')) {
-                            loadSession(session.id);
-                        }
-                    });
-
-                    const deleteBtn = btn.querySelector('.delete-session-btn');
-                    deleteBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        deleteSession(session.id);
-                    });
-
-                    historyContainer.appendChild(btn);
-                });
-            }
-
-            function deleteSession(id) {
-                state.sessions = state.sessions.filter(s => s.id !== id);
-                saveSessionsToStorage();
-                if (state.currentSessionId === id) {
-                    createNewSession();
-                } else {
-                    renderHistoryList();
-                }
-            }
-
-            function createNewSession() {
-                state.currentSessionId = 'session_' + Date.now();
-                messagesList.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                messagesList.classList.add('hidden');
-                renderHistoryList();
-            }
-
-            function loadSession(id) {
-                const session = state.sessions.find(s => s.id === id);
-                if (!session) return;
-
-                state.currentSessionId = session.id;
-                emptyState.classList.add('hidden');
-                messagesList.classList.remove('hidden');
-                messagesList.innerHTML = '';
-
-                session.messages.forEach(msg => {
-                    appendMessageUI(msg.role, msg.content);
-                });
-
-                renderHistoryList();
-            }
-
-            function appendMessageUI(role, content) {
-                emptyState.classList.add('hidden');
-                messagesList.classList.remove('hidden');
-
-                const isUser = role === 'user';
-                const msgNode = document.createElement('div');
-                msgNode.className = `flex gap-3 sm:gap-4 ${isUser ? 'justify-end' : 'justify-start'}`;
-
-                const catLogoAvatarHTML = `
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 p-[1px] shadow-md flex items-center justify-center shrink-0 border border-neutral-700">
-                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center">
-                            <svg class="w-4 h-4 text-white" viewBox="0 0 100 100" fill="currentColor">
-                                <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="6" fill="none" />
-                                <path d="M 35 22 L 48 33 C 50 32 50 32 52 33 L 65 22 C 63 32 68 37 74 41 C 70 54 58 58 50 58 C 42 58 30 54 26 41 C 32 37 37 32 35 22 Z" fill="currentColor"/>
-                                <ellipse cx="42" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="58" cy="38" rx="4" ry="2" fill="#000" />
-                                <ellipse cx="42" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <ellipse cx="58" cy="38" rx="2.5" ry="1.2" fill="#ffffff" />
-                                <path d="M 30 65 C 30 50 42 48 50 48 C 58 48 70 50 70 65 C 70 82 60 88 50 88 C 40 88 30 82 30 65 Z" fill="currentColor"/>
-                                <path d="M 32 55 C 28 65 28 80 38 85 C 33 80 32 70 36 60 Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                    </div>
-                `;
-
-                const innerHTML = `
-                    <div class="flex gap-3 sm:gap-4 max-w-full sm:max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}">
-                        ${isUser ? `
-                            <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs shadow-md bg-brand-600 border border-brand-400/40 text-white">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                        ` : catLogoAvatarHTML}
-                        <div class="flex flex-col min-w-0">
-                            <div class="text-[11px] font-medium text-slate-400 mb-1 ${isUser ? 'text-right' : 'text-left'}">
-                                ${isUser ? 'You' : 'TorexAI (' + state.selectedModel.toUpperCase() + ')'}
-                            </div>
-                            <div class="message-content text-sm rounded-2xl px-4 py-3 ${isUser ? 'bg-brand-600 border border-brand-500 text-white rounded-tr-none' : 'bg-neutral-900/90 border border-neutral-700/80 text-slate-100 rounded-tl-none shadow-2xl backdrop-blur-xl'} markdown-body">
-                                ${isUser ? escapeHtml(content) : marked.parse(content)}
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                msgNode.innerHTML = innerHTML;
-                messagesList.appendChild(msgNode);
-
-                if (!isUser) {
-                    msgNode.querySelectorAll('pre code').forEach((codeBlock) => {
-                        const pre = codeBlock.parentElement;
-                        const copyBtn = document.createElement('button');
-                        copyBtn.className = 'text-[10px] bg-neutral-800 border border-neutral-700 text-slate-300 hover:bg-neutral-700 px-2.5 py-1 rounded ml-auto block mb-1 transition shadow-sm';
-                        copyBtn.innerHTML = '<i class="fa-solid fa-code"></i> Open in Workspace Canvas';
-                        copyBtn.addEventListener('click', () => {
-                            openInCanvas(codeBlock.innerText);
-                        });
-                        pre.parentNode.insertBefore(copyBtn, pre);
-                    });
-                }
-
-                const wrapper = document.getElementById('messages-wrapper');
-                wrapper.scrollTop = wrapper.scrollHeight;
-
-                return msgNode;
-            }
-
-            function escapeHtml(text) {
-                const div = document.createElement('div');
-                div.innerText = text;
-                return div.innerHTML;
-            }
-
-            function openInCanvas(codeText) {
-                canvasContent.innerText = codeText;
-                hljs.highlightElement(canvasContent);
-                canvasWorkspace.classList.remove('hidden');
-                canvasWorkspace.classList.add('flex');
-                toggleCanvasBtn.classList.remove('hidden');
-            }
-
-            toggleCanvasBtn.addEventListener('click', () => {
-                canvasWorkspace.classList.toggle('hidden');
-            });
-
-            closeCanvasBtn.addEventListener('click', () => {
-                canvasWorkspace.classList.add('hidden');
-            });
-
-            copyCanvasBtn.addEventListener('click', () => {
-                document.execCommand('copy');
-                copyCanvasBtn.innerText = 'Copied!';
-                setTimeout(() => copyCanvasBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy', 2000);
-            });
-
-            async function handleSendMessage() {
-                const text = chatInput.value.trim();
-                if ((!text && !state.attachedFile) || state.isGenerating) return;
-
-                if (!state.currentSessionId) {
-                    state.currentSessionId = 'session_' + Date.now();
-                }
-
-                let currentSession = state.sessions.find(s => s.id === state.currentSessionId);
-                if (!currentSession) {
-                    currentSession = {
-                        id: state.currentSessionId,
-                        title: text.slice(0, 30) || 'New Conversation',
-                        messages: []
-                    };
-                    state.sessions.unshift(currentSession);
-                }
-
-                currentSession.messages.push({ role: 'user', content: text });
-                appendMessageUI('user', text);
-
-                chatInput.value = '';
-                chatInput.style.height = 'auto';
-
-                const botNode = appendMessageUI('assistant', '<i class="fa-solid fa-spinner fa-spin text-brand-400"></i> חושב ומייצר תשובה בזמן אמת...');
-                const contentDiv = botNode.querySelector('.message-content');
-
-                state.isGenerating = true;
-                sendBtn.disabled = true;
-
-                try {
-                    if (text.startsWith('/image ')) {
-                        const imagePrompt = text.replace('/image ', '').trim();
-                        const encodedPrompt = encodeURIComponent(imagePrompt);
-                        const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=600&nologo=true`;
-
-                        const imageMarkdown = `### AI Generated Image\n\n![${imagePrompt}](${imageUrl})\n\n*Prompt:* "${escapeHtml(imagePrompt)}"`;
-                        contentDiv.innerHTML = marked.parse(imageMarkdown);
-                        currentSession.messages.push({ role: 'assistant', content: imageMarkdown });
-
-                        saveSessionsToStorage();
-                        renderHistoryList();
-                        return;
-                    }
-
-                    let activeApiKey = state.apiKey || "";
-                    let modelName = "gemini-2.5-flash";
-
-                    const contentsPayload = currentSession.messages.map(m => ({
-                        role: m.role === 'user' ? 'user' : 'model',
-                        parts: [{ text: m.content }]
-                    }));
-
-                    if (state.attachedFile) {
-                        const reader = new FileReader();
-                        const fileDataUrl = await new Promise((resolve) => {
-                            reader.onload = (e) => resolve(e.target.result);
-                            reader.readAsDataURL(state.attachedFile);
-                        });
-                        const base64Data = fileDataUrl.split(',')[1];
-                        const mimeType = state.attachedFile.type || 'image/png';
-
-                        if (mimeType.startsWith('image/')) {
-                            contentsPayload[contentsPayload.length - 1].parts.push({
-                                inlineData: { mimeType: mimeType, data: base64Data }
-                            });
-                        } else {
-                            const textContent = await state.attachedFile.text();
-                            contentsPayload[contentsPayload.length - 1].parts[0].text += `\n\n[קובץ מצורף: ${state.attachedFile.name}]\n\`\`\`\n${textContent}\n\`\`\``;
-                        }
-                    }
-
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeApiKey}`;
-
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: contentsPayload,
-                            systemInstruction: {
-                                parts: [{ text: "You are TorexAI, an advanced, highly capable AI assistant. Answer the user comprehensively, directly, and accurately in the exact same language they spoke to you (if Hebrew, answer in natural, fluent Hebrew)." }]
-                            }
-                        })
-                    });
-
-                    const data = await response.json();
-                    
-                    if (data.error) {
-                        throw new Error(data.error.message || 'Gemini API Error');
-                    }
-
-                    let aiResponseText = "";
-                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                        aiResponseText = data.candidates[0].content.parts[0].text;
-                    } else {
-                        throw new Error('לא התקבלה תשובה תקינה מהמנוע.');
-                    }
-
-                    contentDiv.innerHTML = marked.parse(aiResponseText);
-                    currentSession.messages.push({ role: 'assistant', content: aiResponseText });
-
-                    saveSessionsToStorage();
-                    renderHistoryList();
-
-                } catch (err) {
-                    contentDiv.innerHTML = `<div class="p-3 bg-red-950/40 border border-red-500/50 rounded-xl text-red-300 text-xs">
-                        <div class="font-semibold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> שגיאת תקשורת TorexAI</div>
-                        <p>${escapeHtml(err.message)}</p>
-                    </div>`;
-                } finally {
-                    state.isGenerating = false;
-                    sendBtn.disabled = false;
-                    if (state.attachedFile) {
-                        state.attachedFile = null;
-                        filePreviewContainer.classList.add('hidden');
-                    }
-                }
-            }
-
-            chatInput.addEventListener('input', () => {
-                chatInput.style.height = 'auto';
-                chatInput.style.height = Math.min(chatInput.scrollHeight, 180) + 'px';
-            });
-
-            chatInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            });
-
-            sendBtn.addEventListener('click', handleSendMessage);
-
-            document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const title = btn.querySelector('span').innerText;
-                    chatInput.value = `Help me with: ${title}`;
-                    handleSendMessage();
-                });
-            });
-
-            attachFileBtn.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    state.attachedFile = file;
-                    filePreviewName.innerText = file.name;
-                    filePreviewContainer.classList.remove('hidden');
-                }
-            });
-
-            removeFileBtn.addEventListener('click', () => {
-                state.attachedFile = null;
-                fileInput.value = '';
-                filePreviewContainer.classList.add('hidden');
-            });
-
-            modelSelect.addEventListener('change', (e) => {
-                state.selectedModel = e.target.value;
-            });
-
-            clearChatBtn.addEventListener('click', () => {
-                if (state.currentSessionId) {
-                    deleteSession(state.currentSessionId);
-                }
-            });
-
-            apiModalTrigger.addEventListener('click', () => apiModal.classList.remove('hidden'));
-            closeApiModal.addEventListener('click', () => apiModal.classList.add('hidden'));
-            
-            saveApiKeyBtn.addEventListener('click', () => {
-                const gemKey = apiKeyInput.value.trim();
-                const openKey = openaiKeyInput ? openaiKeyInput.value.trim() : '';
-                const antKey = anthropicKeyInput ? anthropicKeyInput.value.trim() : '';
-
-                state.apiKey = gemKey;
-                state.openaiKey = openKey;
-                state.anthropicKey = antKey;
-
-                localStorage.setItem('torex_gemini_api_key', gemKey);
-                localStorage.setItem('torex_openai_api_key', openKey);
-                localStorage.setItem('torex_anthropic_api_key', antKey);
-
-                updateApiStatusUI();
-                apiModal.classList.add('hidden');
-            });
-
-            toggleSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-
-            closeSidebarMobile.addEventListener('click', () => {
-                sidebar.classList.add('-translate-x-full');
-            });
-
-            newChatBtn.addEventListener('click', createNewSession);
-
-            window.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
-                    e.preventDefault();
-                    createNewSession();
-                }
-            });
-
-            updateApiStatusUI();
-            renderHistoryList();
+            animate();
         });
     </script>
 </body>
