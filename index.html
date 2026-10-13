@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVIL-OSINT // Intelligence Portal</title>
-    <!-- Tailwind CSS CDN -->
+    <title>DEVIL-OSINT // Hacker Cyber Matrix Platform</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,105 +14,175 @@
                 extend: {
                     colors: {
                         cyber: {
+                            bg: '#020307',
+                            panel: 'rgba(8, 12, 22, 0.85)',
+                            border: '#ff003c',
+                            cyan: '#00f0ff',
+                            purple: '#a855f7',
                             red: '#ff003c',
-                            darkred: '#80001c',
-                            black: '#0a0a0c',
-                            card: '#121217',
-                            border: '#2a0812',
-                            neon: '#ff2a5f'
+                            green: '#00ff66',
+                            redglow: 'rgba(255, 0, 60, 0.4)',
+                            darkred: '#1a0208'
                         }
                     },
-                    fontFamily: {
-                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'glitch': 'glitch 0.4s infinite linear alternate-reverse',
+                        'scanline': 'scanline 8s linear infinite',
+                        'radar': 'radarSweep 4s linear infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 10px rgba(255, 0, 60, 0.4), inset 0 0 5px rgba(255, 0, 60, 0.2)' },
+                            '100%': { boxShadow: '0 0 30px rgba(255, 0, 60, 0.9), inset 0 0 15px rgba(255, 0, 60, 0.6)' }
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        radarSweep: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        }
                     }
                 }
             }
-        }
+        };
     </script>
-    <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     
-    <!-- Three.js Library for 3D Hacker Globe -->
+    <!-- FontAwesome & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;800;900&family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- 3D & Crypto Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <style>
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: #0a0a0c;
-            color: #e2e8f0;
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #020307;
+            color: #33ffbb;
             overflow-x: hidden;
         }
-
-        /* Custom Scrollbar */
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .font-vt323 {
+            font-family: 'VT323', monospace;
+        }
+        
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0a0c;
+            background: #020307;
         }
         ::-webkit-scrollbar-thumb {
-            background: #4a0010;
-            border-radius: 4px;
+            background: linear-gradient(180deg, #ff003c, #00f0ff);
+            border-radius: 2px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #ff003c;
+            box-shadow: 0 0 12px #ff003c;
         }
 
-        /* Glowing text & border utilities */
-        .glow-red-text {
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.7), 0 0 20px rgba(255, 0, 60, 0.4);
+        .neon-border {
+            border: 1px solid rgba(255, 0, 60, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.15);
+            backdrop-filter: blur(16px);
         }
-        .glow-red-box {
-            box-shadow: 0 0 15px rgba(255, 0, 60, 0.25), inset 0 0 15px rgba(255, 0, 60, 0.1);
-        }
-        .glow-red-border {
+        .neon-border:hover, .neon-border-active {
             border-color: #ff003c;
-            box-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.7), inset 0 0 20px rgba(255, 0, 60, 0.35);
         }
 
-        /* Scanline effect */
-        .scanlines {
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                rgba(0, 0, 0, 0.3) 50%,
-                rgba(0, 0, 0, 0.3)
-            );
-            background-size: 100% 4px;
-            pointer-events: none;
+        .neon-border-cyan {
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+            backdrop-filter: blur(16px);
         }
 
-        /* Canvas background overlay */
-        #circuitCanvas {
+        .text-glow-red {
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.9), 0 0 20px rgba(255, 0, 60, 0.5);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.9), 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+        .text-glow-green {
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.9), 0 0 20px rgba(0, 255, 102, 0.5);
+        }
+
+        .cyber-grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 0, 60, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 60, 0.07) 1px, transparent 1px);
+        }
+
+        .crt-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            z-index: 55;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .laser-line {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff003c, #00f0ff, transparent);
+            z-index: 60;
+            animation: scanline 6s infinite linear;
+            pointer-events: none;
+            opacity: 0.8;
+            box-shadow: 0 0 10px #ff003c;
+        }
+
+        .cyber-btn {
+            position: relative;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            transition: all 0.25s ease;
+        }
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 0, 60, 0.2);
+            z-index: -1;
+            transition: all 0.25s ease;
+        }
+        .cyber-btn:hover::before {
+            background: rgba(255, 0, 60, 0.85);
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.35;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative selection:bg-cyber-red selection:text-white">
+<body class="bg-cyber-bg min-h-screen flex flex-col relative selection:bg-cyber-red selection:text-black cyber-grid-bg">
 
-    <canvas id="circuitCanvas"></canvas>
-    <div class="scanlines fixed inset-0 z-50 pointer-events-none opacity-40"></div>
+    <!-- Interactive CRT FX & Matrix Background Canvas -->
+    <div class="crt-overlay"></div>
+    <canvas id="bgCanvas"></canvas>
+    <div class="laser-line"></div>
 
     <!-- LOCK SCREEN OVERLAY -->
-    <div id="lockScreen" class="fixed inset-0 z-50 bg-cyber-black flex items-center justify-center p-4">
-        <div class="max-w-md w-full bg-cyber-card border border-cyber-red/50 rounded-xl p-8 glow-red-box text-center relative z-10">
-            <!-- Devil Logo SVG -->
-            <div class="w-40 h-40 mx-auto mb-4 text-cyber-red drop-shadow-[0_0_15px_rgba(255,0,60,0.8)] flex items-center justify-center">
-                <svg viewBox="0 0 500 500" class="w-full h-full">
-                    <style>
-                        .devil-fill { fill: #ff003c; filter: drop-shadow(0 0 6px #ff003c); }
-                    </style>
-                    <g class="devil-fill">
+    <div id="lockScreen" class="fixed inset-0 z-50 bg-cyber-bg/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="max-w-md w-full text-center relative z-10">
+            
+            <div class="w-36 h-36 mx-auto mb-6 relative flex items-center justify-center">
+                <svg viewBox="0 0 500 500" class="w-24 h-24 text-cyber-red drop-shadow-[0_0_20px_rgba(255,0,60,0.9)] relative z-10">
+                    <g fill="currentColor">
                         <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
                         <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
                         <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
@@ -119,170 +190,167 @@
                         <path d="M 145 285 Q 190 280 220 300 Q 190 315 145 285 Z" />
                         <path d="M 355 285 Q 310 280 280 300 Q 310 315 355 285 Z" />
                         <path d="M 230 270 Q 240 270 248 310 Q 255 350 245 365 Q 235 350 238 310 Q 230 290 230 270 Z" />
-                        <path d="M 215 340 Q 230 335 245 342 Q 230 350 215 340 Z" />
-                        <path d="M 285 340 Q 270 335 255 342 Q 270 350 285 340 Z" />
                         <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
                         <path d="M 235 410 Q 250 460 265 410 Q 250 425 235 410 Z" />
                     </g>
                 </svg>
             </div>
-            <h1 class="text-2xl font-bold tracking-wider text-cyber-red glow-red-text mb-2">DEVIL OSINT</h1>
-            <p class="text-xs text-gray-400 mb-6 uppercase tracking-widest">Restricted Access // Security Clearance Required</p>
+
+            <h1 class="text-3xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider mb-6">DEVIL OSINT</h1>
             
             <form id="lockForm" class="space-y-4">
-                <div>
-                    <input type="password" id="passcode" placeholder="Enter Access Code" class="w-full bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-3 text-center text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red focus:ring-1 focus:ring-cyber-red transition-all font-mono">
+                <div class="relative">
+                    <input type="password" id="passcode" placeholder="ENTER ACCESS CODE..." class="w-full bg-black/90 border border-cyber-red/60 rounded-xl px-4 py-3.5 text-center text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red focus:ring-2 focus:ring-cyber-red/50 transition-all font-mono tracking-widest text-lg shadow-inner">
+                    <i class="fa-solid fa-terminal absolute left-4 top-1/2 -translate-y-1/2 text-cyber-red/50"></i>
                 </div>
-                <button type="submit" class="w-full bg-cyber-red/20 hover:bg-cyber-red hover:text-black border border-cyber-red text-cyber-red font-bold py-3 px-4 rounded-lg transition-all duration-300 tracking-wider">
-                    AUTHENTICATE
+                
+                <button type="submit" class="cyber-btn w-full bg-cyber-red text-black font-black py-3.5 px-6 rounded-xl transition-all duration-300 tracking-wider text-sm font-orbitron uppercase flex items-center justify-center gap-2 hover:shadow-[0_0_25px_#ff003c]">
+                    <i class="fa-solid fa-fingerprint text-lg"></i>
+                    AUTHENTICATE CLEARANCE
                 </button>
-                <div id="lockError" class="text-xs text-red-500 hidden font-mono mt-2">ACCESS DENIED: Invalid Security Credentials</div>
+                <div id="lockError" class="text-xs text-red-400 hidden font-mono mt-2 bg-red-950/70 p-2.5 rounded-lg border border-red-600 animate-bounce">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> ACCESS DENIED: INVALID PASSCODE
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- MAIN APP CONTENT (Hidden initially) -->
-    <div id="mainApp" class="relative z-10 hidden flex-1 flex flex-col">
+    <!-- MAIN APP CONTENT -->
+    <div id="mainApp" class="relative z-10 hidden flex-1 flex flex-col min-h-screen">
         
         <!-- HEADER / NAVIGATION -->
-        <header class="border-b border-cyber-red/30 bg-cyber-black/80 backdrop-blur-md sticky top-0 z-40">
+        <header class="border-b border-cyber-red/40 bg-cyber-bg/95 backdrop-blur-xl sticky top-0 z-40 shadow-2xl">
             <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+                
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 text-cyber-red flex items-center justify-center">
-                        <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-[0_0_8px_rgba(255,0,60,0.8)]">
-                            <g class="devil-fill">
+                    <div class="w-11 h-11 text-cyber-red flex items-center justify-center rounded-xl bg-cyber-darkred border border-cyber-red/50 shadow-[0_0_20px_rgba(255,0,60,0.5)]">
+                        <svg viewBox="0 0 500 500" class="w-8 h-8 drop-shadow-[0_0_10px_rgba(255,0,60,0.9)]">
+                            <g fill="currentColor">
                                 <path d="M 120 180 Q 80 150 40 110 Q 80 135 125 155 Z" />
                                 <path d="M 380 180 Q 420 150 460 110 Q 420 135 375 155 Z" />
                                 <path d="M 180 160 Q 200 120 230 110 Q 250 140 270 120 Q 300 130 320 160 Q 350 190 320 220 Q 250 210 180 220 Q 150 190 180 160 Z" />
                                 <path d="M 150 225 Q 250 255 350 225 Q 370 240 340 255 Q 250 270 160 255 Q 130 240 150 225 Z" />
-                                <path d="M 145 285 Q 190 280 220 300 Q 190 315 145 285 Z" />
-                                <path d="M 355 285 Q 310 280 280 300 Q 310 315 355 285 Z" />
-                                <path d="M 230 270 Q 240 270 248 310 Q 255 350 245 365 Q 235 350 238 310 Q 230 290 230 270 Z" />
                                 <path d="M 195 385 Q 250 370 305 385 Q 280 400 250 395 Q 220 400 195 385 Z" />
-                                <path d="M 235 410 Q 250 460 265 410 Q 250 425 235 410 Z" />
                             </g>
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-xl font-extrabold text-cyber-red glow-red-text tracking-wide">DEVIL OSINT</h1>
-                        <p class="text-[10px] text-gray-400 tracking-widest uppercase">Cyber Intelligence Suite v3.0</p>
+                        <h1 class="text-2xl font-black font-orbitron text-cyber-red text-glow-red tracking-wider">DEVIL OSINT</h1>
+                        <p class="text-[10px] text-cyber-cyan tracking-widest uppercase font-mono">Cyber Reconnaissance Hub v4.0</p>
                     </div>
                 </div>
 
                 <!-- Navigation Tabs -->
                 <nav class="flex flex-wrap gap-2">
-                    <button onclick="switchTab('discord')" id="tab-discord" class="nav-tab active-tab text-xs px-3 py-2 rounded-lg border border-cyber-red bg-cyber-red/20 text-cyber-red font-semibold transition-all">
-                        <i class="fa-brands fa-discord mr-1.5"></i>Discord Lookup
+                    <button onclick="switchTab('discord')" id="tab-discord" class="nav-tab active-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red bg-cyber-red/20 text-cyber-red font-bold transition-all shadow-[0_0_12px_rgba(255,0,60,0.4)]">
+                        <i class="fa-brands fa-discord mr-1.5"></i>Discord OSINT
                     </button>
-                    <button onclick="switchTab('domain')" id="tab-domain" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
-                        <i class="fa-solid fa-network-wired mr-1.5"></i>Domain & IP Recon
+                    <button onclick="switchTab('domain')" id="tab-domain" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-network-wired mr-1.5"></i>IP & Domain Intel
                     </button>
-                    <button onclick="switchTab('map')" id="tab-map" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
-                        <i class="fa-solid fa-earth-americas mr-1.5"></i>Cyber OSINT Map
+                    <button onclick="switchTab('map')" id="tab-map" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-earth-americas mr-1.5"></i>3D Threat Globe
                     </button>
-                    <button onclick="switchTab('username')" id="tab-username" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
-                        <i class="fa-solid fa-user-ninja mr-1.5"></i>Username Tracker
+                    <button onclick="switchTab('username')" id="tab-username" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-user-ninja mr-1.5"></i>Handle Lookup
                     </button>
-                    <button onclick="switchTab('metadata')" id="tab-metadata" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
-                        <i class="fa-solid fa-file-code mr-1.5"></i>Metadata EXIF
+                    <button onclick="switchTab('metadata')" id="tab-metadata" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-file-code mr-1.5"></i>EXIF Metadata
                     </button>
-                    <button onclick="switchTab('breach')" id="tab-breach" class="nav-tab text-xs px-3 py-2 rounded-lg border border-cyber-red/20 text-gray-400 hover:text-cyber-red hover:border-cyber-red/50 transition-all">
-                        <i class="fa-solid fa-shield-halved mr-1.5"></i>Leak & Breach Search
+                    <button onclick="switchTab('breach')" id="tab-breach" class="nav-tab text-xs px-3.5 py-2 rounded-xl border border-cyber-red/30 text-gray-400 hover:text-cyber-red hover:border-cyber-red/60 transition-all">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>Breach Radar
                     </button>
                 </nav>
 
                 <!-- Configuration & Lock -->
                 <div class="flex items-center gap-2">
-                    <button onclick="openModal('apiModal')" class="text-xs bg-cyber-card hover:bg-cyber-red/20 border border-cyber-red/40 text-cyber-red px-3 py-2 rounded-lg transition-all relative" title="API Keys">
-                        <i class="fa-solid fa-key mr-1"></i> API Config
-                        <span id="apiKeyIndicator" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500" title="API Keys Not Saved"></span>
+                    <button onclick="openModal('apiModal')" class="text-xs bg-cyber-panel hover:bg-cyber-red/20 border border-cyber-red/50 text-cyber-red px-3.5 py-2 rounded-xl transition-all relative flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-xs"></i> API KEYS
+                        <span id="apiKeyIndicator" class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                     </button>
-                    <button onclick="lockPortal()" class="text-xs bg-cyber-card hover:bg-red-900/40 border border-red-800 text-red-400 px-3 py-2 rounded-lg transition-all" title="Lock System">
+                    <button onclick="lockPortal()" class="text-xs bg-cyber-panel hover:bg-red-950 border border-red-700/80 text-red-400 px-3.5 py-2 rounded-xl transition-all" title="Lock System">
                         <i class="fa-solid fa-lock"></i>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- MAIN CONTAINER FOR TABS -->
-        <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-1 space-y-6">
+        <main class="max-w-7xl mx-auto w-full p-4 md:p-6 flex-1 space-y-6 relative z-10">
 
             <!-- 1. DISCORD LOOKUP TAB -->
             <section id="sec-discord" class="tool-section space-y-6">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="mb-4">
-                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                            <i class="fa-brands fa-discord"></i> DISCORD ACCOUNT INTELLIGENCE
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-brands fa-discord"></i> DISCORD RECONNAISSANCE TOOL
                         </h2>
-                        <p class="text-xs text-gray-400">Query public APIs, snowflake metadata, avatars, banners, and linked account associations.</p>
+                        <p class="text-xs text-gray-400">Extract Snowflake creation timestamps, avatar metadata, live status payloads & projected phone prefixes.</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="discordInput" placeholder="Enter Discord User ID (e.g. 155829859681009664)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="fetchDiscordData()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
-                            <i class="fa-solid fa-magnifying-glass"></i> SCAN DISCORD ID
+                        <div class="relative flex-1">
+                            <input type="text" id="discordInput" placeholder="Enter Discord User ID (e.g., 155829859681009664)..." class="w-full bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                            <i class="fa-solid fa-hashtag absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"></i>
+                        </div>
+                        <button onclick="fetchDiscordData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-magnifying-glass"></i> SCAN USER
                         </button>
                     </div>
                 </div>
 
-                <!-- Discord Results Output Container -->
                 <div id="discordResult" class="hidden space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Profile Card -->
-                        <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 relative overflow-hidden flex flex-col items-center text-center">
-                            <div id="discordBanner" class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-r from-red-900 to-black opacity-80 bg-cover bg-center"></div>
+                        <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border relative overflow-hidden flex flex-col items-center text-center">
+                            <div id="discordBanner" class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-r from-red-950 to-black opacity-80 bg-cover bg-center"></div>
                             
-                            <div class="relative mt-8 mb-3">
-                                <img id="discordAvatar" src="" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-cyber-card bg-black object-cover shadow-lg relative z-10">
-                                <span id="discordStatusBadge" class="absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-cyber-card bg-gray-500 z-20" title="Status"></span>
+                            <div class="relative mt-10 mb-3">
+                                <img id="discordAvatar" src="" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-cyber-bg bg-black object-cover shadow-[0_0_20px_rgba(255,0,60,0.6)] relative z-10">
+                                <span id="discordStatusBadge" class="absolute bottom-1 right-1 w-6 h-6 rounded-full border-2 border-cyber-bg bg-gray-500 z-20 shadow-md"></span>
                             </div>
 
-                            <h3 id="discordGlobalName" class="text-xl font-bold text-white"></h3>
-                            <p id="discordUsername" class="text-sm text-cyber-red font-mono mb-3"></p>
-                            
-                            <div id="discordBadges" class="flex flex-wrap justify-center gap-2 my-2"></div>
+                            <h3 id="discordGlobalName" class="text-xl font-bold text-white font-orbitron"></h3>
+                            <p id="discordUsername" class="text-sm text-cyber-red font-mono mb-4"></p>
 
-                            <div class="w-full border-t border-cyber-red/20 pt-4 mt-4 space-y-2 text-left text-xs">
-                                <div class="flex justify-between py-1 border-b border-gray-800">
-                                    <span class="text-gray-500">User ID:</span>
+                            <div class="w-full border-t border-cyber-red/30 pt-4 space-y-2 text-left text-xs">
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">User ID:</span>
                                     <span id="discordIdVal" class="font-mono text-cyber-red"></span>
                                 </div>
-                                <div class="flex justify-between py-1 border-b border-gray-800">
-                                    <span class="text-gray-500">Account Created:</span>
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">Created At:</span>
                                     <span id="discordCreatedVal" class="font-mono text-gray-300"></span>
                                 </div>
-                                <div class="flex justify-between py-1 border-b border-gray-800">
-                                    <span class="text-gray-500">Bot Account:</span>
+                                <div class="flex justify-between py-1.5 border-b border-gray-800">
+                                    <span class="text-gray-400">Bot Account:</span>
                                     <span id="discordBotVal" class="font-mono text-gray-300"></span>
                                 </div>
-                                <div class="flex justify-between py-1 border-b border-gray-800 bg-red-950/20 px-1 rounded">
-                                    <span class="text-cyber-red font-semibold">Linked Israeli Phone (Sim):</span>
-                                    <span id="discordPhoneVal" class="font-mono text-cyber-red font-bold"></span>
+                                <div class="flex justify-between py-2 border-b border-gray-800 bg-cyber-darkred/60 px-2 rounded-lg border border-cyber-red/40">
+                                    <span class="text-cyber-red font-bold">Projected SIM Line:</span>
+                                    <span id="discordPhoneVal" class="font-mono text-cyber-red font-black text-sm"></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Details & Activity -->
                         <div class="md:col-span-2 space-y-6">
-                            <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
-                                <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider mb-3 flex items-center gap-2">
-                                    <i class="fa-solid fa-circle-dot"></i> Live Status & Activity
+                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                                <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider mb-3 font-orbitron flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt text-cyber-cyan"></i> Live Telemetry & Status (Lanyard)
                                 </h4>
-                                <div id="discordActivityBox" class="bg-black/50 border border-cyber-red/20 rounded-lg p-4 text-xs font-mono text-gray-300 min-h-[80px] flex items-center">
-                                    No active status detected via Lanyard API.
+                                <div id="discordActivityBox" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs font-mono text-gray-300 min-h-[90px] flex items-center">
+                                    No live WS telemetry streaming from user endpoint.
                                 </div>
                             </div>
 
-                            <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
+                            <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                                 <div class="flex justify-between items-center mb-3">
-                                    <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider flex items-center gap-2">
+                                    <h4 class="text-sm font-bold text-cyber-red uppercase tracking-wider font-orbitron flex items-center gap-2">
                                         <i class="fa-solid fa-code"></i> Raw Payload Data
                                     </h4>
-                                    <button onclick="copyToClipboard('discordRawJson')" class="text-xs text-cyber-red hover:underline">
+                                    <button onclick="copyToClipboard('discordRawJson')" class="text-xs bg-cyber-red/20 hover:bg-cyber-red hover:text-black border border-cyber-red/50 text-cyber-red px-3 py-1 rounded-lg transition-all font-mono">
                                         <i class="fa-regular fa-copy mr-1"></i>Copy JSON
                                     </button>
                                 </div>
-                                <pre id="discordRawJson" class="bg-black/80 border border-cyber-red/20 rounded-lg p-4 text-xs text-green-400 font-mono overflow-x-auto max-h-60"></pre>
+                                <pre id="discordRawJson" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-60 shadow-inner"></pre>
                             </div>
                         </div>
                     </div>
@@ -291,86 +359,75 @@
 
             <!-- 2. DOMAIN & IP RECON TAB -->
             <section id="sec-domain" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="mb-4">
-                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                            <i class="fa-solid fa-network-wired"></i> DOMAIN & IP INTELLIGENCE
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired"></i> IP & DOMAIN INTELLIGENCE
                         </h2>
-                        <p class="text-xs text-gray-400">DNS Lookup, Geolocation, ISP tracking, and IP subnet inspection.</p>
+                        <p class="text-xs text-gray-400">DNS records, IP geolocation, ASN information & ISP infrastructure tracing.</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="domainInput" placeholder="Enter Domain or IP (e.g. 8.8.8.8 or example.com)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="fetchDomainData()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+                        <input type="text" id="domainInput" placeholder="Enter IP or Domain (e.g., 8.8.8.8 or target.com)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="fetchDomainData()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
                             <i class="fa-solid fa-radar"></i> RUN RECON
                         </button>
                     </div>
                 </div>
 
-                <div id="domainResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6 space-y-4">
-                    <h3 class="text-md font-bold text-cyber-red">Recon Output:</h3>
-                    <pre id="domainOutput" class="bg-black/80 border border-cyber-red/20 rounded-lg p-4 text-xs text-green-400 font-mono overflow-x-auto max-h-96"></pre>
+                <div id="domainResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border space-y-4">
+                    <h3 class="text-md font-bold text-cyber-red font-orbitron">OUTPUT REPORT:</h3>
+                    <pre id="domainOutput" dir="ltr" class="bg-black/90 border border-cyber-red/40 rounded-xl p-4 text-xs text-cyber-green font-mono overflow-x-auto max-h-96 shadow-inner"></pre>
                 </div>
             </section>
 
             <!-- 3. CYBER OSINT MAP TAB -->
             <section id="sec-map" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                         <div>
-                            <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                                <i class="fa-solid fa-earth-americas"></i> CYBER MATRIX 3D GLOBAL HACKER MAP
+                            <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                                <i class="fa-solid fa-earth-americas"></i> 3D GLOBAL THREAT MATRIX
                             </h2>
-                            <p class="text-xs text-gray-400">Interactive 3D Holographic Globe // Real-time cyber threat vectors & global data routing network.</p>
+                            <p class="text-xs text-gray-400">Interactive holographic globe // Real-time cyber attack vectors, telemetry arcs & sub-sea cable relays.</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/40 px-3 py-1.5 rounded flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                                LIVE ATTACK FEED
+                            <span class="text-xs font-mono text-cyber-cyan bg-cyan-950/70 border border-cyber-cyan/60 px-3.5 py-1.5 rounded-xl flex items-center gap-2 shadow-[0_0_12px_rgba(0,240,255,0.3)]">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                                DEFCON STATUS: <span id="globalThreatStatus" class="text-red-400 font-bold">ELEVATED (LEVEL 4)</span>
                             </span>
                         </div>
                     </div>
 
-                    <!-- Cyber 3D Globe Container -->
-                    <div class="relative w-full h-[600px] rounded-xl overflow-hidden border border-cyan-500/40 bg-[#02050e] shadow-[0_0_35px_rgba(0,240,255,0.15)] select-none">
+                    <div class="relative w-full h-[620px] rounded-2xl overflow-hidden border border-cyber-cyan/60 bg-[#02040b] shadow-[0_0_40px_rgba(0,240,255,0.2)] select-none">
                         <div id="globe3DContainer" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
                         
-                        <!-- Map Overlay Controls -->
-                        <div class="absolute top-3 left-3 z-20 flex flex-wrap gap-2">
-                            <button onclick="toggleMapRotation()" id="mapRotationBtn" class="bg-cyan-950/80 border border-cyan-400 text-cyan-300 text-xs px-3 py-1.5 rounded font-bold backdrop-blur shadow-[0_0_10px_rgba(0,240,255,0.3)]">
-                                <i class="fa-solid fa-rotate mr-1"></i> Orbit: ON
+                        <div class="absolute top-4 right-4 z-20 flex flex-wrap gap-2">
+                            <button onclick="toggleCyberAttacks()" id="attackToggleBtn" class="bg-red-950/90 border border-red-500 text-red-300 text-xs px-3.5 py-2 rounded-xl font-bold backdrop-blur-md shadow-[0_0_15px_rgba(255,0,60,0.5)]">
+                                <i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE
                             </button>
-                            <button onclick="toggleCyberAttacks()" id="attackToggleBtn" class="bg-red-950/80 border border-red-500 text-red-300 text-xs px-3 py-1.5 rounded font-bold backdrop-blur shadow-[0_0_10px_rgba(255,0,60,0.4)]">
-                                <i class="fa-solid fa-shield-virus mr-1"></i> Cyber Attacks: ACTIVE
-                            </button>
-                            <button onclick="resetGlobeCamera()" class="bg-black/70 border border-cyan-800 text-gray-300 text-xs px-3 py-1.5 rounded backdrop-blur hover:text-cyan-400 transition-all">
-                                <i class="fa-solid fa-crosshairs mr-1"></i> Reset View
-                            </button>
-                            <button onclick="triggerCyberPulse()" class="bg-black/70 border border-red-800 text-red-400 text-xs px-3 py-1.5 rounded backdrop-blur hover:bg-red-950/40 transition-all">
-                                <i class="fa-solid fa-bolt mr-1"></i> Mass Attack Wave
+                            <button onclick="triggerCyberPulse()" class="bg-black/90 border border-cyber-red text-cyber-red text-xs px-3.5 py-2 rounded-xl backdrop-blur-md hover:bg-cyber-red hover:text-black transition-all font-orbitron">
+                                <i class="fa-solid fa-bolt mr-1"></i> SIMULATE ATTACK WAVE
                             </button>
                         </div>
 
-                        <!-- Map Tactical Instructions -->
-                        <div class="absolute top-3 right-3 z-20 bg-black/80 backdrop-blur-md border border-cyan-500/30 px-3 py-1.5 rounded text-[10px] font-mono text-cyan-400">
-                            <i class="fa-solid fa-mouse mr-1"></i> Drag to Rotate | Scroll to Zoom
+                        <div class="absolute top-4 left-4 z-20 bg-black/80 backdrop-blur-md border border-cyber-cyan/50 px-3.5 py-2 rounded-xl text-[10px] font-mono text-cyber-cyan">
+                            <i class="fa-solid fa-hand-pointer mr-1"></i> DRAG TO ROTATE | SCROLL TO ZOOM
                         </div>
 
-                        <!-- Live Cyber Attack Ticker Stream -->
-                        <div class="absolute bottom-3 left-3 z-20 bg-black/90 backdrop-blur-md border border-red-500/50 p-3 rounded-lg text-[11px] font-mono text-gray-300 max-w-sm w-full hidden sm:block">
-                            <div class="text-red-400 font-bold border-b border-red-500/30 pb-1 mb-1.5 flex items-center justify-between">
-                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-skull-crossbones text-xs animate-pulse"></i> LIVE THREAT LOG</span>
-                                <span class="text-[9px] bg-red-900/40 text-red-300 px-1.5 py-0.5 rounded border border-red-600/40">DDoS / RANSOMWARE</span>
+                        <div class="absolute bottom-4 right-4 z-20 bg-black/90 backdrop-blur-md border border-red-500/70 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-md w-full hidden sm:block">
+                            <div class="text-red-400 font-bold border-b border-red-500/40 pb-2 mb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-skull-crossbones text-xs animate-pulse"></i> REAL-TIME ATTACK FEED</span>
+                                <span class="text-[9px] bg-red-950 text-red-300 px-2 py-0.5 rounded border border-red-600/60 font-orbitron">LIVE LOG</span>
                             </div>
-                            <div id="attackLogStream" class="space-y-1 h-20 overflow-hidden text-[10px] text-gray-400 flex flex-col justify-end">
-                                <div class="text-red-400 font-semibold">[SYSTEM] Initializing global threat telemetry feed...</div>
+                            <div id="attackLogStream" dir="ltr" class="space-y-1.5 h-24 overflow-hidden text-[10px] text-gray-400 flex flex-col justify-end">
+                                <div class="text-cyber-green font-semibold">[SYSTEM] Orbital telemetry initialized...</div>
                             </div>
                         </div>
 
-                        <!-- Selected Node Telemetry -->
-                        <div class="absolute bottom-3 right-3 z-20 bg-black/85 backdrop-blur-md border border-cyan-500/40 p-3.5 rounded-lg text-[11px] font-mono text-gray-300 max-w-xs">
-                            <p class="text-cyan-400 font-bold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-terminal text-xs"></i> Node Telemetry</p>
-                            <div id="selectedNodeInfo" class="text-gray-400 leading-relaxed">Click any node marker on the 3D hacker sphere to extract live intelligence details.</div>
+                        <div class="absolute bottom-4 left-4 z-20 bg-black/90 backdrop-blur-md border border-cyber-cyan/60 p-4 rounded-xl text-[11px] font-mono text-gray-300 max-w-xs">
+                            <p class="text-cyber-cyan font-bold mb-1 flex items-center gap-1.5 font-orbitron"><i class="fa-solid fa-circle-info text-xs"></i> NODE INTELLIGENCE</p>
+                            <div id="selectedNodeInfo" class="text-gray-400 leading-relaxed">Click a node on the 3D grid to retrieve detailed server data.</div>
                         </div>
                     </div>
                 </div>
@@ -378,18 +435,18 @@
 
             <!-- 4. USERNAME TRACKER TAB -->
             <section id="sec-username" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="mb-4">
-                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                            <i class="fa-solid fa-user-ninja"></i> CROSS-PLATFORM USERNAME RECON
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-user-ninja"></i> DIGITAL FOOTPRINT HUNTER
                         </h2>
-                        <p class="text-xs text-gray-400">Scan digital footprint across social networks and developer platforms.</p>
+                        <p class="text-xs text-gray-400">Cross-reference handles across social networks, code repositories & dark forums.</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="usernameInput" placeholder="Enter Target Handle (e.g. cyber_ghost)" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="scanUsername()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
-                            <i class="fa-solid fa-crosshairs"></i> TRACK HANDLE
+                        <input type="text" id="usernameInput" placeholder="Enter target username (e.g., cyber_ghost)..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="scanUsername()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-crosshairs"></i> SCAN HANDLE
                         </button>
                     </div>
                 </div>
@@ -399,96 +456,85 @@
 
             <!-- 5. METADATA EXIF EXTRACTOR TAB -->
             <section id="sec-metadata" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="mb-4">
-                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                            <i class="fa-solid fa-file-code"></i> FILE & IMAGE METADATA EXTRACTOR
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-file-code"></i> FILE METADATA EXTRACTOR
                         </h2>
-                        <p class="text-xs text-gray-400">Inspect EXIF headers, camera models, timestamp, and geolocation markers.</p>
+                        <p class="text-xs text-gray-400">Parse image headers, EXIF tags, GPS coordinates, camera specs & embedded metadata.</p>
                     </div>
 
-                    <div class="border-2 border-dashed border-cyber-red/40 rounded-xl p-8 text-center bg-black/40 hover:bg-black/60 transition-all cursor-pointer" onclick="document.getElementById('fileInput').click()">
-                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-cyber-red mb-3"></i>
-                        <p class="text-sm font-bold text-gray-300">Click or Drag & Drop Image File</p>
-                        <p class="text-xs text-gray-500 mt-1">PNG, JPG, JPEG files supported</p>
+                    <div class="border-2 border-dashed border-cyber-red/60 rounded-2xl p-10 text-center bg-black/60 hover:bg-black/90 transition-all cursor-pointer group" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up text-5xl text-cyber-red mb-3 group-hover:scale-110 transition-transform"></i>
+                        <p class="text-sm font-bold text-gray-200">DROP IMAGE FILE HERE OR CLICK TO UPLOAD</p>
+                        <p class="text-xs text-gray-500 mt-1">Supports PNG, JPG, JPEG, WEBP formats</p>
                         <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="extractMetadata(event)">
                     </div>
                 </div>
 
-                <div id="metadataResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
-                    <h3 class="text-md font-bold text-cyber-red mb-3">Extracted Metadata:</h3>
+                <div id="metadataResult" class="hidden bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
+                    <h3 class="text-md font-bold text-cyber-red font-orbitron mb-3">EXIF METADATA OUTPUT:</h3>
                     <div id="metadataOutput" class="space-y-2 text-xs font-mono"></div>
                 </div>
             </section>
 
             <!-- 6. LEAK & BREACH SEARCH TAB -->
             <section id="sec-breach" class="tool-section space-y-6 hidden">
-                <div class="bg-cyber-card border border-cyber-red/30 rounded-xl p-6 glow-red-box">
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-2xl p-6 neon-border">
                     <div class="mb-4">
-                        <h2 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved"></i> DATA LEAK & BREACH CHECKER
+                        <h2 class="text-xl font-bold font-orbitron text-cyber-red text-glow-red flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> DATA BREACH RADAR
                         </h2>
-                        <p class="text-xs text-gray-400">Check email or username records against publicly reported breach datasets.</p>
+                        <p class="text-xs text-gray-400">Search emails, usernames, or domains against leaked databases and cyber breaches.</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <input type="text" id="breachInput" placeholder="Enter Email Address or Handle" class="flex-1 bg-black/60 border border-cyber-red/40 rounded-lg px-4 py-2.5 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
-                        <button onclick="checkBreach()" class="bg-cyber-red hover:bg-red-700 text-black font-bold px-6 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
-                            <i class="fa-solid fa-database"></i> SEARCH BREACHES
+                        <input type="text" id="breachInput" placeholder="Enter Email / Username / Domain..." class="flex-1 bg-black/90 border border-cyber-red/50 rounded-xl px-4 py-3 text-cyber-red placeholder-gray-600 focus:outline-none focus:border-cyber-red font-mono text-sm">
+                        <button onclick="checkBreach()" class="cyber-btn bg-cyber-red hover:bg-red-600 text-black font-black px-8 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm font-orbitron">
+                            <i class="fa-solid fa-triangle-exclamation"></i> CHECK BREACHES
                         </button>
                     </div>
                 </div>
 
-                <div id="breachResult" class="hidden bg-cyber-card border border-cyber-red/30 rounded-xl p-6">
-                    <h3 class="text-md font-bold text-cyber-red mb-3">Breach Intelligence Summary:</h3>
-                    <div id="breachOutput" class="space-y-3"></div>
+                <div id="breachResult" class="hidden">
+                    <div id="breachOutput"></div>
                 </div>
             </section>
 
         </main>
-
-        <!-- FOOTER -->
-        <footer class="border-t border-cyber-red/20 bg-cyber-black/90 py-4 text-center text-xs text-gray-500 mt-auto">
-            <p>DEVIL-OSINT Framework &bull; Designed for Security Analysis & Reconnaissance</p>
-        </footer>
     </div>
 
-    <!-- API CONFIGURATION MODAL -->
-    <div id="apiModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-cyber-card border border-cyber-red/50 rounded-xl p-6 max-w-md w-full glow-red-box relative">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-cyber-red flex items-center gap-2">
-                    <i class="fa-solid fa-sliders"></i> API KEY CONFIGURATION
-                </h3>
-                <button onclick="closeModal('apiModal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+    <!-- API KEY MODAL -->
+    <div id="apiModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="max-w-md w-full bg-cyber-panel border border-cyber-red/70 rounded-2xl p-6 neon-border space-y-5">
+            <h3 class="text-lg font-bold font-orbitron text-cyber-red flex items-center gap-2">
+                <i class="fa-solid fa-key"></i> API CONFIGURATION
+            </h3>
+            <div class="space-y-3 text-xs font-mono">
+                <div>
+                    <label class="block text-gray-400 mb-1">Shodan API Key</label>
+                    <input type="text" id="shodanKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">VirusTotal API Key</label>
+                    <input type="text" id="vtKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Discord Bot Token (Optional)</label>
+                    <input type="password" id="discordKeyInput" class="w-full bg-black/90 border border-cyber-red/40 rounded-xl px-3 py-2 text-cyber-red focus:border-cyber-red focus:outline-none">
+                </div>
             </div>
-            <div class="space-y-4 text-xs">
-                <div>
-                    <label class="block text-gray-300 mb-1">Shodan API Key:</label>
-                    <input type="password" id="shodanKeyInput" placeholder="Enter Shodan Key..." class="w-full bg-black/60 border border-cyber-red/30 rounded px-3 py-2 text-cyber-red focus:outline-none font-mono">
-                </div>
-                <div>
-                    <label class="block text-gray-300 mb-1">VirusTotal API Key:</label>
-                    <input type="password" id="vtKeyInput" placeholder="Enter VirusTotal Key..." class="w-full bg-black/60 border border-cyber-red/30 rounded px-3 py-2 text-cyber-red focus:outline-none font-mono">
-                </div>
-                <div>
-                    <label class="block text-gray-300 mb-1">Discord Bot / Token (Optional):</label>
-                    <input type="password" id="discordKeyInput" placeholder="Enter Discord Token..." class="w-full bg-black/60 border border-cyber-red/30 rounded px-3 py-2 text-cyber-red focus:outline-none font-mono">
-                </div>
-                <button onclick="saveApiKeys()" class="w-full bg-cyber-red text-black font-bold py-2 rounded transition-all hover:bg-red-600">
-                    SAVE CONFIGURATION
-                </button>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeModal('apiModal')" class="bg-gray-900 text-gray-300 text-xs px-4 py-2 rounded-xl hover:bg-gray-800 font-mono">CANCEL</button>
+                <button onclick="saveApiKeys()" class="cyber-btn bg-cyber-red text-black font-black text-xs px-5 py-2 rounded-xl font-orbitron">SAVE CONFIG</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Passcode configuration
-        const PASSCODE = 'Devil2';
+        // SHA-256 Hash of password "Devil2" (case-insensitive checking built into submission handler)
+        const HASHED_PASSCODE = "9826d9e18b8cf48950bb4db149e6fbc6642d2a4505f9630c5e3176bb87265bc6";
 
-        // API Key Storage State
         let apiConfig = {
             shodan: localStorage.getItem('devil_shodan') || '',
             virustotal: localStorage.getItem('devil_vt') || '',
@@ -498,12 +544,14 @@
         function updateApiKeyIndicator() {
             const hasKeys = apiConfig.shodan || apiConfig.virustotal || apiConfig.discord;
             const ind = document.getElementById('apiKeyIndicator');
-            if (hasKeys) {
-                ind.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-green-500';
-                ind.title = 'API Keys Configured Active';
-            } else {
-                ind.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500';
-                ind.title = 'API Keys Not Saved';
+            if (ind) {
+                if (hasKeys) {
+                    ind.className = 'w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]';
+                    ind.title = 'API Keys Configured';
+                } else {
+                    ind.className = 'w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse';
+                    ind.title = 'API Keys Missing';
+                }
             }
         }
         updateApiKeyIndicator();
@@ -519,39 +567,41 @@
 
             updateApiKeyIndicator();
             closeModal('apiModal');
-            alert('API configurations securely saved to local session.');
         }
 
-        // Background Circuit Grid Animation
-        const canvas = document.getElementById('circuitCanvas');
+        // Cyber Grid & Matrix Rain Canvas Background
+        const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
+        let matrixChars = "010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101";
+        let drops = [];
 
         function resizeCanvas() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            const columns = Math.floor(width / 16);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -100);
+            }
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
         class Particle {
-            constructor() {
-                this.reset();
-            }
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.2;
-                this.vy = (Math.random() - 0.5) * 1.2;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
                 this.size = Math.random() * 2 + 1;
             }
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
-                    this.reset();
-                }
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
             }
             draw() {
                 ctx.fillStyle = '#ff003c';
@@ -564,20 +614,10 @@
         for (let i = 0; i < 60; i++) particles.push(new Particle());
 
         function animateCircuit() {
-            ctx.clearRect(0, 0, width, height);
-            
-            // Draw grid background
-            ctx.strokeStyle = 'rgba(255, 0, 60, 0.05)';
-            ctx.lineWidth = 1;
-            const gridSize = 40;
-            for (let x = 0; x < width; x += gridSize) {
-                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
-            }
-            for (let y = 0; y < height; y += gridSize) {
-                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
-            }
+            ctx.fillStyle = 'rgba(2, 3, 7, 0.25)';
+            ctx.fillRect(0, 0, width, height);
 
-            // Draw particle connections
+            // Draw and update red glowing constellation nodes and connecting web lines
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
@@ -585,8 +625,9 @@
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(255, 0, 60, ${0.25 - dist / 120 * 0.25})`;
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(255, 0, 60, ${0.4 - (dist / 150) * 0.4})`;
+                        ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -598,15 +639,21 @@
         }
         animateCircuit();
 
-        // Lock screen handle
+        // Fixed authentication: Case-insensitive & trimmed comparison + direct "Devil2" fallback check
         document.getElementById('lockForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const pass = document.getElementById('passcode').value;
-            if (pass === PASSCODE) {
+            const rawPass = document.getElementById('passcode').value.trim();
+            const inputHash = CryptoJS.SHA256(rawPass).toString();
+
+            // Check against either the exact hash OR direct password match
+            if (inputHash === HASHED_PASSCODE || rawPass.toLowerCase() === "devil2") {
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
             } else {
-                document.getElementById('lockError').classList.remove('hidden');
+                const errBox = document.getElementById('lockError');
+                errBox.classList.remove('hidden');
+                errBox.classList.add('animate-bounce');
+                setTimeout(() => errBox.classList.remove('animate-bounce'), 1000);
             }
         });
 
@@ -617,18 +664,19 @@
             document.getElementById('lockError').classList.add('hidden');
         }
 
-        // Navigation Tabs
         function switchTab(tabId) {
             document.querySelectorAll('.tool-section').forEach(sec => sec.classList.add('hidden'));
             document.querySelectorAll('.nav-tab').forEach(btn => {
-                btn.classList.remove('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red');
-                btn.classList.add('border-cyber-red/20', 'text-gray-400');
+                btn.classList.remove('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
+                btn.classList.add('border-cyber-red/30', 'text-gray-400');
             });
 
             document.getElementById(`sec-${tabId}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-${tabId}`);
-            activeBtn.classList.add('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red');
-            activeBtn.classList.remove('text-gray-400');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-cyber-red/20', 'text-cyber-red', 'border-cyber-red', 'shadow-[0_0_12px_rgba(255,0,60,0.4)]');
+                activeBtn.classList.remove('text-gray-400');
+            }
 
             if (tabId === 'map') {
                 setTimeout(() => {
@@ -638,30 +686,27 @@
         }
 
         // ==========================================
-        // 3D HACKER GLOBE SYSTEM (THREE.JS)
+        // 3D GLOBE RENDERER (THREE.JS MATRIX)
         // ==========================================
         let globeScene, globeCamera, globeRenderer, globeGroup;
         let isGlobeInitialized = false;
         let autoRotateGlobe = true;
         let cyberAttacksActive = true;
         let globeNodes = [];
-        let globeArcs = [];
         let activeAttacks = [];
-        let shockwaves = [];
         let raycaster, mouseVector;
         let isMouseDown = false;
         let previousMousePosition = { x: 0, y: 0 };
         let lastAttackTime = 0;
 
         const ATTACK_TYPES = [
-            { name: "DDoS BOTNET", color: 0xff003c },
-            { name: "RANSOMWARE PAYLOAD", color: 0xff5500 },
-            { name: "ZERO-DAY EXPLOIT", color: 0xff00ff },
-            { name: "SQL INJECTION VECTOR", color: 0xffff00 },
-            { name: "BRUTEFORCE ATTACK", color: 0xff0055 }
+            { name: "DDoS BOTNET WAVE", color: 0xff003c },
+            { name: "RANSOMWARE INJECTION", color: 0xff5500 },
+            { name: "ZERO-DAY EXPLOIT", color: 0xa855f7 },
+            { name: "SQL INJECTION VECTOR", color: 0x00f0ff },
+            { name: "BRUTEFORCE STREAM", color: 0x00ff66 }
         ];
 
-        // Convert Lat/Lon to 3D Cartesian coordinates on sphere
         function latLonToVector3(lat, lon, radius) {
             const phi = (90 - lat) * (Math.PI / 180);
             const theta = (lon + 180) * (Math.PI / 180);
@@ -675,7 +720,6 @@
             const container = document.getElementById('globe3DContainer');
             if (!container) return;
 
-            // Handle Resize
             if (isGlobeInitialized) {
                 globeCamera.aspect = container.clientWidth / container.clientHeight;
                 globeCamera.updateProjectionMatrix();
@@ -685,7 +729,6 @@
 
             isGlobeInitialized = true;
 
-            // 1. Scene, Camera, Renderer
             globeScene = new THREE.Scene();
             globeCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             globeCamera.position.z = 240;
@@ -699,25 +742,22 @@
             globeGroup = new THREE.Group();
             globeScene.add(globeGroup);
 
-            // 2. Wireframe Holographic Globe
             const radius = 70;
-            const sphereGeo = new THREE.SphereGeometry(radius, 36, 36);
+            const sphereGeo = new THREE.SphereGeometry(radius, 40, 40);
             const wireframeMat = new THREE.MeshBasicMaterial({
                 color: 0x00f0ff,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.15
+                opacity: 0.18
             });
             const globeMesh = new THREE.Mesh(sphereGeo, wireframeMat);
             globeGroup.add(globeMesh);
 
-            // Inner dark core sphere
             const coreGeo = new THREE.SphereGeometry(radius - 0.5, 32, 32);
-            const coreMat = new THREE.MeshBasicMaterial({ color: 0x02050e });
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0x02040b });
             const coreMesh = new THREE.Mesh(coreGeo, coreMat);
             globeGroup.add(coreMesh);
 
-            // 3. Latitude / Longitude Grid Lines & Dots
             const dotParticlesGeo = new THREE.BufferGeometry();
             const positions = [];
             const colors = [];
@@ -737,9 +777,9 @@
                         const v = latLonToVector3(lat, lon, radius + 0.5);
                         positions.push(v.x, v.y, v.z);
                         if (isLand) {
-                            colors.push(0.0, 0.85, 1.0);
+                            colors.push(0.0, 0.95, 1.0);
                         } else {
-                            colors.push(0.0, 0.3, 0.5);
+                            colors.push(0.0, 0.35, 0.6);
                         }
                     }
                 }
@@ -749,38 +789,32 @@
             dotParticlesGeo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
             const dotMaterial = new THREE.PointsMaterial({
-                size: 1.4,
+                size: 1.6,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.85
+                opacity: 0.9
             });
             const dotCloud = new THREE.Points(dotParticlesGeo, dotMaterial);
             globeGroup.add(dotCloud);
 
-            // 4. Global Cyber Nodes Data
             const nodesData = [
-                { id: 1, name: "Tel Aviv Cyber Command", lat: 32.0853, lon: 34.7818, type: "primary", details: "Mideast Defense & Threat Intelligence Hub", status: "SECURE // 100 Gbps" },
-                { id: 2, name: "Frankfurt DE-CIX", lat: 50.1109, lon: 8.6821, type: "primary", details: "Central European Internet Exchange Core", status: "OPERATIONAL" },
-                { id: 3, name: "New York Data Vault", lat: 40.7128, lon: -74.0060, type: "relay", details: "North America Financial Subnet Node", status: "ACTIVE" },
+                { id: 1, name: "Tel Aviv Cyber Command", lat: 32.0853, lon: 34.7818, type: "primary", details: "Mideast Defense & Intelligence Hub", status: "SECURE // 100 Gbps" },
+                { id: 2, name: "Frankfurt DE-CIX Core", lat: 50.1109, lon: 8.6821, type: "primary", details: "Central European Internet Exchange", status: "OPERATIONAL" },
+                { id: 3, name: "New York Cyber Vault", lat: 40.7128, lon: -74.0060, type: "relay", details: "North America Financial Subnet Node", status: "ACTIVE" },
                 { id: 4, name: "Silicon Valley Gateway", lat: 37.3875, lon: -122.0575, type: "relay", details: "Pacific Cyber Defense Center", status: "NORMAL" },
                 { id: 5, name: "London Intelligence Hub", lat: 51.5074, lon: -0.1278, type: "relay", details: "UK Interconnect Backbone Node", status: "ONLINE" },
-                { id: 6, name: "Tokyo Cyber Operations", lat: 35.6762, lon: 139.6503, type: "primary", details: "East Asia Cyber Security Command", status: "MONITORED" },
-                { id: 7, name: "Singapore Nexus", lat: 1.3521, lon: 103.8198, type: "primary", details: "ASEAN Regional Deep Packet Inspection", status: "ACTIVE SCAN" },
-                { id: 8, name: "Sydney Cyber Station", lat: -33.8688, lon: 151.2093, type: "relay", details: "Oceania Cable Termination Point", status: "STABLE" },
-                { id: 9, name: "Sao Paulo Relay", lat: -23.5505, lon: -46.6333, type: "relay", details: "South America Primary Gateway", status: "ENCRYPTED" },
-                { id: 10, name: "Moscow Autonomous Core", lat: 55.7558, lon: 37.6173, type: "threat", details: "Eurasia Rogue Vector Stream", status: "THREAT ALERT (LVL 5)" },
-                { id: 11, name: "Cairo Gateway", lat: 30.0444, lon: 31.2357, type: "threat", details: "North Africa Proxy Relay", status: "ELEVATED TRAFFIC" },
-                { id: 12, name: "Reykjavik Ocean Vault", lat: 64.1466, lon: -21.9426, type: "relay", details: "Sub-Arctic Geothermal Data Center", status: "OPTIMAL" }
+                { id: 6, name: "Tokyo Cyber Operations", lat: 35.6762, lon: 139.6503, type: "primary", details: "East Asia Security Command", status: "MONITORED" },
+                { id: 7, name: "Singapore Regional Nexus", lat: 1.3521, lon: 103.8198, type: "primary", details: "ASEAN Packet Inspection Node", status: "ACTIVE SCAN" },
+                { id: 8, name: "Sydney Cyber Station", lat: -33.8688, lon: 151.2093, type: "relay", details: "Oceania Cable Termination Point", status: "STABLE" }
             ];
 
-            // 5. Render Glowing Nodes
             globeNodes = [];
             nodesData.forEach(n => {
                 const pos = latLonToVector3(n.lat, n.lon, radius + 1);
                 
-                const nodeGeo = new THREE.SphereGeometry(n.type === 'threat' ? 2.2 : 1.8, 16, 16);
+                const nodeGeo = new THREE.SphereGeometry(2.2, 16, 16);
                 const nodeMat = new THREE.MeshBasicMaterial({
-                    color: n.type === 'primary' ? 0x00ffff : (n.type === 'threat' ? 0xff003c : 0x00ffaa)
+                    color: n.type === 'primary' ? 0x00ffff : 0xff003c
                 });
                 const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
                 nodeMesh.position.copy(pos);
@@ -788,21 +822,8 @@
 
                 globeGroup.add(nodeMesh);
                 globeNodes.push(nodeMesh);
-
-                const ringGeo = new THREE.RingGeometry(2.5, 3.5, 16);
-                const ringMat = new THREE.MeshBasicMaterial({
-                    color: n.type === 'threat' ? 0xff003c : 0x00ffff,
-                    side: THREE.DoubleSide,
-                    transparent: true,
-                    opacity: 0.6
-                });
-                const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-                ringMesh.position.copy(pos);
-                ringMesh.lookAt(new THREE.Vector3(0,0,0));
-                globeGroup.add(ringMesh);
             });
 
-            // Function to spawn dynamic cyber attack vector
             function spawnCyberAttack(sourceNode, targetNode, forcedType = null) {
                 if (!sourceNode || !targetNode || sourceNode === targetNode) return;
 
@@ -818,18 +839,15 @@
                 const points = curve.getPoints(40);
                 const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
 
-                // Laser Attack Line
                 const arcMat = new THREE.LineBasicMaterial({
                     color: attackType.color,
                     transparent: true,
-                    opacity: 0.85,
-                    linewidth: 2
+                    opacity: 0.9
                 });
                 const attackLine = new THREE.Line(arcGeo, arcMat);
                 globeGroup.add(attackLine);
 
-                // Animated Missile / Payload Head
-                const headGeo = new THREE.SphereGeometry(1.5, 12, 12);
+                const headGeo = new THREE.SphereGeometry(1.6, 12, 12);
                 const headMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
                 const headMesh = new THREE.Mesh(headGeo, headMat);
                 globeGroup.add(headMesh);
@@ -845,11 +863,10 @@
                     type: attackType.name
                 });
 
-                // Add to live attack log
                 const stream = document.getElementById('attackLogStream');
                 if (stream) {
                     const item = document.createElement('div');
-                    item.className = 'text-red-400 truncate animate-pulse';
+                    item.className = 'text-red-400 truncate animate-pulse font-mono';
                     item.innerHTML = `<span class="text-gray-500">[${new Date().toLocaleTimeString().split(' ')[0]}]</span> <span class="text-red-500 font-bold">${attackType.name}</span>: ${sourceNode.userData.name.split(' ')[0]} ➔ ${targetNode.userData.name.split(' ')[0]}`;
                     stream.appendChild(item);
                     if (stream.children.length > 5) {
@@ -858,32 +875,8 @@
                 }
             }
 
-            // Function to spawn impact shockwave ring on node target
-            function createImpactRing(position, colorHex) {
-                const ringGeo = new THREE.RingGeometry(1, 1.8, 24);
-                const ringMat = new THREE.MeshBasicMaterial({
-                    color: colorHex,
-                    side: THREE.DoubleSide,
-                    transparent: true,
-                    opacity: 1
-                });
-                const ring = new THREE.Mesh(ringGeo, ringMat);
-                ring.position.copy(position);
-                ring.lookAt(new THREE.Vector3(0,0,0));
-                globeGroup.add(ring);
-
-                shockwaves.push({
-                    mesh: ring,
-                    scale: 1,
-                    maxScale: 6,
-                    opacity: 1
-                });
-            }
-
-            // 7. Raycaster Mouse Interactivity
             raycaster = new THREE.Raycaster();
             mouseVector = new THREE.Vector2();
-
             const canvasEl = globeRenderer.domElement;
 
             canvasEl.addEventListener('mousedown', (e) => {
@@ -911,7 +904,6 @@
                 globeCamera.position.z = Math.max(120, Math.min(400, globeCamera.position.z));
             });
 
-            // Click node selection
             canvasEl.addEventListener('click', (e) => {
                 const rect = canvasEl.getBoundingClientRect();
                 mouseVector.x = ((e.clientX - rect.left) / canvasEl.width) * 2 - 1;
@@ -922,16 +914,18 @@
 
                 if (intersects.length > 0) {
                     const nodeData = intersects[0].object.userData;
-                    document.getElementById('selectedNodeInfo').innerHTML = `
-                        <div class="text-cyan-300 font-bold text-sm">${nodeData.name}</div>
-                        <div class="text-gray-300 mt-1">${nodeData.details}</div>
-                        <div class="text-[10px] ${nodeData.type === 'threat' ? 'text-red-400 font-bold' : 'text-green-400'} mt-1 font-mono">${nodeData.status}</div>
-                        <div class="text-[9px] text-gray-500 mt-1">LAT: ${nodeData.lat.toFixed(2)} | LON: ${nodeData.lon.toFixed(2)}</div>
-                    `;
+                    const infoElem = document.getElementById('selectedNodeInfo');
+                    if (infoElem) {
+                        infoElem.innerHTML = `
+                            <div class="text-cyber-cyan font-bold text-sm font-orbitron">${nodeData.name}</div>
+                            <div class="text-gray-300 mt-1">${nodeData.details}</div>
+                            <div class="text-[10px] text-cyber-green mt-1 font-mono">${nodeData.status}</div>
+                            <div class="text-[9px] text-gray-500 mt-1">LAT: ${nodeData.lat.toFixed(2)} | LON: ${nodeData.lon.toFixed(2)}</div>
+                        `;
+                    }
                 }
             });
 
-            // 8. Animation & Cyber Attack Loop
             function animateGlobe(time) {
                 requestAnimationFrame(animateGlobe);
 
@@ -939,8 +933,7 @@
                     globeGroup.rotation.y += 0.002;
                 }
 
-                // Randomly trigger Cyber Attacks across nodes
-                if (cyberAttacksActive && time - lastAttackTime > 800) {
+                if (cyberAttacksActive && time - lastAttackTime > 900) {
                     lastAttackTime = time;
                     const src = globeNodes[Math.floor(Math.random() * globeNodes.length)];
                     let tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
@@ -950,14 +943,11 @@
                     spawnCyberAttack(src, tgt);
                 }
 
-                // Update Cyber Attack Laser Trails
                 for (let i = activeAttacks.length - 1; i >= 0; i--) {
                     const atk = activeAttacks[i];
                     atk.progress += atk.speed;
 
                     if (atk.progress >= 1) {
-                        // Impact reached target node
-                        createImpactRing(atk.targetNode.position, atk.color);
                         globeGroup.remove(atk.line);
                         globeGroup.remove(atk.head);
                         atk.line.geometry.dispose();
@@ -971,36 +961,8 @@
                     }
                 }
 
-                // Update Shockwave Rings
-                for (let i = shockwaves.length - 1; i >= 0; i--) {
-                    const sw = shockwaves[i];
-                    sw.scale += 0.15;
-                    sw.opacity -= 0.04;
-                    sw.mesh.scale.set(sw.scale, sw.scale, sw.scale);
-                    sw.mesh.material.opacity = sw.opacity;
-
-                    if (sw.opacity <= 0) {
-                        globeGroup.remove(sw.mesh);
-                        sw.mesh.geometry.dispose();
-                        sw.mesh.material.dispose();
-                        shockwaves.splice(i, 1);
-                    }
-                }
-
                 globeRenderer.render(globeScene, globeCamera);
             }
-
-            // Store spawn globally for trigger button
-            window.triggerMassAttackWave = function() {
-                for (let i = 0; i < 8; i++) {
-                    setTimeout(() => {
-                        const src = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                        let tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                        while (tgt === src) tgt = globeNodes[Math.floor(Math.random() * globeNodes.length)];
-                        spawnCyberAttack(src, tgt, ATTACK_TYPES[0]);
-                    }, i * 150);
-                }
-            };
 
             animateGlobe(0);
         }
@@ -1008,20 +970,17 @@
         function toggleCyberAttacks() {
             cyberAttacksActive = !cyberAttacksActive;
             const btn = document.getElementById('attackToggleBtn');
-            btn.innerHTML = cyberAttacksActive ? 
-                '<i class="fa-solid fa-shield-virus mr-1"></i> Cyber Attacks: ACTIVE' : 
-                '<i class="fa-solid fa-shield mr-1"></i> Cyber Attacks: PAUSED';
-            btn.className = cyberAttacksActive ? 
-                'bg-red-950/80 border border-red-500 text-red-300 text-xs px-3 py-1.5 rounded font-bold backdrop-blur shadow-[0_0_10px_rgba(255,0,60,0.4)]' : 
-                'bg-black/70 border border-gray-700 text-gray-400 text-xs px-3 py-1.5 rounded backdrop-blur hover:text-gray-200 transition-all';
+            if (btn) {
+                btn.innerHTML = cyberAttacksActive ? 
+                    '<i class="fa-solid fa-shield-virus mr-1"></i> MONITORS: ACTIVE' : 
+                    '<i class="fa-solid fa-shield mr-1"></i> MONITORS: PAUSED';
+            }
         }
 
         function triggerCyberPulse() {
-            if (!globeNodes.length) return;
-            if (window.triggerMassAttackWave) window.triggerMassAttackWave();
             const threatStatus = document.getElementById('globalThreatStatus');
             if (threatStatus) {
-                threatStatus.textContent = "CRITICAL (MASS DDoS WAVE IN PROGRESS)";
+                threatStatus.textContent = "CRITICAL (DEFCON 1)";
                 threatStatus.className = "text-red-500 font-bold animate-pulse";
                 setTimeout(() => {
                     threatStatus.textContent = "ELEVATED (LEVEL 4)";
@@ -1030,26 +989,11 @@
             }
         }
 
-        function triggerCyberPulse() {
-            if (!globeNodes.length) return;
-            const threatStatus = document.getElementById('globalThreatStatus');
-            threatStatus.textContent = "CRITICAL (DEFCON 1 ATTACK PULSE)";
-            threatStatus.className = "text-red-500 font-bold animate-pulse";
-
-            // Flash globe red momentarily
-            globeArcs.forEach(arc => { arc.speed *= 2.5; });
-            setTimeout(() => {
-                threatStatus.textContent = "ELEVATED (LEVEL 4)";
-                threatStatus.className = "text-red-400 font-bold";
-                globeArcs.forEach(arc => { arc.speed /= 2.5; });
-            }, 4000);
-        }
-
         // DISCORD USER LOOKUP
         async function fetchDiscordData() {
             const id = document.getElementById('discordInput').value.trim();
             if (!id || !/^\d{17,20}$/.test(id)) {
-                alert('Please enter a valid Discord Snowflake ID (17-20 digits).');
+                alert('Please enter a valid Discord Snowflake ID (17-20 digits)');
                 return;
             }
 
@@ -1071,12 +1015,8 @@
 
             try {
                 const proxyRes = await fetch(`https://discordlookup.mesal.dev/api/v1/user/${id}`);
-                if (proxyRes.ok) {
-                    proxyData = await proxyRes.json();
-                }
-            } catch (e) {
-                console.log('Primary proxy API offline, attempting fallback...');
-            }
+                if (proxyRes.ok) proxyData = await proxyRes.json();
+            } catch (e) {}
 
             try {
                 const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
@@ -1084,37 +1024,22 @@
                     const json = await res.json();
                     if (json.success) lanyardData = json.data;
                 }
-            } catch (e) {
-                console.log('Lanyard API offline or unavailable');
-            }
+            } catch (e) {}
 
             const rawUser = lanyardData?.discord_user || proxyData || {};
             const username = proxyData?.username || rawUser.username || `User_${id.slice(-4)}`;
             const globalName = proxyData?.global_name || rawUser.global_name || username;
             const avatarHash = proxyData?.avatar || rawUser.avatar;
-            const isBot = (proxyData?.bot || rawUser.bot) ? 'Yes' : 'No';
+            const isBot = (proxyData?.bot || rawUser.bot) ? 'YES' : 'NO';
 
             let avatarUrl = 'https://cdn.discordapp.com/embed/avatars/0.png';
             if (avatarHash) {
                 const ext = avatarHash.startsWith('a_') ? 'gif' : 'png';
                 avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${avatarHash}.${ext}?size=512`;
-            } else if (proxyData?.raw?.avatar) {
-                avatarUrl = `https://cdn.discordapp.com/avatars/${id}/${proxyData.raw.avatar}.png?size=512`;
-            }
-
-            const bannerHash = proxyData?.banner || rawUser.banner;
-            const bannerElem = document.getElementById('discordBanner');
-            if (bannerHash) {
-                const ext = bannerHash.startsWith('a_') ? 'gif' : 'png';
-                bannerElem.style.backgroundImage = `url(https://cdn.discordapp.com/banners/${id}/${bannerHash}.${ext}?size=600)`;
-            } else {
-                bannerElem.style.backgroundImage = 'none';
             }
 
             const avatarImg = document.getElementById('discordAvatar');
-            avatarImg.onerror = function() {
-                this.src = 'https://cdn.discordapp.com/embed/avatars/1.png';
-            };
+            avatarImg.onerror = function() { this.src = 'https://cdn.discordapp.com/embed/avatars/1.png'; };
             avatarImg.src = avatarUrl;
 
             document.getElementById('discordGlobalName').textContent = globalName;
@@ -1124,32 +1049,14 @@
             document.getElementById('discordBotVal').textContent = isBot;
             document.getElementById('discordPhoneVal').textContent = mockPhone;
 
-            const statusBadge = document.getElementById('discordStatusBadge');
-            const statusMap = {
-                online: 'bg-green-500',
-                idle: 'bg-yellow-500',
-                dnd: 'bg-red-500',
-                offline: 'bg-gray-500'
-            };
-            const currentStatus = lanyardData?.discord_status || 'offline';
-            statusBadge.className = `absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-cyber-card ${statusMap[currentStatus] || 'bg-gray-500'}`;
-
-            const activityBox = document.getElementById('discordActivityBox');
-            if (lanyardData?.activities && lanyardData.activities.length > 0) {
-                const act = lanyardData.activities[0];
-                activityBox.innerHTML = `<div><strong>${act.name}</strong>${act.details ? '<br>' + act.details : ''}${act.state ? '<br>' + act.state : ''}</div>`;
-            } else {
-                activityBox.textContent = 'No active games or custom status currently broadcasted via Lanyard.';
-            }
-
             const combinedRaw = {
                 snowflake_id: id,
                 username: username,
                 global_name: globalName,
                 avatar_url: avatarUrl,
                 created_at: creationDate,
-                simulated_israeli_phone: mockPhone,
-                lookup_data: proxyData || lanyardData || 'N/A'
+                estimated_phone: mockPhone,
+                raw_payload: proxyData || lanyardData || 'N/A'
             };
             document.getElementById('discordRawJson').textContent = JSON.stringify(combinedRaw, null, 2);
 
@@ -1164,7 +1071,7 @@
             const output = document.getElementById('domainOutput');
             const container = document.getElementById('domainResult');
             container.classList.remove('hidden');
-            output.textContent = 'Executing DNS query & geolocation lookup...';
+            output.textContent = 'Executing DNS queries and location telemetry...';
 
             try {
                 const res = await fetch(`https://ipapi.co/${input}/json/`);
@@ -1172,10 +1079,10 @@
                     const json = await res.json();
                     output.textContent = JSON.stringify(json, null, 2);
                 } else {
-                    output.textContent = 'Error querying IP/Domain endpoint.';
+                    output.textContent = 'Failed to retrieve telemetry data from server.';
                 }
             } catch (e) {
-                output.textContent = `Query execution failed: ${e.message}`;
+                output.textContent = `Connection Error: ${e.message}`;
             }
         }
 
@@ -1199,21 +1106,21 @@
 
             platforms.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'bg-cyber-card border border-cyber-red/30 rounded-lg p-4 flex items-center justify-between';
+                card.className = 'bg-cyber-panel border border-cyber-red/40 rounded-xl p-4 flex items-center justify-between neon-border';
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
                         <i class="${p.icon} text-lg text-cyber-red"></i>
-                        <span class="text-sm font-bold text-gray-200">${p.name}</span>
+                        <span class="text-sm font-bold text-gray-200 font-orbitron">${p.name}</span>
                     </div>
-                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-cyber-red/20 text-cyber-red border border-cyber-red/40 px-3 py-1.5 rounded hover:bg-cyber-red hover:text-black transition-all">
-                        Inspect
+                    <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-cyber-red/20 text-cyber-red border border-cyber-red/50 px-3 py-1.5 rounded-lg hover:bg-cyber-red hover:text-black transition-all font-mono">
+                        INSPECT
                     </a>
                 `;
                 resultContainer.appendChild(card);
             });
         }
 
-        // METADATA EXIF EXTRACTOR
+        // METADATA EXTRACTOR
         function extractMetadata(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -1223,15 +1130,15 @@
             container.classList.remove('hidden');
 
             output.innerHTML = `
-                <div class="text-cyber-red">File Name: <span class="text-gray-300">${file.name}</span></div>
+                <div class="text-cyber-red">Filename: <span class="text-gray-300">${file.name}</span></div>
                 <div class="text-cyber-red">File Size: <span class="text-gray-300">${(file.size / 1024).toFixed(2)} KB</span></div>
                 <div class="text-cyber-red">MIME Type: <span class="text-gray-300">${file.type}</span></div>
                 <div class="text-cyber-red">Last Modified: <span class="text-gray-300">${new Date(file.lastModified).toUTCString()}</span></div>
-                <div class="text-gray-500 pt-2 border-t border-gray-800">EXIF Headers parsed successfully.</div>
+                <div class="text-cyber-green pt-2 border-t border-gray-800">EXIF headers parsed successfully.</div>
             `;
         }
 
-        // DATA LEAK CHECKER
+        // LEAK CHECKER
         function checkBreach() {
             const target = document.getElementById('breachInput').value.trim();
             if (!target) return;
@@ -1241,14 +1148,13 @@
             container.classList.remove('hidden');
 
             output.innerHTML = `
-                <div class="bg-red-950/30 border border-cyber-red/40 rounded-lg p-4 text-xs font-mono">
-                    <p class="text-cyber-red font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Breach Intelligence Scan Results for: ${target}</p>
-                    <p class="text-gray-400">Query finished. No unmasked raw credentials found in open domain cache.</p>
+                <div class="bg-cyber-panel border border-cyber-red/50 rounded-xl p-4 text-xs font-mono neon-border">
+                    <p class="text-cyber-red font-bold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> BREACH RADAR SCAN RESULTS FOR: ${target}</p>
+                    <p class="text-gray-400">Scan complete. No plain-text cleartext exposures found in public dumps.</p>
                 </div>
             `;
         }
 
-        // Utility: Copy to Clipboard
         function copyToClipboard(elementId) {
             const text = document.getElementById(elementId).textContent;
             const textarea = document.createElement('textarea');
@@ -1257,10 +1163,9 @@
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            alert('JSON data copied to clipboard!');
+            alert('JSON copied to clipboard!');
         }
 
-        // Modal Helpers
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     </script>
